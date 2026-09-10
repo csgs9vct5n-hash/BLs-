@@ -5,72 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>平均價格計算器</title>
   <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #f4f5f7;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      padding: 22px 14px;
-      color: #111827;
-    }
-    .container { width: 100%; max-width: 650px; margin: auto; }
-    h1 { text-align: center; font-size: 26px; margin: 0 0 18px; }
-    .card, .result-card {
-      border-radius: 18px;
-      padding: 18px;
-      margin-bottom: 16px;
-    }
-    .card { background: #fff; box-shadow: 0 5px 20px rgba(0,0,0,.06); }
-    .result-card { background: #111827; color: white; text-align: center; }
-    .result-title { color: #9ca3af; font-size: 13px; }
-    .average { font-size: 42px; font-weight: 750; margin: 8px 0 16px; }
-    .summary { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-    .summary-box { background:rgba(255,255,255,.08); padding:11px; border-radius:11px; }
-    .small { color:#9ca3af; font-size:12px; }
-    .value { font-weight:700; margin-top:4px; }
-    .title { font-size:18px; font-weight:700; margin-bottom:14px; }
-    label { display:block; font-size:12px; color:#6b7280; margin:0 0 6px; }
-    input {
-      width:100%; padding:13px; border:1px solid #d1d5db;
-      border-radius:10px; font-size:16px; outline:none;
-    }
-    input:focus { border-color:#111827; }
-    .group { margin-bottom:13px; }
-    .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-    .buy-row { display:grid; grid-template-columns:1fr 1fr 44px; gap:8px; margin-bottom:9px; }
-    button {
-      border:0; border-radius:10px; cursor:pointer; font-size:15px;
-      padding:12px;
-    }
-    .primary { width:100%; background:#111827; color:white; font-weight:650; }
-    .save { width:100%; background:#2563eb; color:white; font-weight:650; margin-top:9px; }
-    .secondary { width:100%; background:#e5e7eb; color:#374151; margin-top:9px; }
-    .delete { background:#fee2e2; color:#b91c1c; font-size:20px; padding:0; }
-    .sync-row { display:grid; grid-template-columns:1fr auto; gap:8px; }
-    .sync-btn { background:#111827; color:white; padding:0 16px; }
-    .status { margin-top:9px; font-size:13px; color:#6b7280; }
-    .history-item { border:1px solid #e5e7eb; border-radius:13px; padding:13px; margin-bottom:10px; }
-    .history-head { display:flex; justify-content:space-between; gap:8px; }
-    .history-name { font-size:17px; font-weight:700; }
-    .history-time { font-size:11px; color:#9ca3af; }
-    .history-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:7px; margin-top:9px; }
-    .stat { background:#f9fafb; border-radius:9px; padding:9px; }
-    .stat-label { color:#9ca3af; font-size:11px; }
-    .stat-value { font-size:13px; font-weight:700; margin-top:3px; word-break:break-word; }
-    .actions { display:flex; gap:7px; margin-top:9px; }
-    .actions button { flex:1; padding:9px; }
-    .load { background:#dbeafe; color:#1d4ed8; }
-    .remove { background:#fee2e2; color:#b91c1c; }
-    .empty { text-align:center; color:#9ca3af; padding:15px 0; }
-    .difference {
-      margin-top:12px; background:#f3f4f6; color:#111827;
-      padding:10px; border-radius:10px; font-size:13px;
-    }
-    @media(max-width:500px){
-      .history-grid{grid-template-columns:1fr;}
-      .average{font-size:38px;}
-    }
+    *{box-sizing:border-box}
+    body{margin:0;background:#f4f5f7;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:22px 14px;color:#111827}
+    .container{max-width:650px;margin:auto}
+    h1{text-align:center;font-size:26px}
+    .card,.result-card{border-radius:18px;padding:18px;margin-bottom:16px}
+    .card{background:#fff;box-shadow:0 5px 20px rgba(0,0,0,.06)}
+    .result-card{background:#111827;color:white;text-align:center}
+    .result-title{color:#9ca3af;font-size:13px}
+    .average{font-size:42px;font-weight:750;margin:8px 0 16px}
+    .summary{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .summary-box{background:rgba(255,255,255,.08);padding:11px;border-radius:11px}
+    .small{color:#9ca3af;font-size:12px}
+    .value{font-weight:700;margin-top:4px}
+    .title{font-size:18px;font-weight:700;margin-bottom:14px}
+    label{display:block;font-size:12px;color:#6b7280;margin:0 0 6px}
+    input{width:100%;padding:13px;border:1px solid #d1d5db;border-radius:10px;font-size:16px;outline:none}
+    .group{margin-bottom:13px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .buy-row{display:grid;grid-template-columns:1fr 1fr 44px;gap:8px;margin-bottom:9px}
+    button{border:0;border-radius:10px;cursor:pointer;font-size:15px;padding:12px}
+    .primary{width:100%;background:#111827;color:#fff;font-weight:650}
+    .save{width:100%;background:#2563eb;color:white;font-weight:650;margin-top:9px}
+    .secondary{width:100%;background:#e5e7eb;color:#374151;margin-top:9px}
+    .delete{background:#fee2e2;color:#b91c1c;font-size:20px;padding:0}
+    .sync-row{display:grid;grid-template-columns:1fr auto;gap:8px}
+    .sync-btn{background:#111827;color:white;padding:0 16px}
+    .status{margin-top:9px;font-size:13px;color:#6b7280}
+    .history-item{border:1px solid #e5e7eb;border-radius:13px;padding:13px;margin-bottom:10px}
+    .history-head{display:flex;justify-content:space-between;gap:8px}
+    .history-name{font-size:17px;font-weight:700}
+    .history-time{font-size:11px;color:#9ca3af}
+    .history-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}
+    .stat{background:#f9fafb;border-radius:9px;padding:9px}
+    .stat-label{color:#9ca3af;font-size:11px}
+    .stat-value{font-size:13px;font-weight:700;margin-top:3px}
+    .actions{display:flex;gap:7px;margin-top:9px}
+    .actions button{flex:1;padding:9px}
+    .load{background:#dbeafe;color:#1d4ed8}
+    .remove{background:#fee2e2;color:#b91c1c}
+    .empty{text-align:center;color:#9ca3af;padding:15px 0}
+    .difference{margin-top:12px;background:#f3f4f6;color:#111827;padding:10px;border-radius:10px;font-size:13px}
+    @media(max-width:500px){.history-grid{grid-template-columns:1fr}.average{font-size:38px}}
   </style>
 </head>
 <body>
@@ -82,7 +58,7 @@
     <div class="group">
       <label>同步碼（不同裝置輸入同一組）</label>
       <div class="sync-row">
-        <input id="syncCode" placeholder="例如 BTC-8KQ2-X9LM" autocomplete="off">
+        <input id="syncCode" placeholder="例如 BTC-8KQ2-X9LM">
         <button class="sync-btn" onclick="syncNow()">同步</button>
       </div>
       <div class="status" id="syncStatus">尚未同步</div>
@@ -101,26 +77,13 @@
 
   <div class="card">
     <div class="title">計算資料</div>
-
-    <div class="group">
-      <label>名稱</label>
-      <input id="calcName" placeholder="例如 BTC、ETH、SOXL">
-    </div>
-
+    <div class="group"><label>名稱</label><input id="calcName" placeholder="例如 BTC、ETH、SOXL"></div>
     <div class="grid">
-      <div class="group">
-        <label>目前平均價格</label>
-        <input id="currentPrice" type="number" step="any" placeholder="例如 100" oninput="calculate()">
-      </div>
-      <div class="group">
-        <label>目前持有數量</label>
-        <input id="currentQty" type="number" step="any" placeholder="例如 10" oninput="calculate()">
-      </div>
+      <div class="group"><label>目前平均價格</label><input id="currentPrice" type="number" step="any" oninput="calculate()"></div>
+      <div class="group"><label>目前持有數量</label><input id="currentQty" type="number" step="any" oninput="calculate()"></div>
     </div>
-
-    <div class="title" style="font-size:14px;margin-top:4px;">新增買入</div>
+    <div class="title" style="font-size:14px">新增買入</div>
     <div id="rows"></div>
-
     <button class="primary" onclick="addRow()">＋ 新增一筆買入</button>
     <button class="save" onclick="saveToCloud()">儲存到雲端</button>
     <button class="secondary" onclick="clearInputs()">清除目前輸入</button>
@@ -132,245 +95,145 @@
   </div>
 </div>
 
+<iframe name="hiddenFrame" style="display:none"></iframe>
+<form id="hiddenForm" action="https://script.google.com/macros/s/AKfycbxRr2tWrw3Y1QxquWXqwDHac6itRuu79o2B5LDCmA5JS7V225CV_Fiaj4kOxiAuj9jj/exec" method="POST" target="hiddenFrame" style="display:none">
+  <input type="hidden" name="payload" id="payloadField">
+</form>
+
 <script>
-  // 重要：部署 Apps Script 後，把下面這一行換成你的 Web App 網址
-  const API_URL = "https://script.google.com/macros/s/AKfycbwvdEFF1aRrCJZBbGFye2kcQCOTu46LpduPm6nPWCywes1Es6lEUeeLRM2gupl-omwc6A/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbxRr2tWrw3Y1QxquWXqwDHac6itRuu79o2B5LDCmA5JS7V225CV_Fiaj4kOxiAuj9jj/exec";
+const rows = document.getElementById("rows");
 
-  const rows = document.getElementById("rows");
+function addRow(price="", qty=""){
+  const row=document.createElement("div");
+  row.className="buy-row";
+  row.innerHTML=`<input type="number" class="price" step="any" placeholder="買入價格" value="${price}" oninput="calculate()">
+  <input type="number" class="qty" step="any" placeholder="數量" value="${qty}" oninput="calculate()">
+  <button class="delete" onclick="removeRow(this)">×</button>`;
+  rows.appendChild(row);
+}
 
-  function addRow(price="", qty="") {
-    const row = document.createElement("div");
-    row.className = "buy-row";
-    row.innerHTML = `
-      <input type="number" class="price" step="any" placeholder="買入價格" value="${price}" oninput="calculate()">
-      <input type="number" class="qty" step="any" placeholder="數量" value="${qty}" oninput="calculate()">
-      <button class="delete" onclick="removeRow(this)">×</button>
-    `;
-    rows.appendChild(row);
-  }
+function removeRow(btn){btn.parentElement.remove();if(!rows.children.length)addRow();calculate();}
 
-  function removeRow(btn) {
-    btn.parentElement.remove();
-    if (!rows.children.length) addRow();
-    calculate();
-  }
+function getData(){
+  const currentPrice=parseFloat(document.getElementById("currentPrice").value)||0;
+  const currentQty=parseFloat(document.getElementById("currentQty").value)||0;
+  let totalQty=currentQty,totalCost=currentPrice*currentQty;
+  const buys=[];
+  document.querySelectorAll(".buy-row").forEach(row=>{
+    const p=parseFloat(row.querySelector(".price").value),q=parseFloat(row.querySelector(".qty").value);
+    if(!isNaN(p)&&!isNaN(q)&&q>0){buys.push({price:p,qty:q});totalQty+=q;totalCost+=p*q;}
+  });
+  return {currentPrice,currentQty,buys,totalQty,totalCost,average:totalQty>0?totalCost/totalQty:0};
+}
 
-  function getData() {
-    const currentPrice = parseFloat(document.getElementById("currentPrice").value) || 0;
-    const currentQty = parseFloat(document.getElementById("currentQty").value) || 0;
-    let totalQty = currentQty;
-    let totalCost = currentPrice * currentQty;
-    const buys = [];
+function fmt(n,d=4){return Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:d});}
 
-    document.querySelectorAll(".buy-row").forEach(row => {
-      const price = parseFloat(row.querySelector(".price").value);
-      const qty = parseFloat(row.querySelector(".qty").value);
-      if (!isNaN(price) && !isNaN(qty) && qty > 0) {
-        buys.push({price, qty});
-        totalQty += qty;
-        totalCost += price * qty;
-      }
-    });
+function calculate(){
+  const d=getData();
+  average.textContent=fmt(d.average,4);
+  totalQty.textContent=fmt(d.totalQty,8);
+  totalCost.textContent=fmt(d.totalCost,2);
+  if(d.currentPrice>0&&d.currentQty>0){
+    const diff=d.average-d.currentPrice,pct=diff/d.currentPrice*100;
+    difference.textContent=diff<0?`平均價降低 ${fmt(Math.abs(diff),4)}（${Math.abs(pct).toFixed(2)}%）`:diff>0?`平均價提高 ${fmt(diff,4)}（${pct.toFixed(2)}%）`:"平均價格沒有變化";
+  }else difference.textContent="輸入目前持有資料後自動計算";
+}
 
-    return {
-      currentPrice, currentQty, buys, totalQty, totalCost,
-      average: totalQty > 0 ? totalCost / totalQty : 0
-    };
-  }
+function getSyncCode(){return document.getElementById("syncCode").value.trim();}
+function setStatus(t){syncStatus.textContent=t;}
 
-  function fmt(n, d=4) {
-    return Number(n || 0).toLocaleString(undefined, {
-      minimumFractionDigits: 2, maximumFractionDigits: d
-    });
-  }
+function saveToCloud(){
+  const syncCode=getSyncCode(),name=calcName.value.trim(),d=getData();
+  if(!syncCode)return alert("請輸入同步碼");
+  if(!name)return alert("請輸入名稱");
+  if(d.totalQty<=0)return alert("請輸入價格與數量");
 
-  function calculate() {
-    const d = getData();
-    document.getElementById("average").textContent = fmt(d.average, 4);
-    document.getElementById("totalQty").textContent = fmt(d.totalQty, 8);
-    document.getElementById("totalCost").textContent = fmt(d.totalCost, 2);
+  const payload={action:"save",syncCode,name,...d};
+  payloadField.value=JSON.stringify(payload);
+  setStatus("正在儲存…");
+  hiddenForm.submit();
+  localStorage.setItem("avg_sync_code",syncCode);
 
-    const box = document.getElementById("difference");
-    if (d.currentPrice > 0 && d.currentQty > 0) {
-      const diff = d.average - d.currentPrice;
-      const pct = diff / d.currentPrice * 100;
-      if (diff < 0) box.textContent = `平均價降低 ${fmt(Math.abs(diff),4)}（${Math.abs(pct).toFixed(2)}%）`;
-      else if (diff > 0) box.textContent = `平均價提高 ${fmt(diff,4)}（${pct.toFixed(2)}%）`;
-      else box.textContent = "平均價格沒有變化";
-    } else {
-      box.textContent = "輸入目前持有資料後自動計算";
-    }
-  }
+  setTimeout(()=>{
+    setStatus("已送出，正在更新紀錄…");
+    loadHistory();
+  },1200);
+}
 
-  function getSyncCode() {
-    return document.getElementById("syncCode").value.trim();
-  }
+function jsonp(url){
+  return new Promise((resolve,reject)=>{
+    const cb="cb_"+Date.now()+"_"+Math.floor(Math.random()*100000);
+    const s=document.createElement("script");
+    let done=false;
+    window[cb]=(data)=>{done=true;resolve(data);cleanup();};
+    function cleanup(){delete window[cb];s.remove();}
+    s.onerror=()=>{if(!done)reject(new Error("無法連線到雲端"));cleanup();};
+    s.src=url+(url.includes("?")?"&":"?")+"callback="+encodeURIComponent(cb);
+    document.body.appendChild(s);
+    setTimeout(()=>{if(!done){reject(new Error("同步逾時"));cleanup();}},10000);
+  });
+}
 
-  function ensureApiUrl() {
-    if (!API_URL.startsWith("https://script.google.com/")) {
-      alert("請先把 HTML 裡的 API_URL 換成 Apps Script Web App 網址");
-      return false;
-    }
-    return true;
-  }
+async function syncNow(){
+  const syncCode=getSyncCode();
+  if(!syncCode)return alert("請輸入同步碼");
+  localStorage.setItem("avg_sync_code",syncCode);
+  await loadHistory();
+}
 
-  async function saveToCloud() {
-    if (!ensureApiUrl()) return;
+async function loadHistory(){
+  const syncCode=getSyncCode();
+  if(!syncCode)return;
+  setStatus("正在同步…");
+  try{
+    const data=await jsonp(`${API_URL}?action=list&syncCode=${encodeURIComponent(syncCode)}`);
+    if(!data.ok)throw new Error(data.error||"讀取失敗");
+    renderHistory(data.records||[]);
+    setStatus("同步完成");
+  }catch(e){setStatus("同步失敗");alert(e.message);}
+}
 
-    const syncCode = getSyncCode();
-    const name = document.getElementById("calcName").value.trim();
-    const d = getData();
-
-    if (!syncCode) return alert("請輸入同步碼");
-    if (!name) return alert("請輸入名稱");
-    if (d.totalQty <= 0) return alert("請輸入價格與數量");
-
-    setStatus("正在儲存…");
-
-    try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: {"Content-Type": "text/plain;charset=utf-8"},
-        body: JSON.stringify({
-          action: "save",
-          syncCode,
-          name,
-          ...d
-        })
-      });
-
-      const json = await res.json();
-      if (!json.ok) throw new Error(json.error || "儲存失敗");
-
-      localStorage.setItem("avg_sync_code", syncCode);
-      setStatus("已儲存並同步");
-      await loadHistory();
-    } catch (err) {
-      setStatus("同步失敗");
-      alert(err.message);
-    }
-  }
-
-  async function syncNow() {
-    if (!ensureApiUrl()) return;
-    const syncCode = getSyncCode();
-    if (!syncCode) return alert("請輸入同步碼");
-
-    localStorage.setItem("avg_sync_code", syncCode);
-    await loadHistory();
-  }
-
-  async function loadHistory() {
-    const syncCode = getSyncCode();
-    if (!syncCode) return;
-
-    setStatus("正在同步…");
-
-    try {
-      const url = `${API_URL}?action=list&syncCode=${encodeURIComponent(syncCode)}`;
-      const res = await fetch(url);
-      const json = await res.json();
-      if (!json.ok) throw new Error(json.error || "讀取失敗");
-
-      renderHistory(json.records || []);
-      setStatus(`同步完成・${new Date().toLocaleTimeString("zh-TW",{hour:"2-digit",minute:"2-digit"})}`);
-    } catch (err) {
-      setStatus("同步失敗");
-      alert(err.message);
-    }
-  }
-
-  function renderHistory(records) {
-    const list = document.getElementById("historyList");
-    if (!records.length) {
-      list.innerHTML = '<div class="empty">這組同步碼目前沒有紀錄</div>';
-      return;
-    }
-
-    list.innerHTML = records.map(r => `
-      <div class="history-item">
-        <div class="history-head">
-          <div class="history-name">${escapeHtml(r.name)}</div>
-          <div class="history-time">${formatDate(r.createdAt)}</div>
-        </div>
-        <div class="history-grid">
-          <div class="stat"><div class="stat-label">平均價格</div><div class="stat-value">${fmt(r.average,4)}</div></div>
-          <div class="stat"><div class="stat-label">總數量</div><div class="stat-value">${fmt(r.totalQty,8)}</div></div>
-          <div class="stat"><div class="stat-label">總投入</div><div class="stat-value">${fmt(r.totalCost,2)}</div></div>
-        </div>
-        <div class="actions">
-          <button class="load" onclick='loadRecord(${JSON.stringify(JSON.stringify(r))})'>載入</button>
-          <button class="remove" onclick='deleteRecord(${JSON.stringify(r.id)})'>刪除</button>
-        </div>
+function renderHistory(records){
+  if(!records.length){historyList.innerHTML='<div class="empty">這組同步碼目前沒有紀錄</div>';return;}
+  historyList.innerHTML=records.map(r=>`
+    <div class="history-item">
+      <div class="history-head"><div class="history-name">${escapeHtml(r.name)}</div><div class="history-time">${formatDate(r.createdAt)}</div></div>
+      <div class="history-grid">
+        <div class="stat"><div class="stat-label">平均價格</div><div class="stat-value">${fmt(r.average,4)}</div></div>
+        <div class="stat"><div class="stat-label">總數量</div><div class="stat-value">${fmt(r.totalQty,8)}</div></div>
+        <div class="stat"><div class="stat-label">總投入</div><div class="stat-value">${fmt(r.totalCost,2)}</div></div>
       </div>
-    `).join("");
-  }
+      <div class="actions">
+        <button class="load" onclick='loadRecord(${JSON.stringify(JSON.stringify(r))})'>載入</button>
+        <button class="remove" onclick='deleteRecord(${JSON.stringify(r.id)})'>刪除</button>
+      </div>
+    </div>`).join("");
+}
 
-  function loadRecord(jsonString) {
-    const r = JSON.parse(jsonString);
-    document.getElementById("calcName").value = r.name || "";
-    document.getElementById("currentPrice").value = r.currentPrice || "";
-    document.getElementById("currentQty").value = r.currentQty || "";
-    rows.innerHTML = "";
-    (r.buys || []).forEach(b => addRow(b.price, b.qty));
-    if (!rows.children.length) addRow();
-    calculate();
-    window.scrollTo({top:0,behavior:"smooth"});
-  }
+function loadRecord(s){
+  const r=JSON.parse(s);
+  calcName.value=r.name||"";currentPrice.value=r.currentPrice||"";currentQty.value=r.currentQty||"";
+  rows.innerHTML="";(r.buys||[]).forEach(b=>addRow(b.price,b.qty));if(!rows.children.length)addRow();calculate();scrollTo({top:0,behavior:"smooth"});
+}
 
-  async function deleteRecord(id) {
-    if (!confirm("確定刪除這筆紀錄？")) return;
-    try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: {"Content-Type": "text/plain;charset=utf-8"},
-        body: JSON.stringify({
-          action: "delete",
-          syncCode: getSyncCode(),
-          id
-        })
-      });
-      const json = await res.json();
-      if (!json.ok) throw new Error(json.error || "刪除失敗");
-      await loadHistory();
-    } catch (err) {
-      alert(err.message);
-    }
-  }
+function deleteRecord(id){
+  if(!confirm("確定刪除這筆紀錄？"))return;
+  payloadField.value=JSON.stringify({action:"delete",syncCode:getSyncCode(),id});
+  hiddenForm.submit();
+  setStatus("正在刪除…");
+  setTimeout(loadHistory,1200);
+}
 
-  function clearInputs() {
-    document.getElementById("calcName").value = "";
-    document.getElementById("currentPrice").value = "";
-    document.getElementById("currentQty").value = "";
-    rows.innerHTML = "";
-    addRow();
-    calculate();
-  }
+function clearInputs(){
+  calcName.value="";currentPrice.value="";currentQty.value="";rows.innerHTML="";addRow();calculate();
+}
 
-  function setStatus(text) {
-    document.getElementById("syncStatus").textContent = text;
-  }
+function formatDate(v){const d=new Date(v);return isNaN(d)?"":d.toLocaleString("zh-TW");}
+function escapeHtml(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");}
 
-  function formatDate(v) {
-    const d = new Date(v);
-    if (isNaN(d)) return "";
-    return d.toLocaleString("zh-TW");
-  }
-
-  function escapeHtml(v) {
-    return String(v ?? "")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
-  }
-
-  addRow();
-  calculate();
-
-  const savedCode = localStorage.getItem("avg_sync_code");
-  if (savedCode) document.getElementById("syncCode").value = savedCode;
+addRow();calculate();
+const savedCode=localStorage.getItem("avg_sync_code");if(savedCode)syncCode.value=savedCode;
 </script>
 </body>
 </html>
