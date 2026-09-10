@@ -2,2381 +2,1337 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#081224">
   <title>平均價格計算器</title>
-  
+
   <style>
-    :root{
-      --bg:#f3f5f9;
-      --card:#ffffff;
-      --text:#111827;
-      --muted:#8b95a7;
-      --line:#e7eaf0;
-      --primary:#2563eb;
-      --primary-dark:#1d4ed8;
-      --dark:#111827;
-      --danger:#ef4444;
-      --danger-bg:#fff0f0;
-      --soft:#f8fafc;
-      --radius:22px;
-      --shadow:0 12px 34px rgba(15,23,42,.07);
+    :root {
+      --bg-1: #07101f;
+      --bg-2: #0b1730;
+      --bg-3: #0a1426;
+
+      --card: #f8fafc;
+      --card-2: #ffffff;
+      --surface: #eef3f8;
+
+      --text: #0f172a;
+      --muted: #6b7a90;
+      --soft: #94a3b8;
+      --line: #d9e2ec;
+
+      --blue: #2f6fed;
+      --blue-2: #4b91ff;
+      --blue-soft: #e8f0ff;
+
+      --red: #e5484d;
+      --red-soft: #fff0f0;
+
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+
+      --shadow: 0 18px 42px rgba(2, 8, 23, .20);
     }
 
-    *{box-sizing:border-box}
-    html{-webkit-text-size-adjust:100%}
-    body{
-      margin:0;
-      background:var(--bg);
-      color:var(--text);
-      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
-      -webkit-font-smoothing:antialiased;
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    button,input{font:inherit}
-    button{-webkit-tap-highlight-color:transparent}
-    .hidden{display:none!important}
+    html {
+      -webkit-text-size-adjust: 100%;
+      background: var(--bg-1);
+    }
 
-    /* Login */
-    .login-screen{
-      min-height:100svh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:28px 20px;
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
       background:
-        radial-gradient(circle at top right, rgba(37,99,235,.16), transparent 38%),
-        linear-gradient(160deg,#0f172a 0%,#111827 60%,#1e293b 100%);
+        radial-gradient(circle at 82% 0%, rgba(59, 130, 246, .20), transparent 28%),
+        linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 46%, var(--bg-3) 100%);
+      font-family:
+        "Helvetica Neue",
+        "PingFang TC",
+        "Noto Sans TC",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      font-weight: 400;
+      letter-spacing: -0.01em;
     }
 
-    .login-card{
-      width:100%;
-      max-width:410px;
-      background:rgba(255,255,255,.98);
-      border-radius:28px;
-      padding:30px 24px 24px;
-      box-shadow:0 26px 70px rgba(0,0,0,.28);
-      border:1px solid rgba(255,255,255,.7);
+    button,
+    input {
+      font: inherit;
+      font-weight: 400;
     }
 
-    .login-icon{
-      width:68px;
-      height:68px;
-      margin:0 auto 18px;
-      border-radius:22px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:linear-gradient(145deg,#2563eb,#1d4ed8);
-      color:white;
-      font-size:30px;
-      box-shadow:0 12px 26px rgba(37,99,235,.28);
+    button {
+      border: 0;
+      cursor: pointer;
     }
 
-    .login-title{
-      text-align:center;
-      font-size:26px;
-      font-weight:800;
-      letter-spacing:-.4px;
+    .hidden {
+      display: none !important;
     }
 
-    .login-sub{
-      text-align:center;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.6;
-      margin:8px 0 24px;
+    /* =========================
+       LOGIN
+       ========================= */
+
+    .login-screen {
+      height: 100svh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding:
+        max(18px, env(safe-area-inset-top))
+        18px
+        max(18px, env(safe-area-inset-bottom));
     }
 
-    .group{margin-bottom:15px}
-
-    label{
-      display:block;
-      margin:0 0 8px;
-      color:#667085;
-      font-size:13px;
-      font-weight:650;
+    .login-shell {
+      width: 100%;
+      max-width: 410px;
     }
 
-    input{
-      width:100%;
-      height:54px;
-      padding:0 15px;
-      border:1.5px solid #dce1e8;
-      border-radius:16px;
-      outline:none;
-      color:var(--text);
-      background:#fff;
-      font-size:17px;
-      transition:.18s ease;
+    .login-kicker {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 6px 11px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 999px;
+      background: rgba(255,255,255,.07);
+      color: #d8e4f8;
+      font-size: 11px;
+      letter-spacing: .13em;
     }
 
-    input:focus{
-      border-color:#7aa2ff;
-      box-shadow:0 0 0 4px rgba(37,99,235,.09);
+    .login-title {
+      margin: 0;
+      color: #fff;
+      font-size: 29px;
+      line-height: 1.2;
+      font-weight: 500;
+      letter-spacing: -.04em;
     }
 
-    input::placeholder{color:#b0b7c3}
-
-    .password-wrap{position:relative}
-    .password-wrap input{padding-right:66px}
-
-    .toggle-pass{
-      position:absolute;
-      right:7px;
-      top:50%;
-      transform:translateY(-50%);
-      border:0;
-      background:#f1f5f9;
-      color:#526071;
-      border-radius:12px;
-      padding:9px 10px;
-      font-size:13px;
-      font-weight:700;
+    .login-subtitle {
+      margin: 8px 0 16px;
+      color: #a6b3c7;
+      font-size: 13px;
+      line-height: 1.5;
     }
 
-    .login-btn{
-      width:100%;
-      min-height:54px;
-      border:0;
-      border-radius:16px;
-      background:linear-gradient(135deg,var(--primary),#3b82f6);
-      color:white;
-      font-weight:800;
-      font-size:17px;
-      box-shadow:0 10px 24px rgba(37,99,235,.22);
-      cursor:pointer;
+    .login-card {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(248, 250, 252, .98);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,.62);
     }
 
-    .login-btn:active{transform:scale(.99)}
-    .login-note{
-      text-align:center;
-      color:#9aa3b2;
-      font-size:12px;
-      line-height:1.55;
-      margin-top:14px;
-    }
-    .login-error{
-      color:#dc2626;
-      font-size:13px;
-      min-height:18px;
-      margin-top:7px;
+    .login-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
     }
 
-    /* App */
-    .screen{
-      min-height:100svh;
-      padding:18px 14px 34px;
+    .login-heading {
+      color: var(--text);
+      font-size: 19px;
+      font-weight: 500;
     }
 
-    .container{
-      width:100%;
-      max-width:680px;
-      margin:0 auto;
+    .login-hint {
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 11px;
     }
 
-    h1{
-      margin:5px 0 18px;
-      text-align:center;
-      font-size:28px;
-      font-weight:850;
-      letter-spacing:-.7px;
+    .field {
+      margin-bottom: 10px;
     }
 
-    .card,
-    .result-card{
-      border-radius:var(--radius);
-      margin-bottom:16px;
+    .field-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 13px;
     }
 
-    .card{
-      background:var(--card);
-      padding:20px;
-      box-shadow:var(--shadow);
-      border:1px solid rgba(17,24,39,.035);
+    .password-wrap {
+      position: relative;
     }
 
-    .result-card{
-      padding:24px 20px;
-      color:white;
-      background:
-        radial-gradient(circle at 90% 0%, rgba(59,130,246,.38), transparent 38%),
-        linear-gradient(145deg,#111827,#0f172a);
-      box-shadow:0 18px 34px rgba(15,23,42,.16);
+    .text-input {
+      width: 100%;
+      height: 50px;
+      padding: 0 14px;
+      border: 1.5px solid var(--line);
+      border-radius: 15px;
+      outline: none;
+      background: var(--card-2);
+      color: var(--text);
+      font-size: 16px;
+      transition: border-color .15s ease, box-shadow .15s ease;
     }
 
-    .result-title{
-      color:#aeb8c7;
-      font-size:13px;
-      font-weight:650;
-      letter-spacing:.2px;
+    .text-input:focus {
+      border-color: #78a2ff;
+      box-shadow: 0 0 0 4px rgba(47, 111, 237, .10);
     }
 
-    .average{
-      margin:8px 0 20px;
-      font-size:46px;
-      line-height:1.05;
-      font-weight:850;
-      letter-spacing:-1.2px;
+    .text-input::placeholder {
+      color: #a7b2c1;
     }
 
-    .summary{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:10px;
+    .password-input {
+      padding-right: 70px;
     }
 
-    .summary-box{
-      padding:13px 14px;
-      border-radius:15px;
-      text-align:left;
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.06);
+    .show-password {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 38px;
+      min-width: 58px;
+      padding: 0 10px;
+      border-radius: 11px;
+      background: #f0f3f7;
+      color: #334155;
+      font-size: 13px;
     }
 
-    .small{
-      color:#aeb8c7;
-      font-size:12px;
-      margin-bottom:4px;
+    .login-error {
+      min-height: 17px;
+      margin-top: 6px;
+      color: var(--red);
+      font-size: 12px;
     }
 
-    .value{
-      font-size:18px;
-      font-weight:750;
+    .login-button {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 4px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-2));
+      color: #fff;
+      font-size: 15px;
+      box-shadow: 0 10px 24px rgba(47,111,237,.20);
     }
 
-    .difference{
-      margin-top:12px;
-      padding:11px 13px;
-      border-radius:14px;
-      background:rgba(255,255,255,.1);
-      color:#e5e7eb;
-      font-size:13px;
-      line-height:1.5;
+    .login-note {
+      margin-top: 10px;
+      text-align: center;
+      color: var(--soft);
+      font-size: 11px;
+      line-height: 1.4;
     }
 
-    .title{
-      margin:0 0 16px;
-      font-size:19px;
-      font-weight:800;
-      letter-spacing:-.2px;
+    @media (max-height: 680px) {
+      .login-kicker {
+        margin-bottom: 6px;
+      }
+
+      .login-title {
+        font-size: 25px;
+      }
+
+      .login-subtitle {
+        margin: 5px 0 10px;
+      }
+
+      .login-card {
+        padding: 14px;
+      }
+
+      .login-row {
+        margin-bottom: 8px;
+      }
+
+      .text-input {
+        height: 46px;
+      }
+
+      .login-button {
+        min-height: 44px;
+      }
+
+      .login-note {
+        margin-top: 7px;
+      }
     }
 
-    .active-code{
-      display:inline-flex;
-      align-items:center;
-      gap:7px;
-      padding:8px 12px;
-      border-radius:999px;
-      background:#eef4ff;
-      color:#1d4ed8;
-      font-size:13px;
-      font-weight:750;
+    /* =========================
+       APP
+       ========================= */
+
+    .app-screen {
+      min-height: 100vh;
+      padding:
+        max(18px, env(safe-area-inset-top))
+        14px
+        max(28px, env(safe-area-inset-bottom));
     }
 
-    .status{
-      margin:10px 0 0;
-      color:#7b8494;
-      font-size:13px;
+    .container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
+    .app-title {
+      margin: 6px 0 16px;
+      text-align: center;
+      color: #fff;
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -.04em;
     }
 
-    .buy-row{
-      display:grid;
-      grid-template-columns:1fr 1fr 48px;
-      gap:9px;
-      margin-bottom:10px;
+    .card {
+      margin-bottom: 14px;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      box-shadow: var(--shadow);
     }
 
-    button{
-      border:0;
-      border-radius:15px;
-      cursor:pointer;
-      transition:transform .08s ease,opacity .12s ease;
+    .section-title {
+      margin: 0 0 12px;
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 500;
     }
 
-    button:active{
-      transform:scale(.985);
-      opacity:.9;
+    /* Sync card */
+
+    .sync-card {
+      padding: 13px 14px;
+      border-radius: 20px;
     }
 
-    .primary,
-    .save,
-    .secondary,
-    .logout{
-      width:100%;
-      min-height:52px;
-      font-weight:780;
-      font-size:16px;
+    .sync-card .section-title {
+      margin-bottom: 9px;
+      font-size: 15px;
     }
 
-    .primary{
-      background:#111827;
-      color:white;
+    .sync-top {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .save{
-      margin-top:10px;
-      background:linear-gradient(135deg,var(--primary),#3b82f6);
-      color:white;
-      box-shadow:0 8px 18px rgba(37,99,235,.14);
+    .connection-pill {
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 12px;
     }
 
-    .secondary{
-      margin-top:10px;
-      background:#eef1f5;
-      color:#465366;
+    .sync-status {
+      color: var(--muted);
+      font-size: 12px;
     }
 
-    .logout{
-      margin-top:10px;
-      background:var(--danger-bg);
-      color:#dc2626;
+    .sync-message {
+      display: none;
+      margin-top: 8px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      line-height: 1.4;
     }
 
-    .delete{
-      min-height:54px;
-      padding:0;
-      background:#fee2e2;
-      color:#dc2626;
-      font-size:24px;
-      font-weight:500;
+    .sync-message.show {
+      display: block;
+    }
+
+    .sync-message.info,
+    .sync-message.success {
+      background: var(--blue-soft);
+      color: var(--blue);
+      border: 1px solid #d8e6ff;
+    }
+
+    .sync-message.error {
+      background: var(--red-soft);
+      color: var(--red);
+      border: 1px solid #ffd8da;
+    }
+
+    .sync-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 9px;
+      flex-wrap: wrap;
+    }
+
+    .small-button {
+      min-height: 38px;
+      padding: 0 12px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .button-muted {
+      background: #e9edf3;
+      color: #334155;
+    }
+
+    .button-danger-soft {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+
+    .retry-button {
+      margin-top: 7px;
+      min-height: 34px;
+      padding: 0 10px;
+      border-radius: 10px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 12px;
+    }
+
+    /* Result */
+
+    .result-card {
+      text-align: center;
+      background: linear-gradient(180deg, #fbfdff, #f3f7fc);
+      border: 1px solid rgba(47,111,237,.10);
+    }
+
+    .result-label {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .result-value {
+      margin: 8px 0 14px;
+      color: #0a1738;
+      font-size: clamp(46px, 12vw, 60px);
+      line-height: 1.05;
+      font-weight: 500;
+      letter-spacing: -.04em;
+    }
+
+    .summary-box {
+      padding: 14px;
+      border-radius: 18px;
+      background: #edf2f7;
+      border: 1px solid #dfe7f0;
+    }
+
+    .summary-label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .summary-value {
+      margin-top: 4px;
+      color: var(--text);
+      font-size: 21px;
+      font-weight: 500;
+    }
+
+    .difference-box {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      background: #e9eef4;
+      color: #334155;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    /* Form */
+
+    .form-card {
+      padding: 14px;
+    }
+
+    .form-card .section-title {
+      margin-bottom: 10px;
+      font-size: 17px;
+    }
+
+    .form-card .field {
+      margin-bottom: 9px;
+    }
+
+    .form-card .text-input {
+      height: 48px;
+      border-radius: 15px;
+      font-size: 16px;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .subheading {
+      margin: 8px 0 8px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .buy-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 46px;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .buy-row .text-input {
+      text-align: center;
+    }
+
+    .remove-buy {
+      height: 48px;
+      border-radius: 15px;
+      background: var(--red-soft);
+      color: var(--red);
+      font-size: 22px;
+    }
+
+    .form-button {
+      width: 100%;
+      min-height: 42px;
+      border-radius: 14px;
+      font-size: 14px;
+    }
+
+    .add-buy {
+      background: #09162f;
+      color: #fff;
+    }
+
+    .save-cloud {
+      margin-top: 7px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-2));
+      color: #fff;
+    }
+
+    .clear-inputs {
+      margin-top: 7px;
+      background: #e7ebf0;
+      color: #334155;
     }
 
     /* History */
-    .history-item{
-      margin-bottom:12px;
-      padding:16px;
-      border:1px solid var(--line);
-      border-radius:18px;
-      background:#fff;
-      box-shadow:0 5px 16px rgba(15,23,42,.025);
+
+    .history-card {
+      padding: 14px;
     }
 
-    .history-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:12px;
+    .history-item {
+      margin-bottom: 10px;
+      padding: 14px;
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
     }
 
-    .history-name{
-      font-size:20px;
-      font-weight:850;
-      letter-spacing:.1px;
+    .history-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
     }
 
-    .history-time{
-      flex-shrink:0;
-      color:#9aa3b2;
-      font-size:12px;
-      line-height:1.4;
-      text-align:right;
+    .history-name {
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 500;
     }
 
-    .history-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:9px;
-      margin-top:13px;
+    .history-time {
+      color: var(--soft);
+      font-size: 11px;
+      text-align: right;
     }
 
-    .stat{
-      padding:12px;
-      border-radius:14px;
-      background:#f7f8fa;
+    .history-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
     }
 
-    .stat-label{
-      color:#98a2b3;
-      font-size:12px;
-      margin-bottom:5px;
+    .history-stat {
+      padding: 10px;
+      border-radius: 14px;
+      background: #f3f6f9;
     }
 
-    .stat-value{
-      font-size:16px;
-      font-weight:800;
-      word-break:break-word;
+    .history-stat-label {
+      color: var(--muted);
+      font-size: 11px;
     }
 
-    .actions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:9px;
-      margin-top:12px;
+    .history-stat-value {
+      margin-top: 3px;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 500;
     }
 
-    .actions button{
-      min-height:45px;
-      font-size:15px;
-      font-weight:750;
+    .history-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
     }
 
-    .load{
-      background:#e7f0ff;
-      color:#2563eb;
+    .history-action {
+      min-height: 40px;
+      border-radius: 13px;
+      font-size: 13px;
     }
 
-    .remove{
-      background:#fff0f0;
-      color:#dc2626;
+    .load-record {
+      background: var(--blue-soft);
+      color: var(--blue);
     }
 
-    .empty{
-      padding:24px 8px;
-      text-align:center;
-      color:#9aa3b2;
-      font-size:14px;
+    .delete-record {
+      background: var(--red-soft);
+      color: var(--red);
     }
 
-    @media(max-width:520px){
-      .screen{padding:14px 12px 28px}
-      .card{padding:18px}
-      h1{font-size:25px}
-      .average{font-size:42px}
-      .grid{gap:9px}
-      .history-grid{grid-template-columns:1fr 1fr}
+    .empty-state {
+      padding: 18px 8px;
+      text-align: center;
+      color: var(--soft);
+      font-size: 13px;
     }
 
-    @media(max-width:370px){
-      .grid{grid-template-columns:1fr}
-      .buy-row{grid-template-columns:1fr 1fr 44px}
-      .history-grid{grid-template-columns:1fr}
+    /* Modal */
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(2, 8, 23, .46);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 360px;
+      padding: 20px;
+      border-radius: 22px;
+      background: #fff;
+      box-shadow: 0 24px 60px rgba(2,8,23,.30);
+    }
+
+    .modal-title {
+      color: var(--text);
+      font-size: 19px;
+      font-weight: 500;
+    }
+
+    .modal-text {
+      margin: 8px 0 16px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .modal-button {
+      min-height: 44px;
+      border-radius: 14px;
+      font-size: 14px;
+    }
+
+    .modal-cancel {
+      background: #e9edf3;
+      color: #334155;
+    }
+
+    .modal-delete {
+      background: linear-gradient(135deg, #e5484d, #f16b70);
+      color: #fff;
+    }
+
+    @media (max-width: 380px) {
+      .two-column {
+        gap: 7px;
+      }
+
+      .history-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
-
-
-<style id="dark-overrides">
-  :root{
-    --bg:#0b1020;
-    --card:#151c2f;
-    --text:#f8fafc;
-    --muted:#94a3b8;
-    --line:#263248;
-    --soft:#1c2638;
-    --shadow:0 12px 30px rgba(0,0,0,.24);
-  }
-
-  body{
-    background:
-      radial-gradient(circle at 80% -10%, rgba(37,99,235,.18), transparent 30%),
-      linear-gradient(180deg,#0b1020 0%,#0f172a 55%,#111827 100%);
-    color:var(--text);
-  }
-
-  h1{color:#f8fafc}
-
-  .card{
-    background:rgba(21,28,47,.96);
-    border:1px solid rgba(148,163,184,.10);
-    box-shadow:0 14px 32px rgba(0,0,0,.20);
-  }
-
-  .title{color:#f8fafc}
-  label{color:#aab4c4}
-
-  input{
-    background:#0f172a;
-    color:#f8fafc;
-    border-color:#344258;
-  }
-
-  input::placeholder{color:#64748b}
-
-  input:focus{
-    border-color:#4f86ff;
-    box-shadow:0 0 0 4px rgba(37,99,235,.14);
-  }
-
-  .secondary{
-    background:#202a3b;
-    color:#d7deea;
-  }
-
-  .status{color:#94a3b8}
-
-  .history-item{
-    background:#111827;
-    border-color:#263248;
-    box-shadow:none;
-  }
-
-  .history-name{color:#f8fafc}
-  .history-time{color:#8390a3}
-
-  .stat{
-    background:#182234;
-  }
-
-  .stat-label{color:#8d99aa}
-  .stat-value{color:#f8fafc}
-
-  .load{
-    background:#19345f;
-    color:#8fb7ff;
-  }
-
-  .remove{
-    background:#3b2027;
-    color:#ff8e98;
-  }
-
-  .active-code{
-    background:#172c52;
-    color:#8fb7ff;
-  }
-
-  /* Compact sync card */
-  #appScreen .container > .card:first-of-type{
-    padding:14px 16px;
-    border-radius:18px;
-  }
-
-  #appScreen .container > .card:first-of-type .title{
-    font-size:15px;
-    margin-bottom:10px;
-  }
-
-  #appScreen .container > .card:first-of-type .active-code{
-    padding:6px 10px;
-    font-size:12px;
-  }
-
-  #appScreen .container > .card:first-of-type .status{
-    display:inline-block;
-    margin:0 0 0 8px;
-    font-size:12px;
-    vertical-align:middle;
-  }
-
-  #appScreen .container > .card:first-of-type .secondary,
-  #appScreen .container > .card:first-of-type .logout{
-    width:auto;
-    min-height:auto;
-    padding:9px 12px;
-    margin-top:10px;
-    margin-right:6px;
-    font-size:13px;
-    display:inline-block;
-  }
-
-  /* Center result area */
-  .result-card{
-    text-align:center;
-  }
-
-  .result-title{
-    text-align:center;
-  }
-
-  .average{
-    text-align:center;
-  }
-
-  .summary-box{
-    text-align:center;
-  }
-
-  .difference{
-    text-align:center;
-  }
-
-  @media(max-width:520px){
-    #appScreen .container > .card:first-of-type{
-      padding:13px 14px;
-    }
-  }
-</style>
-
-
-<style id="login-polish">
-  /* Login page redesign */
-  .login-screen{
-    min-height:100svh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:28px 18px;
-    background:
-      radial-gradient(circle at 75% 8%, rgba(59,130,246,.24), transparent 26%),
-      radial-gradient(circle at 18% 78%, rgba(37,99,235,.12), transparent 30%),
-      linear-gradient(165deg,#070b16 0%,#0b1222 48%,#111a2c 100%);
-  }
-
-  .login-card{
-    position:relative;
-    overflow:hidden;
-    width:100%;
-    max-width:410px;
-    padding:30px 22px 24px;
-    border-radius:28px;
-    background:
-      linear-gradient(180deg,rgba(24,33,53,.96),rgba(14,21,36,.98));
-    border:1px solid rgba(148,163,184,.14);
-    box-shadow:
-      0 28px 70px rgba(0,0,0,.42),
-      inset 0 1px 0 rgba(255,255,255,.035);
-  }
-
-  .login-card::before{
-    content:"";
-    position:absolute;
-    top:-90px;
-    right:-80px;
-    width:210px;
-    height:210px;
-    border-radius:50%;
-    background:rgba(37,99,235,.16);
-    filter:blur(12px);
-    pointer-events:none;
-  }
-
-  .login-icon{
-    position:relative;
-    width:66px;
-    height:66px;
-    margin:0 auto 18px;
-    border-radius:20px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(145deg,#2563eb,#3b82f6);
-    color:white;
-    font-size:28px;
-    box-shadow:
-      0 14px 30px rgba(37,99,235,.28),
-      inset 0 1px 0 rgba(255,255,255,.28);
-  }
-
-  .login-title{
-    position:relative;
-    text-align:center;
-    color:#f8fafc;
-    font-size:27px;
-    line-height:1.15;
-    font-weight:850;
-    letter-spacing:-.6px;
-    margin-bottom:8px;
-  }
-
-  .login-sub{
-    position:relative;
-    max-width:300px;
-    margin:0 auto 24px;
-    text-align:center;
-    color:#94a3b8;
-    font-size:14px;
-    line-height:1.6;
-  }
-
-  .login-card label{
-    color:#aeb8c8;
-    font-size:13px;
-    font-weight:700;
-    margin-bottom:8px;
-  }
-
-  .password-wrap{
-    position:relative;
-  }
-
-  .password-wrap input{
-    height:58px;
-    padding:0 82px 0 16px;
-    color:#f8fafc;
-    background:#0a1020;
-    border:1.5px solid #2d3b52;
-    border-radius:17px;
-    font-size:18px;
-    letter-spacing:.6px;
-    box-shadow:inset 0 1px 8px rgba(0,0,0,.15);
-  }
-
-  .password-wrap input::placeholder{
-    color:#5f6c80;
-    letter-spacing:0;
-  }
-
-  .password-wrap input:focus{
-    border-color:#4f86ff;
-    box-shadow:
-      0 0 0 4px rgba(37,99,235,.13),
-      inset 0 1px 8px rgba(0,0,0,.12);
-  }
-
-  .toggle-pass{
-    position:absolute;
-    right:7px;
-    top:50%;
-    transform:translateY(-50%);
-    min-width:64px;
-    padding:9px 11px;
-    border-radius:12px;
-    border:1px solid rgba(148,163,184,.14);
-    background:#1b2638;
-    color:#dbe4f0;
-    font-size:13px;
-    font-weight:800;
-  }
-
-  .login-btn{
-    width:100%;
-    min-height:56px;
-    margin-top:9px;
-    border:0;
-    border-radius:17px;
-    background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);
-    color:white;
-    font-size:17px;
-    font-weight:850;
-    letter-spacing:.2px;
-    box-shadow:0 12px 26px rgba(37,99,235,.22);
-  }
-
-  .login-btn:active{
-    transform:scale(.987);
-  }
-
-  .login-note{
-    margin-top:15px;
-    text-align:center;
-    color:#66758a;
-    font-size:12px;
-    line-height:1.55;
-  }
-
-  .login-error{
-    min-height:18px;
-    margin-top:7px;
-    color:#fb7185;
-    font-size:13px;
-  }
-
-  @media(max-width:430px){
-    .login-screen{
-      padding:24px 16px;
-    }
-
-    .login-card{
-      padding:26px 20px 22px;
-      border-radius:25px;
-    }
-
-    .login-icon{
-      width:62px;
-      height:62px;
-      border-radius:19px;
-      font-size:26px;
-    }
-
-    .login-title{
-      font-size:25px;
-    }
-
-    .password-wrap input{
-      height:56px;
-    }
-
-    .login-btn{
-      min-height:54px;
-    }
-  }
-</style>
-
-
-<style id="sync-message-polish">
-  .sync-message{
-    display:none;
-    margin-top:10px;
-    padding:10px 12px;
-    border-radius:12px;
-    font-size:13px;
-    line-height:1.45;
-  }
-  .sync-message.show{display:block}
-  .sync-message.error{
-    background:#3a1f26;
-    color:#ff9ca6;
-    border:1px solid rgba(248,113,113,.22);
-  }
-  .sync-message.success{
-    background:#153425;
-    color:#86efac;
-    border:1px solid rgba(74,222,128,.18);
-  }
-  .sync-message.info{
-    background:#172c52;
-    color:#9fc0ff;
-    border:1px solid rgba(96,165,250,.18);
-  }
-  .retry-btn{
-    margin-top:8px;
-    padding:8px 10px;
-    border-radius:10px;
-    background:#24324a;
-    color:#e5edf8;
-    font-size:12px;
-    font-weight:700;
-  }
-</style>
-
-
-<style id="login-no-icon-tweak">
-  .login-card{
-    padding-top:34px;
-  }
-  .login-title{
-    margin-top:0;
-  }
-  @media(max-width:430px){
-    .login-card{
-      padding-top:30px;
-    }
-  }
-</style>
-
-
-<style id="light-panel-theme">
-  /* 深色背景 + 淺色資料框 */
-  body{
-    background:
-      radial-gradient(circle at 80% -10%, rgba(37,99,235,.18), transparent 30%),
-      linear-gradient(180deg,#0b1020 0%,#0f172a 55%,#111827 100%) !important;
-    color:#f8fafc;
-  }
-
-  h1{
-    color:#f8fafc !important;
-  }
-
-  /* App cards */
-  .card{
-    background:#f8fafc !important;
-    color:#111827 !important;
-    border:1px solid rgba(15,23,42,.06) !important;
-    box-shadow:0 14px 32px rgba(0,0,0,.16) !important;
-  }
-
-  .title{
-    color:#0f172a !important;
-  }
-
-  .status{
-    color:#64748b !important;
-  }
-
-  .active-code{
-    background:#dbeafe !important;
-    color:#1d4ed8 !important;
-  }
-
-  label{
-    color:#64748b !important;
-  }
-
-  input{
-    background:#ffffff !important;
-    color:#111827 !important;
-    border-color:#cfd8e3 !important;
-  }
-
-  input::placeholder{
-    color:#94a3b8 !important;
-  }
-
-  input:focus{
-    border-color:#3b82f6 !important;
-    box-shadow:0 0 0 4px rgba(59,130,246,.14) !important;
-  }
-
-  .secondary{
-    background:#e5e7eb !important;
-    color:#334155 !important;
-  }
-
-  .logout{
-    background:#fee2e2 !important;
-    color:#dc2626 !important;
-  }
-
-  .delete{
-    background:#fee2e2 !important;
-    color:#dc2626 !important;
-  }
-
-  /* History area */
-  .history-item{
-    background:#ffffff !important;
-    border:1px solid #e5e7eb !important;
-    box-shadow:0 5px 16px rgba(15,23,42,.04) !important;
-  }
-
-  .history-name{
-    color:#111827 !important;
-  }
-
-  .history-time{
-    color:#94a3b8 !important;
-  }
-
-  .stat{
-    background:#f3f4f6 !important;
-  }
-
-  .stat-label{
-    color:#9ca3af !important;
-  }
-
-  .stat-value{
-    color:#111827 !important;
-  }
-
-  .load{
-    background:#dbeafe !important;
-    color:#2563eb !important;
-  }
-
-  .remove{
-    background:#fee2e2 !important;
-    color:#dc2626 !important;
-  }
-
-  .empty{
-    color:#94a3b8 !important;
-  }
-
-  /* login card 也改成淺色，更一致 */
-  .login-card{
-    background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,250,252,.98)) !important;
-    border:1px solid rgba(15,23,42,.06) !important;
-    box-shadow:0 28px 70px rgba(0,0,0,.28) !important;
-  }
-
-  .login-title{
-    color:#0f172a !important;
-  }
-
-  .login-sub{
-    color:#64748b !important;
-  }
-
-  .login-card label{
-    color:#64748b !important;
-  }
-
-  .password-wrap input{
-    background:#ffffff !important;
-    color:#111827 !important;
-    border:1.5px solid #cfd8e3 !important;
-    box-shadow:none !important;
-  }
-
-  .password-wrap input::placeholder{
-    color:#94a3b8 !important;
-  }
-
-  .toggle-pass{
-    background:#f3f4f6 !important;
-    color:#334155 !important;
-    border:1px solid #e5e7eb !important;
-  }
-
-  .login-note{
-    color:#94a3b8 !important;
-  }
-</style>
-
-
-<style id="compact-sync-light-result">
-  /* 同步帳號卡片縮小 */
-  #appScreen .container > .card:first-of-type{
-    padding:12px 14px !important;
-    border-radius:16px !important;
-    margin-bottom:12px !important;
-  }
-
-  #appScreen .container > .card:first-of-type .title{
-    font-size:15px !important;
-    margin-bottom:8px !important;
-  }
-
-  #appScreen .container > .card:first-of-type .active-code{
-    padding:5px 9px !important;
-    font-size:12px !important;
-  }
-
-  #appScreen .container > .card:first-of-type .status{
-    margin:0 0 0 8px !important;
-    font-size:12px !important;
-  }
-
-  #appScreen .container > .card:first-of-type .secondary,
-  #appScreen .container > .card:first-of-type .logout{
-    min-height:38px !important;
-    padding:8px 11px !important;
-    margin-top:8px !important;
-    font-size:13px !important;
-    border-radius:12px !important;
-  }
-
-  #appScreen .container > .card:first-of-type .sync-message{
-    margin-top:8px !important;
-    padding:8px 10px !important;
-    font-size:12px !important;
-  }
-
-  /* 平均價格結果卡改成淺色 */
-  .result-card{
-    background:#f8fafc !important;
-    color:#0f172a !important;
-    border:1px solid rgba(15,23,42,.06) !important;
-    box-shadow:0 14px 32px rgba(0,0,0,.16) !important;
-  }
-
-  .result-title{
-    color:#64748b !important;
-  }
-
-  .average{
-    color:#0f172a !important;
-  }
-
-  .summary-box{
-    background:#eef2f7 !important;
-    border:1px solid #e2e8f0 !important;
-  }
-
-  .small{
-    color:#64748b !important;
-  }
-
-  .value{
-    color:#0f172a !important;
-  }
-
-  .difference{
-    background:#e9eef5 !important;
-    color:#334155 !important;
-  }
-</style>
-
-
-<style id="final-polish">
-  /* ===== Final polish ===== */
-  body{
-    background:
-      radial-gradient(circle at 82% 0%, rgba(59,130,246,.22), transparent 28%),
-      radial-gradient(circle at 10% 100%, rgba(29,78,216,.10), transparent 24%),
-      linear-gradient(180deg,#07101f 0%, #0b1430 46%, #091426 100%) !important;
-  }
-
-  h1{
-    margin: 10px 0 18px !important;
-    font-size: 30px !important;
-    letter-spacing: -1px !important;
-    text-shadow: 0 4px 18px rgba(0,0,0,.18);
-  }
-
-  .container{
-    max-width: 700px !important;
-  }
-
-  .card,
-  .result-card{
-    border-radius: 28px !important;
-  }
-
-  .card{
-    background: rgba(248,250,252,.985) !important;
-    box-shadow: 0 20px 42px rgba(2,8,23,.20) !important;
-    border: 1px solid rgba(255,255,255,.58) !important;
-  }
-
-  .title{
-    font-size: 18px !important;
-    letter-spacing: -.2px !important;
-  }
-
-  label{
-    font-size: 14px !important;
-    font-weight: 700 !important;
-  }
-
-  input{
-    height: 58px !important;
-    border-radius: 20px !important;
-    border-width: 2px !important;
-    font-size: 18px !important;
-    padding: 0 18px !important;
-  }
-
-  .grid{
-    gap: 14px !important;
-  }
-
-  .buy-row{
-    grid-template-columns: 1fr 1fr 54px !important;
-    gap: 10px !important;
-    margin-bottom: 12px !important;
-  }
-
-  .buy-row .price,
-  .buy-row .qty{
-    text-align: center !important;
-    font-weight: 700;
-  }
-
-  .buy-row .price::placeholder,
-  .buy-row .qty::placeholder{
-    text-align: center !important;
-  }
-
-  .delete{
-    border-radius: 20px !important;
-    font-size: 26px !important;
-    font-weight: 700 !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.38);
-  }
-
-  .primary,
-  .save,
-  .secondary,
-  .logout{
-    min-height: 54px !important;
-    border-radius: 18px !important;
-    font-size: 16px !important;
-    font-weight: 800 !important;
-  }
-
-  .primary{
-    background: linear-gradient(135deg,#07162f 0%, #091a39 100%) !important;
-    box-shadow: 0 12px 24px rgba(3,10,25,.18);
-  }
-
-  .save{
-    background: linear-gradient(135deg,#2558df 0%,#3d8bff 100%) !important;
-    box-shadow: 0 12px 26px rgba(37,99,235,.22) !important;
-  }
-
-  .secondary{
-    background: #e8edf4 !important;
-    color: #334155 !important;
-  }
-
-  .logout{
-    background: #fff0ef !important;
-    color: #dc2626 !important;
-  }
-
-  /* compact sync account card */
-  #appScreen .container > .card:first-of-type{
-    padding: 16px 18px !important;
-    margin-bottom: 16px !important;
-  }
-
-  #appScreen .container > .card:first-of-type .title{
-    margin-bottom: 12px !important;
-  }
-
-  #appScreen .container > .card:first-of-type .active-code{
-    padding: 7px 12px !important;
-    border-radius: 999px !important;
-    background: #e8f0ff !important;
-    color: #2457d6 !important;
-    font-size: 13px !important;
-    font-weight: 800 !important;
-  }
-
-  #appScreen .container > .card:first-of-type .status{
-    display: inline-block !important;
-    margin: 0 0 0 10px !important;
-    color: #64748b !important;
-    font-size: 14px !important;
-    font-weight: 700 !important;
-  }
-
-  #appScreen .container > .card:first-of-type .secondary,
-  #appScreen .container > .card:first-of-type .logout{
-    width: auto !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin-top: 12px !important;
-    margin-right: 8px !important;
-    padding: 0 18px !important;
-    min-height: 46px !important;
-  }
-
-  /* sync message unified color */
-  .sync-message{
-    margin-top: 12px !important;
-    border-radius: 18px !important;
-    padding: 12px 14px !important;
-    font-size: 14px !important;
-    font-weight: 700 !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.38);
-  }
-
-  .sync-message.info{
-    background: #edf4ff !important;
-    color: #2457d6 !important;
-    border: 1px solid #dbe7ff !important;
-  }
-
-  .sync-message.success{
-    background: #edf4ff !important;
-    color: #2457d6 !important;
-    border: 1px solid #dbe7ff !important;
-  }
-
-  .sync-message.error{
-    background: #fff1f1 !important;
-    color: #dc2626 !important;
-    border: 1px solid #ffd7d7 !important;
-  }
-
-  .retry-btn{
-    margin-top: 10px !important;
-    padding: 9px 12px !important;
-    border-radius: 12px !important;
-    background: #2457d6 !important;
-    color: white !important;
-    font-size: 12px !important;
-    font-weight: 800 !important;
-  }
-
-  /* result card -> light card */
-  .result-card{
-    background: linear-gradient(180deg,#fbfdff 0%, #f4f8ff 100%) !important;
-    color: #0f172a !important;
-    border: 1px solid rgba(59,130,246,.10) !important;
-    box-shadow: 0 20px 42px rgba(2,8,23,.20) !important;
-    text-align: center !important;
-    padding: 24px 22px !important;
-  }
-
-  .result-title{
-    color: #64748b !important;
-    font-size: 16px !important;
-    font-weight: 800 !important;
-  }
-
-  .average{
-    color: #0b1738 !important;
-    font-size: 64px !important;
-    font-weight: 900 !important;
-    margin: 10px 0 18px !important;
-  }
-
-  .summary-box{
-    background: #eef3f9 !important;
-    border: 1px solid #dde6f1 !important;
-    border-radius: 22px !important;
-    padding: 18px 16px !important;
-  }
-
-  .small{
-    color: #6b7a90 !important;
-    font-size: 14px !important;
-    font-weight: 700 !important;
-  }
-
-  .value{
-    color: #0f172a !important;
-    font-size: 24px !important;
-    font-weight: 900 !important;
-  }
-
-  .difference{
-    background: #edf2f8 !important;
-    color: #334155 !important;
-    border-radius: 18px !important;
-    font-size: 15px !important;
-    font-weight: 700 !important;
-    padding: 16px !important;
-  }
-
-  /* history cards */
-  .history-item{
-    border-radius: 22px !important;
-    padding: 18px !important;
-    background: linear-gradient(180deg,#ffffff 0%, #fbfdff 100%) !important;
-    box-shadow: 0 10px 22px rgba(15,23,42,.05) !important;
-  }
-
-  .history-name{
-    font-size: 24px !important;
-    font-weight: 900 !important;
-  }
-
-  .history-time{
-    font-size: 13px !important;
-    color: #94a3b8 !important;
-  }
-
-  .stat{
-    border-radius: 18px !important;
-    background: #f3f6fb !important;
-    padding: 14px !important;
-  }
-
-  .stat-label{
-    font-size: 13px !important;
-    color: #7a8798 !important;
-    font-weight: 700 !important;
-  }
-
-  .stat-value{
-    font-size: 17px !important;
-    color: #0f172a !important;
-    font-weight: 900 !important;
-  }
-
-  .actions{
-    gap: 10px !important;
-    margin-top: 14px !important;
-  }
-
-  .actions .load,
-  .actions .remove{
-    min-height: 48px !important;
-    border-radius: 16px !important;
-    font-size: 15px !important;
-    font-weight: 800 !important;
-  }
-
-  .load{
-    background: #e8f0ff !important;
-    color: #2457d6 !important;
-  }
-
-  .remove{
-    background: #fff0ef !important;
-    color: #dc2626 !important;
-  }
-
-  /* custom delete modal */
-  .modal-overlay{
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 22px;
-    background: rgba(2,8,23,.48);
-    backdrop-filter: blur(10px);
-  }
-
-  .modal-box{
-    width: 100%;
-    max-width: 380px;
-    border-radius: 28px;
-    background: linear-gradient(180deg,#ffffff 0%, #f8fbff 100%);
-    border: 1px solid rgba(255,255,255,.7);
-    box-shadow: 0 24px 60px rgba(2,8,23,.28);
-    padding: 22px 20px 18px;
-    color: #0f172a;
-  }
-
-  .modal-title{
-    font-size: 24px;
-    font-weight: 900;
-    margin-bottom: 8px;
-    letter-spacing: -.4px;
-  }
-
-  .modal-text{
-    color: #64748b;
-    font-size: 15px;
-    line-height: 1.6;
-    margin-bottom: 18px;
-  }
-
-  .modal-actions{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .modal-btn{
-    min-height: 50px;
-    border-radius: 16px;
-    font-size: 16px;
-    font-weight: 800;
-  }
-
-  .modal-cancel{
-    background: #e9eef5;
-    color: #334155;
-  }
-
-  .modal-confirm{
-    background: linear-gradient(135deg,#ef4444 0%, #f87171 100%);
-    color: white;
-    box-shadow: 0 10px 22px rgba(239,68,68,.20);
-  }
-
-  @media (max-width: 520px){
-    h1{font-size: 28px !important;}
-    .result-card{padding: 22px 18px !important;}
-    .average{font-size: 56px !important;}
-    .card{padding: 18px !important;}
-    .history-name{font-size: 21px !important;}
-  }
-</style>
-
-
-<style id="shrink-sync-and-form-buttons">
-  /* 目前同步帳號卡片再縮小 */
-  #appScreen .container > .card:first-of-type{
-    padding: 12px 14px !important;
-    border-radius: 22px !important;
-    margin-bottom: 14px !important;
-  }
-
-  #appScreen .container > .card:first-of-type .title{
-    font-size: 16px !important;
-    margin-bottom: 10px !important;
-  }
-
-  #appScreen .container > .card:first-of-type .active-code{
-    padding: 6px 10px !important;
-    font-size: 12px !important;
-  }
-
-  #appScreen .container > .card:first-of-type .status{
-    font-size: 13px !important;
-    margin-left: 8px !important;
-  }
-
-  #appScreen .container > .card:first-of-type .sync-message{
-    margin-top: 10px !important;
-    padding: 10px 12px !important;
-    font-size: 13px !important;
-    border-radius: 16px !important;
-  }
-
-  #appScreen .container > .card:first-of-type .secondary,
-  #appScreen .container > .card:first-of-type .logout{
-    min-height: 40px !important;
-    padding: 0 14px !important;
-    font-size: 14px !important;
-    border-radius: 14px !important;
-    margin-top: 10px !important;
-    margin-right: 6px !important;
-  }
-
-  /* 計算資料區的三個按鈕縮小 */
-  #appScreen .container > .card:nth-of-type(3) .primary,
-  #appScreen .container > .card:nth-of-type(3) .save,
-  #appScreen .container > .card:nth-of-type(3) .secondary{
-    min-height: 46px !important;
-    font-size: 15px !important;
-    border-radius: 16px !important;
-    padding: 0 14px !important;
-  }
-
-  #appScreen .container > .card:nth-of-type(3) .primary{
-    margin-top: 2px !important;
-  }
-
-  #appScreen .container > .card:nth-of-type(3) .save,
-  #appScreen .container > .card:nth-of-type(3) .secondary{
-    margin-top: 8px !important;
-  }
-
-  @media (max-width: 520px){
-    #appScreen .container > .card:first-of-type{
-      padding: 11px 13px !important;
-    }
-
-    #appScreen .container > .card:first-of-type .secondary,
-    #appScreen .container > .card:first-of-type .logout{
-      min-height: 38px !important;
-      font-size: 13px !important;
-      padding: 0 12px !important;
-    }
-
-    #appScreen .container > .card:nth-of-type(3) .primary,
-    #appScreen .container > .card:nth-of-type(3) .save,
-    #appScreen .container > .card:nth-of-type(3) .secondary{
-      min-height: 44px !important;
-      font-size: 14px !important;
-    }
-  }
-</style>
-
-
-<style id="font-and-compact-form">
-  /* 更乾淨的系統字體組合，不需外部載入 */
-  body{
-    font-family:
-      "SF Pro Display",
-      "SF Pro Text",
-      -apple-system,
-      BlinkMacSystemFont,
-      "PingFang TC",
-      "Noto Sans TC",
-      "Segoe UI",
-      sans-serif !important;
-    letter-spacing: -0.01em;
-  }
-
-  h1,
-  .title,
-  .login-title,
-  .history-name,
-  .average{
-    font-family:
-      "SF Pro Display",
-      -apple-system,
-      BlinkMacSystemFont,
-      "PingFang TC",
-      "Noto Sans TC",
-      sans-serif !important;
-  }
-
-  input,
-  button,
-  label,
-  .status,
-  .small,
-  .stat-label,
-  .stat-value,
-  .difference{
-    font-family:
-      "SF Pro Text",
-      -apple-system,
-      BlinkMacSystemFont,
-      "PingFang TC",
-      "Noto Sans TC",
-      sans-serif !important;
-  }
-
-  /* 計算資料卡縮小 */
-  #appScreen .container > .card:nth-of-type(3){
-    padding: 15px 16px !important;
-    border-radius: 22px !important;
-    margin-bottom: 14px !important;
-  }
-
-  #appScreen .container > .card:nth-of-type(3) .title{
-    font-size: 17px !important;
-    margin-bottom: 12px !important;
-  }
-
-  #appScreen .container > .card:nth-of-type(3) .group{
-    margin-bottom: 10px !important;
-  }
-
-  #appScreen .container > .card:nth-of-type(3) label{
-    font-size: 13px !important;
-    margin-bottom: 6px !important;
-  }
-
-  #appScreen .container > .card:nth-of-type(3) input{
-    height: 50px !important;
-    border-radius: 16px !important;
-    font-size: 16px !important;
-    padding: 0 14px !important;
-  }
-
-  #appScreen .container > .card:nth-of-type(3) .grid{
-    gap: 10px !important;
-  }
-
-  #appScreen .container > .card:nth-of-type(3) .buy-row{
-    grid-template-columns: 1fr 1fr 48px !important;
-    gap: 8px !important;
-    margin-bottom: 8px !important;
-  }
-
-  #appScreen .container > .card:nth-of-type(3) .delete{
-    min-height: 50px !important;
-    border-radius: 16px !important;
-    font-size: 22px !important;
-  }
-
-  #appScreen .container > .card:nth-of-type(3) .primary,
-  #appScreen .container > .card:nth-of-type(3) .save,
-  #appScreen .container > .card:nth-of-type(3) .secondary{
-    min-height: 42px !important;
-    font-size: 14px !important;
-    border-radius: 14px !important;
-  }
-
-  #appScreen .container > .card:nth-of-type(3) .save,
-  #appScreen .container > .card:nth-of-type(3) .secondary{
-    margin-top: 7px !important;
-  }
-
-  @media (max-width: 520px){
-    #appScreen .container > .card:nth-of-type(3){
-      padding: 14px !important;
-    }
-
-    #appScreen .container > .card:nth-of-type(3) input{
-      height: 48px !important;
-    }
-  }
-</style>
-
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
-
-
-<style id="login-redesign-v2">
-  body{
-    font-family: "Inter","Noto Sans TC",-apple-system,BlinkMacSystemFont,"PingFang TC","Segoe UI",sans-serif !important;
-  }
-
-  h1,.title,.login-hero-title,.login-card-title,.average,.history-name{
-    font-family: "Noto Sans TC","Inter",-apple-system,BlinkMacSystemFont,"PingFang TC","Segoe UI",sans-serif !important;
-  }
-
-  .login-screen{
-    min-height:100svh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:32px 18px;
-    background:
-      radial-gradient(circle at 80% 0%, rgba(59,130,246,.20), transparent 26%),
-      radial-gradient(circle at 15% 100%, rgba(37,99,235,.10), transparent 26%),
-      linear-gradient(180deg,#07101f 0%, #0b1430 48%, #091426 100%) !important;
-  }
-
-  .login-wrap{
-    width:100%;
-    max-width:430px;
-  }
-
-  .login-brand{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    padding:8px 14px;
-    border-radius:999px;
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.10);
-    color:#dbe7ff;
-    font-size:12px;
-    font-weight:800;
-    letter-spacing:.14em;
-    backdrop-filter: blur(10px);
-    margin-bottom:16px;
-  }
-
-  .login-hero-title{
-    margin:0;
-    color:#ffffff;
-    font-size:34px;
-    line-height:1.15;
-    font-weight:900;
-    letter-spacing:-1.2px;
-    text-shadow:none;
-    text-align:left;
-  }
-
-  .login-hero-sub{
-    margin-top:12px;
-    color:#a9b5ca;
-    font-size:15px;
-    line-height:1.65;
-    text-align:left;
-    max-width:360px;
-  }
-
-  .login-card{
-    margin-top:22px;
-    position:relative;
-    overflow:hidden;
-    width:100%;
-    max-width:none;
-    padding:24px 22px 20px;
-    border-radius:28px;
-    background:linear-gradient(180deg,rgba(255,255,255,.96) 0%, rgba(247,250,255,.94) 100%) !important;
-    border:1px solid rgba(255,255,255,.60);
-    box-shadow:0 26px 65px rgba(2,8,23,.28);
-  }
-
-  .login-card::before{
-    content:"";
-    position:absolute;
-    right:-30px;
-    top:-30px;
-    width:160px;
-    height:160px;
-    border-radius:50%;
-    background:radial-gradient(circle, rgba(59,130,246,.18), transparent 70%);
-    pointer-events:none;
-  }
-
-  .login-card-top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    margin-bottom:18px;
-    position:relative;
-    z-index:1;
-  }
-
-  .login-card-title{
-    font-size:24px;
-    line-height:1.1;
-    font-weight:900;
-    color:#0f172a;
-    letter-spacing:-.6px;
-  }
-
-  .login-card-hint{
-    padding:8px 12px;
-    border-radius:999px;
-    background:#eef4ff;
-    color:#2457d6;
-    font-size:12px;
-    font-weight:800;
-    white-space:nowrap;
-  }
-
-  .login-card label{
-    color:#64748b !important;
-    font-size:14px !important;
-    font-weight:800 !important;
-    margin-bottom:8px !important;
-  }
-
-  .password-wrap{
-    position:relative;
-  }
-
-  .password-wrap input{
-    height:56px !important;
-    padding:0 82px 0 16px !important;
-    border:2px solid #d9e2ef !important;
-    border-radius:18px !important;
-    background:#ffffff !important;
-    color:#0f172a !important;
-    font-size:18px !important;
-    box-shadow:none !important;
-  }
-
-  .password-wrap input::placeholder{
-    color:#a3afc0 !important;
-  }
-
-  .password-wrap input:focus{
-    border-color:#4f86ff !important;
-    box-shadow:0 0 0 4px rgba(59,130,246,.14) !important;
-  }
-
-  .toggle-pass{
-    position:absolute;
-    right:6px;
-    top:50%;
-    transform:translateY(-50%);
-    min-width:64px;
-    height:44px;
-    border-radius:14px;
-    background:#f2f5fa !important;
-    color:#334155 !important;
-    border:1px solid #e2e8f0 !important;
-    font-size:14px !important;
-    font-weight:800 !important;
-    padding:0 12px !important;
-  }
-
-  .login-btn{
-    width:100%;
-    min-height:54px;
-    border-radius:18px !important;
-    margin-top:10px;
-    background:linear-gradient(135deg,#2457d6 0%, #3d8bff 100%) !important;
-    color:#ffffff !important;
-    font-size:17px !important;
-    font-weight:900 !important;
-    letter-spacing:.2px;
-    box-shadow:0 14px 30px rgba(37,99,235,.22);
-  }
-
-  .login-meta{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-top:16px;
-  }
-
-  .login-chip{
-    padding:8px 12px;
-    border-radius:999px;
-    background:#f3f7fc;
-    color:#55657d;
-    font-size:12px;
-    font-weight:800;
-    border:1px solid #e7eef7;
-  }
-
-  .login-note{
-    margin-top:14px;
-    color:#94a3b8 !important;
-    font-size:12px !important;
-    line-height:1.6;
-    text-align:center;
-  }
-
-  .login-error{
-    min-height:18px;
-    margin-top:8px;
-    color:#dc2626;
-    font-size:13px;
-    font-weight:700;
-  }
-
-  @media (max-width:520px){
-    .login-screen{
-      padding:26px 16px;
-    }
-
-    .login-brand{
-      margin-bottom:14px;
-    }
-
-    .login-hero-title{
-      font-size:30px;
-    }
-
-    .login-hero-sub{
-      font-size:14px;
-      margin-top:10px;
-    }
-
-    .login-card{
-      margin-top:18px;
-      padding:22px 18px 18px;
-      border-radius:24px;
-    }
-
-    .login-card-title{
-      font-size:22px;
-    }
-  }
-</style>
-
-
-<style id="login-fixed-light-font">
-  /* 登入頁固定在一個畫面，不允許上下滑動 */
-  #loginScreen.login-screen{
-    height:100svh !important;
-    min-height:100svh !important;
-    overflow:hidden !important;
-    padding:18px 16px !important;
-    align-items:center !important;
-  }
-
-  .login-wrap{
-    max-height:calc(100svh - 36px) !important;
-    overflow:hidden !important;
-  }
-
-  .login-card{
-    margin-top:16px !important;
-    padding:18px 18px 16px !important;
-    border-radius:22px !important;
-  }
-
-  .login-brand{
-    margin-bottom:10px !important;
-    padding:6px 11px !important;
-    font-size:11px !important;
-    font-weight:500 !important;
-  }
-
-  .login-hero-title{
-    font-size:28px !important;
-    font-weight:500 !important;
-    letter-spacing:-.5px !important;
-  }
-
-  .login-hero-sub{
-    margin-top:8px !important;
-    font-size:13px !important;
-    line-height:1.45 !important;
-    font-weight:400 !important;
-  }
-
-  .login-card-top{
-    margin-bottom:14px !important;
-  }
-
-  .login-card-title{
-    font-size:21px !important;
-    font-weight:500 !important;
-  }
-
-  .login-card-hint{
-    padding:6px 10px !important;
-    font-size:11px !important;
-    font-weight:500 !important;
-  }
-
-  .login-card label{
-    font-size:13px !important;
-    font-weight:400 !important;
-  }
-
-  .password-wrap input{
-    height:50px !important;
-    font-size:16px !important;
-    font-weight:400 !important;
-    border-radius:15px !important;
-  }
-
-  .toggle-pass{
-    height:38px !important;
-    min-width:58px !important;
-    font-size:13px !important;
-    font-weight:400 !important;
-    border-radius:11px !important;
-  }
-
-  .login-btn{
-    min-height:48px !important;
-    margin-top:6px !important;
-    font-size:16px !important;
-    font-weight:500 !important;
-    border-radius:15px !important;
-  }
-
-  .login-meta{
-    margin-top:12px !important;
-    gap:6px !important;
-  }
-
-  .login-chip{
-    padding:6px 9px !important;
-    font-size:11px !important;
-    font-weight:400 !important;
-  }
-
-  .login-note{
-    margin-top:10px !important;
-    font-size:11px !important;
-    line-height:1.45 !important;
-    font-weight:400 !important;
-  }
-
-  /* 全站取消粗體感 */
-  body,
-  input,
-  button,
-  label,
-  .status,
-  .small,
-  .stat-label,
-  .stat-value,
-  .difference,
-  .title,
-  .average,
-  .history-name,
-  h1{
-    font-weight:400 !important;
-  }
-
-  .average{
-    font-weight:500 !important;
-  }
-
-  .history-name,
-  .title,
-  h1{
-    font-weight:500 !important;
-  }
-
-  .primary,
-  .save,
-  .secondary,
-  .logout,
-  .load,
-  .remove,
-  .modal-btn{
-    font-weight:500 !important;
-  }
-
-  @media (max-height:700px){
-    #loginScreen.login-screen{
-      padding:12px 14px !important;
-    }
-
-    .login-brand{
-      margin-bottom:6px !important;
-    }
-
-    .login-hero-title{
-      font-size:25px !important;
-    }
-
-    .login-hero-sub{
-      margin-top:5px !important;
-    }
-
-    .login-card{
-      margin-top:10px !important;
-      padding:14px 16px !important;
-    }
-
-    .login-card-top{
-      margin-bottom:10px !important;
-    }
-
-    .login-meta{
-      margin-top:8px !important;
-    }
-
-    .login-note{
-      margin-top:7px !important;
-    }
-  }
-</style>
-
 </head>
+
 <body>
 
+  <!-- LOGIN -->
+  <section id="loginScreen" class="login-screen">
+    <div class="login-shell">
+      <div class="login-kicker">AVERAGE PRICE</div>
+      <h1 class="login-title">平均價格計算器</h1>
+      <div class="login-subtitle">輸入密碼後，即可查看與同步你的計算紀錄。</div>
 
-<div id="loginScreen" class="login-screen">
-  <div class="login-wrap">
-    <div class="login-brand">AVERAGE PRICE</div>
-    <h1 class="login-hero-title">平均價格計算器</h1>
-    <div class="login-hero-sub">輸入密碼後，快速查看與同步你的平均價格紀錄</div>
-
-    <div class="login-card">
-      <div class="login-card-top">
-        <div class="login-card-title">登入</div>
-        <div class="login-card-hint">3 碼以上即可進入</div>
-      </div>
-
-      <div class="group">
-        <label>密碼</label>
-        <div class="password-wrap">
-          <input id="passwordInput" type="password" placeholder="輸入密碼" minlength="3" autocomplete="current-password">
-          <button type="button" class="toggle-pass" onclick="togglePassword()">顯示</button>
+      <div class="login-card">
+        <div class="login-row">
+          <div class="login-heading">登入</div>
+          <div class="login-hint">3 碼以上</div>
         </div>
-        <div id="loginError" class="login-error"></div>
+
+        <div class="field">
+          <label class="field-label" for="passwordInput">密碼</label>
+          <div class="password-wrap">
+            <input
+              id="passwordInput"
+              class="text-input password-input"
+              type="password"
+              minlength="3"
+              placeholder="輸入密碼"
+              autocomplete="current-password"
+            >
+            <button type="button" class="show-password" onclick="togglePassword()">顯示</button>
+          </div>
+          <div id="loginError" class="login-error"></div>
+        </div>
+
+        <button class="login-button" onclick="enterApp()">進入計算器</button>
+        <div class="login-note">同一組密碼可在不同裝置使用相同紀錄。</div>
       </div>
+    </div>
+  </section>
 
-      <button class="login-btn" onclick="enterApp()">進入計算器</button>
+  <!-- APP -->
+  <main id="appScreen" class="app-screen hidden">
+    <div class="container">
+      <h1 class="app-title">平均價格計算器</h1>
 
-      <div class="login-meta">
-        <div class="login-chip">多裝置同步</div>
-        <div class="login-chip">雲端紀錄</div>
-        <div class="login-chip">快速計算</div>
+      <!-- Sync -->
+      <section class="card sync-card">
+        <div class="section-title">目前同步帳號</div>
+
+        <div class="sync-top">
+          <div id="activeCode" class="connection-pill">已連線</div>
+          <div id="syncStatus" class="sync-status">尚未同步</div>
+        </div>
+
+        <div id="syncMessage" class="sync-message"></div>
+
+        <div class="sync-actions">
+          <button class="small-button button-muted" onclick="syncNow()">立即同步</button>
+          <button class="small-button button-danger-soft" onclick="logout()">登出 / 更換密碼</button>
+        </div>
+      </section>
+
+      <!-- Result -->
+      <section class="card result-card">
+        <div class="result-label">買入後平均價格</div>
+        <div id="average" class="result-value">0.00</div>
+
+        <div class="summary-box">
+          <div class="summary-label">總數量</div>
+          <div id="totalQty" class="summary-value">0.00</div>
+        </div>
+
+        <div id="difference" class="difference-box">輸入目前持有資料後自動計算</div>
+      </section>
+
+      <!-- Form -->
+      <section class="card form-card">
+        <div class="section-title">計算資料</div>
+
+        <div class="field">
+          <label class="field-label" for="calcName">名稱</label>
+          <input
+            id="calcName"
+            class="text-input"
+            type="text"
+            inputmode="latin"
+            autocomplete="off"
+            autocapitalize="characters"
+            placeholder="例如 BTC、ETH、SOXL"
+            oninput="normalizeName(this)"
+          >
+        </div>
+
+        <div class="two-column">
+          <div class="field">
+            <label class="field-label" for="currentPrice">目前平均價格</label>
+            <input
+              id="currentPrice"
+              class="text-input"
+              type="number"
+              step="any"
+              inputmode="decimal"
+              oninput="calculate()"
+            >
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="currentQty">目前持有數量</label>
+            <input
+              id="currentQty"
+              class="text-input"
+              type="number"
+              step="any"
+              inputmode="decimal"
+              oninput="calculate()"
+            >
+          </div>
+        </div>
+
+        <div class="subheading">新增買入</div>
+        <div id="rows"></div>
+
+        <button class="form-button add-buy" onclick="addRow()">＋ 新增一筆買入</button>
+        <button class="form-button save-cloud" onclick="saveToCloud()">儲存到雲端</button>
+        <button class="form-button clear-inputs" onclick="clearInputs()">清除目前輸入</button>
+      </section>
+
+      <!-- History -->
+      <section class="card history-card">
+        <div class="section-title">紀錄</div>
+        <div id="historyList">
+          <div class="empty-state">登入後會自動同步</div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Hidden POST bridge -->
+  <iframe name="hiddenFrame" style="display:none"></iframe>
+  <form
+    id="hiddenForm"
+    action="https://script.google.com/macros/s/AKfycbxRr2tWrw3Y1QxquWXqwDHac6itRuu79o2B5LDCmA5JS7V225CV_Fiaj4kOxiAuj9jj/exec"
+    method="POST"
+    target="hiddenFrame"
+    style="display:none"
+  >
+    <input type="hidden" name="payload" id="payloadField">
+  </form>
+
+  <!-- Delete Modal -->
+  <div id="confirmModal" class="modal-overlay hidden" onclick="handleOverlayClick(event)">
+    <div class="modal">
+      <div class="modal-title">刪除紀錄</div>
+      <div class="modal-text">這筆紀錄刪除後無法復原，確定要刪除嗎？</div>
+
+      <div class="modal-actions">
+        <button class="modal-button modal-cancel" onclick="closeDeleteModal()">取消</button>
+        <button class="modal-button modal-delete" onclick="confirmDelete()">確定刪除</button>
       </div>
-
-      <div class="login-note">同一組密碼可在不同裝置讀取相同紀錄。</div>
     </div>
   </div>
-</div>
 
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbxRr2tWrw3Y1QxquWXqwDHac6itRuu79o2B5LDCmA5JS7V225CV_Fiaj4kOxiAuj9jj/exec";
+    let currentSyncCode = "";
+    let pendingDeleteId = null;
 
-<div id="appScreen" class="screen hidden">
-  <div class="container">
-    <h1>平均價格計算器</h1>
+    const rowsEl = document.getElementById("rows");
+    const averageEl = document.getElementById("average");
+    const totalQtyEl = document.getElementById("totalQty");
+    const differenceEl = document.getElementById("difference");
+    const syncStatusEl = document.getElementById("syncStatus");
+    const syncMessageEl = document.getElementById("syncMessage");
 
-    <div class="card">
-      <div class="title">目前同步帳號</div>
-      <div class="active-code" id="activeCode">—</div>
-      <div class="status" id="syncStatus">尚未同步</div>
-<div id="syncMessage" class="sync-message"></div>
-      <button class="secondary" onclick="syncNow()">立即同步</button>
-      <button class="logout" onclick="logout()">登出 / 更換密碼</button>
-    </div>
+    function togglePassword() {
+      const input = document.getElementById("passwordInput");
+      const button = document.querySelector(".show-password");
 
-    <div class="result-card">
-      <div class="result-title">買入後平均價格</div>
-      <div class="average" id="average">0.00</div>
-      <div class="summary">
-        <div class="summary-box"><div class="small">總數量</div><div class="value" id="totalQty">0.00</div></div>
-      </div>
-      <div class="difference" id="difference">輸入資料後自動計算</div>
-    </div>
+      const showing = input.type === "text";
+      input.type = showing ? "password" : "text";
+      button.textContent = showing ? "顯示" : "隱藏";
+    }
 
-    <div class="card">
-      <div class="title">計算資料</div>
-      <div class="group"><label>名稱</label><input id="calcName" placeholder="例如 BTC、ETH、SOXL" inputmode="latin" autocapitalize="characters" autocomplete="off" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z]/g, '')"></div>
-      <div class="grid">
-        <div class="group"><label>目前平均價格</label><input id="currentPrice" type="number" step="any" oninput="calculate()"></div>
-        <div class="group"><label>目前持有數量</label><input id="currentQty" type="number" step="any" oninput="calculate()"></div>
-      </div>
-      <div class="title" style="font-size:14px">新增買入</div>
-      <div id="rows"></div>
-      <button class="primary" onclick="addRow()">＋ 新增一筆買入</button>
-      <button class="save" onclick="saveToCloud()">儲存到雲端</button>
-      <button class="secondary" onclick="clearInputs()">清除目前輸入</button>
-    </div>
+    function enterApp() {
+      const password = document.getElementById("passwordInput").value.trim();
+      const error = document.getElementById("loginError");
 
-    <div class="card">
-      <div class="title">紀錄</div>
-      <div id="historyList"><div class="empty">登入後會自動同步</div></div>
-    </div>
-  </div>
-</div>
+      if (password.length < 3) {
+        error.textContent = "密碼至少需要 3 碼";
+        return;
+      }
 
-<iframe name="hiddenFrame" style="display:none"></iframe>
-<form id="hiddenForm" action="https://script.google.com/macros/s/AKfycbxRr2tWrw3Y1QxquWXqwDHac6itRuu79o2B5LDCmA5JS7V225CV_Fiaj4kOxiAuj9jj/exec" method="POST" target="hiddenFrame" style="display:none">
-  <input type="hidden" name="payload" id="payloadField">
-</form>
+      error.textContent = "";
+      currentSyncCode = password;
+      sessionStorage.setItem("avg_session_code", password);
 
+      document.getElementById("loginScreen").classList.add("hidden");
+      document.getElementById("appScreen").classList.remove("hidden");
 
-<div id="confirmModal" class="modal-overlay hidden" onclick="closeDeleteModal(event)">
-  <div class="modal-box">
-    <div class="modal-title">刪除紀錄</div>
-    <div class="modal-text">這筆紀錄刪除後就無法復原，確定要刪除嗎？</div>
-    <div class="modal-actions">
-      <button class="modal-btn modal-cancel" type="button" onclick="closeDeleteModal()">取消</button>
-      <button class="modal-btn modal-confirm" type="button" onclick="confirmDelete()">確定刪除</button>
-    </div>
-  </div>
-</div>
+      loadHistory();
+    }
 
-<script>
-const API_URL = "https://script.google.com/macros/s/AKfycbxRr2tWrw3Y1QxquWXqwDHac6itRuu79o2B5LDCmA5JS7V225CV_Fiaj4kOxiAuj9jj/exec";
-const rows = document.getElementById("rows");
-let currentSyncCode = "";
-let pendingDeleteId = null;
+    function logout() {
+      closeDeleteModal();
 
-function togglePassword(){
-  const input = document.getElementById("passwordInput");
-  const btn = document.querySelector(".toggle-pass");
-  if(input.type === "password"){
-    input.type = "text";
-    btn.textContent = "隱藏";
-  } else {
-    input.type = "password";
-    btn.textContent = "顯示";
-  }
-}
+      sessionStorage.removeItem("avg_session_code");
+      currentSyncCode = "";
 
-function enterApp(){
-  const code = document.getElementById("passwordInput").value.trim();
-  const error = document.getElementById("loginError");
+      document.getElementById("passwordInput").value = "";
+      document.getElementById("appScreen").classList.add("hidden");
+      document.getElementById("loginScreen").classList.remove("hidden");
 
-  if(code.length < 3){
-    error.textContent = "密碼至少輸入 3 個字元";
-    return;
-  }
+      document.getElementById("historyList").innerHTML =
+        '<div class="empty-state">登入後會自動同步</div>';
 
-  error.textContent = "";
-  currentSyncCode = code;
-  sessionStorage.setItem("avg_session_code", code);
+      setSyncStatus("尚未同步");
+      clearSyncMessage();
+    }
 
-  document.getElementById("activeCode").textContent = "已連線";
-  document.getElementById("loginScreen").classList.add("hidden");
-  document.getElementById("appScreen").classList.remove("hidden");
+    function normalizeName(input) {
+      input.value = input.value
+        .toUpperCase()
+        .replace(/[^A-Z]/g, "");
+    }
 
-  loadHistory();
-}
+    function addRow(price = "", qty = "") {
+      const row = document.createElement("div");
+      row.className = "buy-row";
 
-function logout(){
-  closeDeleteModal();
-  sessionStorage.removeItem("avg_session_code");
-  currentSyncCode = "";
-  document.getElementById("passwordInput").value = "";
-  document.getElementById("appScreen").classList.add("hidden");
-  document.getElementById("loginScreen").classList.remove("hidden");
-  document.getElementById("historyList").innerHTML = '<div class="empty">登入後會自動同步</div>';
-}
+      row.innerHTML = `
+        <input
+          class="text-input price"
+          type="number"
+          step="any"
+          inputmode="decimal"
+          placeholder="買入價格"
+          value="${escapeAttr(price)}"
+          oninput="calculate()"
+        >
+        <input
+          class="text-input qty"
+          type="number"
+          step="any"
+          inputmode="decimal"
+          placeholder="數量"
+          value="${escapeAttr(qty)}"
+          oninput="calculate()"
+        >
+        <button class="remove-buy" onclick="removeRow(this)" aria-label="刪除此筆">×</button>
+      `;
 
-function addRow(price="", qty=""){
-  const row=document.createElement("div");
-  row.className="buy-row";
-  row.innerHTML=`<input type="number" class="price" step="any" placeholder="買入價格" value="${price}" oninput="calculate()">
-  <input type="number" class="qty" step="any" placeholder="數量" value="${qty}" oninput="calculate()">
-  <button class="delete" onclick="removeRow(this)">×</button>`;
-  rows.appendChild(row);
-}
+      rowsEl.appendChild(row);
+    }
 
-function removeRow(btn){btn.parentElement.remove();if(!rows.children.length)addRow();calculate();}
+    function removeRow(button) {
+      button.closest(".buy-row").remove();
 
-function getData(){
-  const currentPrice=parseFloat(document.getElementById("currentPrice").value)||0;
-  const currentQty=parseFloat(document.getElementById("currentQty").value)||0;
-  let totalQty=currentQty,totalCost=currentPrice*currentQty;
-  const buys=[];
-  document.querySelectorAll(".buy-row").forEach(row=>{
-    const p=parseFloat(row.querySelector(".price").value),q=parseFloat(row.querySelector(".qty").value);
-    if(!isNaN(p)&&!isNaN(q)&&q>0){buys.push({price:p,qty:q});totalQty+=q;totalCost+=p*q;}
-  });
-  return {currentPrice,currentQty,buys,totalQty,totalCost,average:totalQty>0?totalCost/totalQty:0};
-}
+      if (!rowsEl.children.length) {
+        addRow();
+      }
 
-function fmt(n,d=4){return Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:d});}
+      calculate();
+    }
 
-function calculate(){
-  const d=getData();
-  document.getElementById("average").textContent=fmt(d.average,4);
-  document.getElementById("totalQty").textContent=fmt(d.totalQty,8);
-  const difference=document.getElementById("difference");
-  if(d.currentPrice>0&&d.currentQty>0){
-    const diff=d.average-d.currentPrice,pct=diff/d.currentPrice*100;
-    difference.textContent=diff<0?`平均價降低 ${fmt(Math.abs(diff),4)}（${Math.abs(pct).toFixed(2)}%）`:diff>0?`平均價提高 ${fmt(diff,4)}（${pct.toFixed(2)}%）`:"平均價格沒有變化";
-  }else difference.textContent="輸入目前持有資料後自動計算";
-}
+    function getCalculationData() {
+      const currentPrice =
+        parseFloat(document.getElementById("currentPrice").value) || 0;
 
-function getSyncCode(){return currentSyncCode;}
-function setStatus(t){document.getElementById("syncStatus").textContent=t;}
+      const currentQty =
+        parseFloat(document.getElementById("currentQty").value) || 0;
 
+      let totalQty = currentQty;
+      let totalCost = currentPrice * currentQty;
 
-function showSyncMessage(message, type="info", withRetry=false){
-  const box = document.getElementById("syncMessage");
-  if(!box) return;
-  box.className = `sync-message show ${type}`;
-  box.innerHTML = `${escapeHtml(message)}${withRetry ? '<br><button class="retry-btn" onclick="syncNow()">重新同步</button>' : ''}`;
-}
+      const buys = [];
 
-function clearSyncMessage(){
-  const box = document.getElementById("syncMessage");
-  if(!box) return;
-  box.className = "sync-message";
-  box.innerHTML = "";
-}
+      document.querySelectorAll(".buy-row").forEach(row => {
+        const price = parseFloat(row.querySelector(".price").value);
+        const qty = parseFloat(row.querySelector(".qty").value);
 
-function saveToCloud(){
-  const syncCode=getSyncCode(),name=document.getElementById("calcName").value.trim().toUpperCase(),d=getData();
-  if(!syncCode){ showSyncMessage("請先輸入密碼登入","error"); return; }
-  if(!name){ showSyncMessage("請輸入名稱","error"); return; }
-  if(d.totalQty<=0){ showSyncMessage("請輸入價格與數量","error"); return; }
+        if (!Number.isNaN(price) && !Number.isNaN(qty) && qty > 0) {
+          buys.push({ price, qty });
+          totalQty += qty;
+          totalCost += price * qty;
+        }
+      });
 
-  document.getElementById("payloadField").value=JSON.stringify({action:"save",syncCode,name,...d});
-  setStatus("正在儲存…"); clearSyncMessage(); showSyncMessage("正在儲存到雲端…","info");
-  document.getElementById("hiddenForm").submit();
+      return {
+        currentPrice,
+        currentQty,
+        buys,
+        totalQty,
+        totalCost,
+        average: totalQty > 0 ? totalCost / totalQty : 0
+      };
+    }
 
-  setTimeout(()=>{
-    setStatus("已送出，正在更新紀錄…"); showSyncMessage("資料已送出，正在更新紀錄…","info");
-    loadHistory();
-  },1200);
-}
+    function calculate() {
+      const data = getCalculationData();
 
-function jsonp(url){
-  return new Promise((resolve,reject)=>{
-    const cb="cb_"+Date.now()+"_"+Math.floor(Math.random()*100000);
-    const s=document.createElement("script");
-    let done=false;
-    window[cb]=(data)=>{done=true;resolve(data);cleanup();};
-    function cleanup(){delete window[cb];s.remove();}
-    s.onerror=()=>{if(!done)reject(new Error("無法連線到雲端"));cleanup();};
-    s.src=url+(url.includes("?")?"&":"?")+"callback="+encodeURIComponent(cb);
-    document.body.appendChild(s);
-    setTimeout(()=>{if(!done){reject(new Error("同步逾時"));cleanup();}},10000);
-  });
-}
+      averageEl.textContent = formatNumber(data.average, 4);
+      totalQtyEl.textContent = formatNumber(data.totalQty, 8);
 
-async function syncNow(){
-  if(!getSyncCode()){ showSyncMessage("請先輸入密碼登入","error"); return; }
-  await loadHistory();
-}
+      if (data.currentPrice > 0 && data.currentQty > 0) {
+        const diff = data.average - data.currentPrice;
+        const pct = (diff / data.currentPrice) * 100;
 
-async function loadHistory(){
-  const syncCode=getSyncCode();
-  if(!syncCode)return;
-  setStatus("正在同步…"); clearSyncMessage(); showSyncMessage("正在同步資料…","info");
-  try{
-    const data=await jsonp(`${API_URL}?action=list&syncCode=${encodeURIComponent(syncCode)}`);
-    if(!data.ok)throw new Error(data.error||"讀取失敗");
-    renderHistory(data.records||[]);
-    setStatus("同步完成"); showSyncMessage("同步完成","success");
-  }catch(e){ setStatus("同步失敗"); showSyncMessage(e.message || "同步失敗，請稍後再試","error",true); }
-}
+        if (diff < 0) {
+          differenceEl.textContent =
+            `平均價降低 ${formatNumber(Math.abs(diff), 4)}（${Math.abs(pct).toFixed(2)}%）`;
+        } else if (diff > 0) {
+          differenceEl.textContent =
+            `平均價提高 ${formatNumber(diff, 4)}（${pct.toFixed(2)}%）`;
+        } else {
+          differenceEl.textContent = "平均價格沒有變化";
+        }
+      } else {
+        differenceEl.textContent = "輸入目前持有資料後自動計算";
+      }
+    }
 
-function renderHistory(records){
-  const historyList=document.getElementById("historyList");
-  if(!records.length){historyList.innerHTML='<div class="empty">這組密碼目前沒有紀錄</div>';return;}
-  historyList.innerHTML=records.map(r=>`
-    <div class="history-item">
-      <div class="history-head"><div class="history-name">${escapeHtml(r.name)}</div><div class="history-time">${formatDate(r.createdAt)}</div></div>
-      <div class="history-grid">
-        <div class="stat"><div class="stat-label">平均價格</div><div class="stat-value">${fmt(r.average,4)}</div></div>
-        <div class="stat"><div class="stat-label">總數量</div><div class="stat-value">${fmt(r.totalQty,8)}</div></div>
-      </div>
-      <div class="actions">
-        <button class="load" onclick='loadRecord(${JSON.stringify(JSON.stringify(r))})'>載入</button>
-        <button class="remove" onclick='openDeleteModal(${JSON.stringify(r.id)})'>刪除</button>
-      </div>
-    </div>`).join("");
-}
+    function clearInputs() {
+      document.getElementById("calcName").value = "";
+      document.getElementById("currentPrice").value = "";
+      document.getElementById("currentQty").value = "";
 
-function loadRecord(s){
-  const r=JSON.parse(s);
-  document.getElementById("calcName").value=(r.name||"").toUpperCase();
-  document.getElementById("currentPrice").value=r.currentPrice||"";
-  document.getElementById("currentQty").value=r.currentQty||"";
-  rows.innerHTML="";
-  (r.buys||[]).forEach(b=>addRow(b.price,b.qty));
-  if(!rows.children.length)addRow();
-  calculate();
-  scrollTo({top:0,behavior:"smooth"});
-}
+      rowsEl.innerHTML = "";
+      addRow();
+      calculate();
+    }
 
-function openDeleteModal(id){
-  pendingDeleteId = id;
-  const modal = document.getElementById("confirmModal");
-  if(modal) modal.classList.remove("hidden");
-}
+    function getSyncCode() {
+      return currentSyncCode;
+    }
 
-function closeDeleteModal(event){
-  if(event && event.target && event.target.id !== "confirmModal") return;
-  const modal = document.getElementById("confirmModal");
-  if(modal) modal.classList.add("hidden");
-  pendingDeleteId = null;
-}
+    function setSyncStatus(text) {
+      syncStatusEl.textContent = text;
+    }
 
-function confirmDelete(){
-  if(!pendingDeleteId) return;
-  document.getElementById("payloadField").value = JSON.stringify({
-    action:"delete",
-    syncCode:getSyncCode(),
-    id:pendingDeleteId
-  });
-  document.getElementById("hiddenForm").submit();
-  setStatus("正在刪除…");
-  showSyncMessage("正在刪除紀錄…","info");
-  closeDeleteModal();
-  setTimeout(loadHistory,1200);
-}
+    function showSyncMessage(message, type = "info", retry = false) {
+      syncMessageEl.className = `sync-message show ${type}`;
 
-function clearInputs(){
-  document.getElementById("calcName").value="";
-  document.getElementById("currentPrice").value="";
-  document.getElementById("currentQty").value="";
-  rows.innerHTML="";
-  addRow();
-  calculate();
-}
+      syncMessageEl.innerHTML =
+        `${escapeHtml(message)}` +
+        (retry
+          ? '<br><button class="retry-button" onclick="syncNow()">重新同步</button>'
+          : "");
+    }
 
-function formatDate(v){const d=new Date(v);return isNaN(d)?"":d.toLocaleString("zh-TW");}
-function escapeHtml(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");}
+    function clearSyncMessage() {
+      syncMessageEl.className = "sync-message";
+      syncMessageEl.innerHTML = "";
+    }
 
-document.getElementById("passwordInput").addEventListener("keydown",e=>{if(e.key==="Enter")enterApp();});
-document.addEventListener("keydown",e=>{
-  if(e.key === "Escape") closeDeleteModal();
-});
-addRow();
-calculate();
+    function saveToCloud() {
+      const syncCode = getSyncCode();
+      const name = document.getElementById("calcName").value.trim().toUpperCase();
+      const data = getCalculationData();
 
-const savedSession = sessionStorage.getItem("avg_session_code");
-if(savedSession){
-  currentSyncCode = savedSession;
-  document.getElementById("activeCode").textContent = "已連線";
-  document.getElementById("loginScreen").classList.add("hidden");
-  document.getElementById("appScreen").classList.remove("hidden");
-  loadHistory();
-}
-</script>
+      if (!syncCode) {
+        showSyncMessage("請先登入", "error");
+        return;
+      }
+
+      if (!name) {
+        showSyncMessage("請輸入名稱", "error");
+        return;
+      }
+
+      if (data.totalQty <= 0) {
+        showSyncMessage("請輸入價格與數量", "error");
+        return;
+      }
+
+      const payload = {
+        action: "save",
+        syncCode,
+        name,
+        ...data
+      };
+
+      document.getElementById("payloadField").value = JSON.stringify(payload);
+
+      setSyncStatus("正在儲存…");
+      showSyncMessage("正在儲存到雲端…", "info");
+
+      document.getElementById("hiddenForm").submit();
+
+      setTimeout(() => {
+        setSyncStatus("正在更新…");
+        loadHistory();
+      }, 1300);
+    }
+
+    function jsonp(url) {
+      return new Promise((resolve, reject) => {
+        const callbackName =
+          "jsonp_" + Date.now() + "_" + Math.floor(Math.random() * 100000);
+
+        const script = document.createElement("script");
+        let finished = false;
+
+        const cleanup = () => {
+          delete window[callbackName];
+          script.remove();
+        };
+
+        window[callbackName] = data => {
+          finished = true;
+          cleanup();
+          resolve(data);
+        };
+
+        script.onerror = () => {
+          if (!finished) {
+            cleanup();
+            reject(new Error("無法連線到雲端"));
+          }
+        };
+
+        script.src =
+          url +
+          (url.includes("?") ? "&" : "?") +
+          "callback=" +
+          encodeURIComponent(callbackName);
+
+        document.body.appendChild(script);
+
+        setTimeout(() => {
+          if (!finished) {
+            cleanup();
+            reject(new Error("同步逾時"));
+          }
+        }, 12000);
+      });
+    }
+
+    async function syncNow() {
+      if (!getSyncCode()) {
+        showSyncMessage("請先登入", "error");
+        return;
+      }
+
+      await loadHistory();
+    }
+
+    async function loadHistory() {
+      const syncCode = getSyncCode();
+      if (!syncCode) return;
+
+      setSyncStatus("正在同步…");
+      showSyncMessage("正在同步資料…", "info");
+
+      try {
+        const url =
+          `${API_URL}?action=list&syncCode=${encodeURIComponent(syncCode)}`;
+
+        const result = await jsonp(url);
+
+        if (!result.ok) {
+          throw new Error(result.error || "同步失敗");
+        }
+
+        renderHistory(result.records || []);
+
+        setSyncStatus("同步完成");
+        showSyncMessage("同步完成", "success");
+      } catch (error) {
+        setSyncStatus("同步失敗");
+        showSyncMessage(error.message || "同步失敗", "error", true);
+      }
+    }
+
+    function renderHistory(records) {
+      const list = document.getElementById("historyList");
+
+      if (!records.length) {
+        list.innerHTML =
+          '<div class="empty-state">目前沒有紀錄</div>';
+        return;
+      }
+
+      list.innerHTML = records.map(record => `
+        <div class="history-item">
+          <div class="history-head">
+            <div class="history-name">${escapeHtml(record.name || "")}</div>
+            <div class="history-time">${formatDate(record.createdAt)}</div>
+          </div>
+
+          <div class="history-grid">
+            <div class="history-stat">
+              <div class="history-stat-label">平均價格</div>
+              <div class="history-stat-value">${formatNumber(record.average, 4)}</div>
+            </div>
+
+            <div class="history-stat">
+              <div class="history-stat-label">總數量</div>
+              <div class="history-stat-value">${formatNumber(record.totalQty, 8)}</div>
+            </div>
+          </div>
+
+          <div class="history-actions">
+            <button
+              class="history-action load-record"
+              onclick='loadRecord(${JSON.stringify(JSON.stringify(record))})'
+            >載入</button>
+
+            <button
+              class="history-action delete-record"
+              onclick='openDeleteModal(${JSON.stringify(record.id)})'
+            >刪除</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function loadRecord(serialized) {
+      const record = JSON.parse(serialized);
+
+      document.getElementById("calcName").value =
+        String(record.name || "").toUpperCase();
+
+      document.getElementById("currentPrice").value =
+        record.currentPrice || "";
+
+      document.getElementById("currentQty").value =
+        record.currentQty || "";
+
+      rowsEl.innerHTML = "";
+
+      (record.buys || []).forEach(buy => {
+        addRow(buy.price, buy.qty);
+      });
+
+      if (!rowsEl.children.length) {
+        addRow();
+      }
+
+      calculate();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    function openDeleteModal(id) {
+      pendingDeleteId = id;
+      document.getElementById("confirmModal").classList.remove("hidden");
+    }
+
+    function closeDeleteModal() {
+      pendingDeleteId = null;
+      document.getElementById("confirmModal").classList.add("hidden");
+    }
+
+    function handleOverlayClick(event) {
+      if (event.target.id === "confirmModal") {
+        closeDeleteModal();
+      }
+    }
+
+    function confirmDelete() {
+      if (!pendingDeleteId) return;
+
+      const payload = {
+        action: "delete",
+        syncCode: getSyncCode(),
+        id: pendingDeleteId
+      };
+
+      document.getElementById("payloadField").value =
+        JSON.stringify(payload);
+
+      document.getElementById("hiddenForm").submit();
+
+      setSyncStatus("正在刪除…");
+      showSyncMessage("正在刪除紀錄…", "info");
+
+      closeDeleteModal();
+
+      setTimeout(loadHistory, 1300);
+    }
+
+    function formatNumber(value, maxDecimals) {
+      return Number(value || 0).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: maxDecimals
+      });
+    }
+
+    function formatDate(value) {
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) return "";
+
+      return date.toLocaleString("zh-TW", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function escapeAttr(value) {
+      return escapeHtml(value);
+    }
+
+    document.getElementById("passwordInput")
+      .addEventListener("keydown", event => {
+        if (event.key === "Enter") {
+          enterApp();
+        }
+      });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        closeDeleteModal();
+      }
+    });
+
+    addRow();
+    calculate();
+
+    const savedSession = sessionStorage.getItem("avg_session_code");
+
+    if (savedSession) {
+      currentSyncCode = savedSession;
+
+      document.getElementById("loginScreen").classList.add("hidden");
+      document.getElementById("appScreen").classList.remove("hidden");
+
+      loadHistory();
+    }
+  </script>
 </body>
 </html>
