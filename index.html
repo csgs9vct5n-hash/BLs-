@@ -776,6 +776,238 @@ button {
   }
 </style>
 
+
+<style id="advanced-tools-theme">
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin:8px 0 18px;
+  }
+
+  .topbar .app-title{
+    margin:0 !important;
+    flex:1;
+    text-align:left;
+  }
+
+  .theme-toggle{
+    flex-shrink:0;
+    min-height:38px;
+    padding:0 12px;
+    border-radius:12px;
+    background:#e9eef5;
+    color:#334155;
+    font-size:13px;
+  }
+
+  .tool-card{
+    padding:15px;
+  }
+
+  .tool-card .section-title{
+    margin-bottom:10px;
+    font-size:17px;
+  }
+
+  .tool-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:9px;
+  }
+
+  .tool-result{
+    margin-top:10px;
+    padding:12px;
+    border-radius:15px;
+    background:#f4f7fb;
+    color:#334155;
+    font-size:13px;
+    line-height:1.55;
+  }
+
+  .tool-result strong{
+    font-weight:500;
+    color:#172033;
+  }
+
+  .scenario-controls{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:9px;
+  }
+
+  .scenario-table{
+    margin-top:10px;
+    border:1px solid #e3eaf2;
+    border-radius:16px;
+    overflow:hidden;
+    background:#fff;
+  }
+
+  .scenario-head,
+  .scenario-row{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:0;
+  }
+
+  .scenario-head{
+    background:#f3f6fa;
+    color:#6b778c;
+    font-size:11px;
+  }
+
+  .scenario-head > div,
+  .scenario-row > div{
+    padding:10px 8px;
+    text-align:center;
+  }
+
+  .scenario-row{
+    border-top:1px solid #e9eef4;
+    color:#172033;
+    font-size:13px;
+  }
+
+  .scenario-row .scenario-avg{
+    font-weight:500;
+  }
+
+  .scenario-input-row{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px;
+    gap:8px;
+    margin-top:8px;
+  }
+
+  .scenario-remove{
+    height:48px;
+    border-radius:14px;
+    background:var(--red-soft);
+    color:var(--red);
+    font-size:20px;
+  }
+
+  .scenario-add{
+    width:100%;
+    min-height:40px;
+    margin-top:8px;
+    border-radius:13px;
+    background:#eef2f6;
+    color:#435168;
+    font-size:13px;
+  }
+
+  /* Dark mode */
+  body.dark-mode{
+    background:
+      radial-gradient(circle at 82% 0%, rgba(59,130,246,.18), transparent 28%),
+      linear-gradient(180deg,#07101f 0%,#0b1730 46%,#0a1426 100%) !important;
+    color:#f8fafc !important;
+  }
+
+  body.dark-mode .login-screen{
+    background:
+      radial-gradient(circle at 82% 0%, rgba(59,130,246,.20), transparent 30%),
+      linear-gradient(180deg,#07101f 0%,#0b1730 100%) !important;
+  }
+
+  body.dark-mode .login-title,
+  body.dark-mode .app-title{
+    color:#fff !important;
+  }
+
+  body.dark-mode .login-subtitle{
+    color:#a6b3c7 !important;
+  }
+
+  body.dark-mode .login-card,
+  body.dark-mode .card,
+  body.dark-mode .result-card,
+  body.dark-mode .history-item,
+  body.dark-mode .scenario-table{
+    background:#111827 !important;
+    border-color:#263244 !important;
+    color:#e5edf8 !important;
+  }
+
+  body.dark-mode .section-title,
+  body.dark-mode .login-heading,
+  body.dark-mode .history-name,
+  body.dark-mode .history-stat-value,
+  body.dark-mode .summary-value,
+  body.dark-mode .result-value,
+  body.dark-mode .tool-result strong,
+  body.dark-mode .scenario-row{
+    color:#f8fafc !important;
+  }
+
+  body.dark-mode .field-label,
+  body.dark-mode .result-label,
+  body.dark-mode .summary-label,
+  body.dark-mode .history-stat-label,
+  body.dark-mode .history-time,
+  body.dark-mode .sync-status,
+  body.dark-mode .tool-result{
+    color:#aeb9c9 !important;
+  }
+
+  body.dark-mode .text-input{
+    background:#0f172a !important;
+    color:#f8fafc !important;
+    border-color:#334155 !important;
+  }
+
+  body.dark-mode .summary-box,
+  body.dark-mode .difference-box,
+  body.dark-mode .history-stat,
+  body.dark-mode .tool-result,
+  body.dark-mode .scenario-head{
+    background:#172033 !important;
+    border-color:#263244 !important;
+  }
+
+  body.dark-mode .scenario-row{
+    border-color:#263244 !important;
+  }
+
+  body.dark-mode .theme-toggle,
+  body.dark-mode .button-muted,
+  body.dark-mode .clear-inputs,
+  body.dark-mode .scenario-add{
+    background:#243041 !important;
+    color:#e5edf8 !important;
+  }
+
+  body.dark-mode .show-password{
+    background:#243041 !important;
+    color:#e5edf8 !important;
+  }
+
+  @media(max-width:520px){
+    .topbar{
+      align-items:center;
+    }
+
+    .topbar .app-title{
+      font-size:26px !important;
+    }
+
+    .theme-toggle{
+      min-height:36px;
+      padding:0 10px;
+      font-size:12px;
+    }
+
+    .tool-grid,
+    .scenario-controls{
+      grid-template-columns:1fr;
+    }
+  }
+</style>
+
 </head>
 
 <body>
@@ -824,7 +1056,10 @@ button {
 <main id="appScreen" class="app-screen hidden">
   <div class="container">
 
-    <h1 class="app-title">平均價格計算器</h1>
+    <div class="topbar">
+      <h1 class="app-title">平均價格計算器</h1>
+      <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()">深色</button>
+    </div>
 
     <section class="card sync-card">
       <div class="section-title">目前同步帳號</div>
@@ -852,6 +1087,59 @@ button {
       </div>
 
       <div id="difference" class="difference-box">輸入目前持有資料後自動計算</div>
+    </section>
+
+    
+    <section class="card tool-card">
+      <div class="section-title">目標均價試算</div>
+
+      <div class="tool-grid">
+        <div class="field">
+          <label class="field-label">目標平均價格</label>
+          <input id="targetAverage" class="text-input" type="number" step="any" inputmode="decimal" oninput="calculateTargetAverage()">
+        </div>
+
+        <div class="field">
+          <label class="field-label">預計買入價格</label>
+          <input id="targetBuyPrice" class="text-input" type="number" step="any" inputmode="decimal" oninput="calculateTargetAverage()">
+        </div>
+      </div>
+
+      <div id="targetAverageResult" class="tool-result">
+        先輸入目前持有資料，再輸入目標均價與預計買入價格。
+      </div>
+    </section>
+
+    <section class="card tool-card">
+      <div class="section-title">不同加倉方案比較</div>
+
+      <div class="scenario-controls">
+        <div class="field">
+          <label class="field-label">統一買入價格</label>
+          <input id="scenarioBuyPrice" class="text-input" type="number" step="any" inputmode="decimal" placeholder="例如 100" oninput="calculateScenarios()">
+        </div>
+
+        <div class="field">
+          <label class="field-label">說明</label>
+          <div class="tool-result" style="margin-top:0;height:50px;display:flex;align-items:center;">
+            每組輸入不同加倉數量
+          </div>
+        </div>
+      </div>
+
+      <div id="scenarioInputs"></div>
+      <button class="scenario-add" onclick="addScenario()">＋ 新增加倉方案</button>
+
+      <div class="scenario-table">
+        <div class="scenario-head">
+          <div>加倉數量</div>
+          <div>買入價格</div>
+          <div>新平均價</div>
+        </div>
+        <div id="scenarioResults">
+          <div class="empty-state">輸入資料後自動比較</div>
+        </div>
+      </div>
     </section>
 
     <section class="card form-card">
@@ -949,6 +1237,7 @@ let pendingDeleteId = null;
 let loadedRecordId = null;
 
 const rowsEl = document.getElementById("rows");
+const scenarioInputsEl = document.getElementById("scenarioInputs");
 
 function togglePassword() {
   const input = document.getElementById("passwordInput");
@@ -1108,7 +1397,167 @@ function calculate() {
   } else {
     diffEl.textContent = "輸入目前持有資料後自動計算";
   }
+
+  calculateTargetAverage();
+  calculateScenarios();
 }
+
+
+function calculateTargetAverage() {
+  const current = getCalculationData();
+  const targetAverage = parseFloat(document.getElementById("targetAverage")?.value);
+  const buyPrice = parseFloat(document.getElementById("targetBuyPrice")?.value);
+  const result = document.getElementById("targetAverageResult");
+
+  if (!result) return;
+
+  if (current.totalQty <= 0 || current.average <= 0) {
+    result.textContent = "先輸入目前持有資料，再進行目標均價試算。";
+    return;
+  }
+
+  if (Number.isNaN(targetAverage) || Number.isNaN(buyPrice)) {
+    result.textContent = "請輸入目標平均價格與預計買入價格。";
+    return;
+  }
+
+  if (targetAverage <= 0 || buyPrice <= 0) {
+    result.textContent = "價格必須大於 0。";
+    return;
+  }
+
+  if (Math.abs(targetAverage - buyPrice) < 1e-12) {
+    result.textContent = "目標均價不能和預計買入價格完全相同。";
+    return;
+  }
+
+  const requiredQty =
+    (current.totalQty * (current.average - targetAverage)) /
+    (targetAverage - buyPrice);
+
+  if (requiredQty <= 0 || !Number.isFinite(requiredQty)) {
+    result.textContent =
+      "以目前資料與這個買入價格，無法透過加倉達到此目標均價。";
+    return;
+  }
+
+  const newTotalQty = current.totalQty + requiredQty;
+  const extraCost = requiredQty * buyPrice;
+
+  result.innerHTML =
+    `需要再買 <strong>${formatNumber(requiredQty, 8)}</strong>，` +
+    `約需投入 <strong>${formatNumber(extraCost, 2)}</strong>，` +
+    `買入後總數量約 <strong>${formatNumber(newTotalQty, 8)}</strong>。`;
+}
+
+function addScenario(qty = "") {
+  if (!scenarioInputsEl) return;
+
+  const row = document.createElement("div");
+  row.className = "scenario-input-row";
+
+  row.innerHTML = `
+    <input
+      class="text-input scenario-qty"
+      type="number"
+      step="any"
+      inputmode="decimal"
+      placeholder="加倉數量"
+      value="${escapeHtml(qty)}"
+      oninput="calculateScenarios()"
+    >
+    <div class="tool-result" style="margin-top:0;height:48px;display:flex;align-items:center;justify-content:center;">
+      方案
+    </div>
+    <button class="scenario-remove" onclick="removeScenario(this)">×</button>
+  `;
+
+  scenarioInputsEl.appendChild(row);
+  calculateScenarios();
+}
+
+function removeScenario(button) {
+  button.closest(".scenario-input-row")?.remove();
+
+  if (scenarioInputsEl && !scenarioInputsEl.children.length) {
+    addScenario();
+  }
+
+  calculateScenarios();
+}
+
+function calculateScenarios() {
+  const resultBox = document.getElementById("scenarioResults");
+  const buyPrice = parseFloat(document.getElementById("scenarioBuyPrice")?.value);
+  if (!resultBox || !scenarioInputsEl) return;
+
+  const current = getCalculationData();
+
+  if (
+    current.totalQty <= 0 ||
+    current.average <= 0 ||
+    Number.isNaN(buyPrice) ||
+    buyPrice <= 0
+  ) {
+    resultBox.innerHTML =
+      '<div class="empty-state">輸入目前持有資料與方案買入價格後自動比較</div>';
+    return;
+  }
+
+  const scenarios = [];
+
+  scenarioInputsEl.querySelectorAll(".scenario-qty").forEach(input => {
+    const qty = parseFloat(input.value);
+
+    if (!Number.isNaN(qty) && qty > 0) {
+      const newTotalQty = current.totalQty + qty;
+      const newAverage =
+        ((current.average * current.totalQty) + (buyPrice * qty)) /
+        newTotalQty;
+
+      scenarios.push({
+        qty,
+        buyPrice,
+        average: newAverage
+      });
+    }
+  });
+
+  if (!scenarios.length) {
+    resultBox.innerHTML =
+      '<div class="empty-state">輸入至少一組加倉數量</div>';
+    return;
+  }
+
+  resultBox.innerHTML = scenarios.map(item => `
+    <div class="scenario-row">
+      <div>${formatNumber(item.qty, 8)}</div>
+      <div>${formatNumber(item.buyPrice, 4)}</div>
+      <div class="scenario-avg">${formatNumber(item.average, 4)}</div>
+    </div>
+  `).join("");
+}
+
+function applyTheme(theme) {
+  const dark = theme === "dark";
+  document.body.classList.toggle("dark-mode", dark);
+
+  const button = document.getElementById("themeToggle");
+  if (button) {
+    button.textContent = dark ? "淺色" : "深色";
+  }
+
+  localStorage.setItem("avg_theme", dark ? "dark" : "light");
+}
+
+function toggleTheme() {
+  applyTheme(
+    document.body.classList.contains("dark-mode")
+      ? "light"
+      : "dark"
+  );
+}
+
 
 function saveToCloud() {
   const name =
@@ -1389,6 +1838,12 @@ function clearInputs() {
   document.getElementById("currentPrice").value = "";
   document.getElementById("currentQty").value = "";
 
+  const targetAverage = document.getElementById("targetAverage");
+  const targetBuyPrice = document.getElementById("targetBuyPrice");
+
+  if (targetAverage) targetAverage.value = "";
+  if (targetBuyPrice) targetBuyPrice.value = "";
+
   rowsEl.innerHTML = "";
 
   addRow();
@@ -1478,6 +1933,14 @@ document.addEventListener("keydown",event => {
 });
 
 addRow();
+
+if (scenarioInputsEl) {
+  addScenario(10);
+  addScenario(50);
+  addScenario(100);
+}
+
+applyTheme(localStorage.getItem("avg_theme") || "light");
 calculate();
 
 const savedSession =
