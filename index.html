@@ -1008,6 +1008,137 @@ button {
   }
 </style>
 
+
+<style id="deep-blue-gray-dark-theme">
+  body.dark-mode{
+    background:#111827 !important;
+    color:#F8FAFC !important;
+  }
+
+  body.dark-mode .login-screen{
+    background:
+      radial-gradient(circle at 82% 0%, rgba(96,165,250,.12), transparent 28%),
+      linear-gradient(180deg,#111827 0%,#172033 100%) !important;
+  }
+
+  body.dark-mode .login-title,
+  body.dark-mode .app-title{
+    color:#F8FAFC !important;
+  }
+
+  body.dark-mode .login-subtitle{
+    color:#A7B0BE !important;
+  }
+
+  body.dark-mode .login-kicker{
+    background:#1F2937 !important;
+    border-color:#334155 !important;
+    color:#93C5FD !important;
+  }
+
+  body.dark-mode .login-card,
+  body.dark-mode .card,
+  body.dark-mode .result-card,
+  body.dark-mode .history-item,
+  body.dark-mode .scenario-table,
+  body.dark-mode .modal{
+    background:#1F2937 !important;
+    border-color:#334155 !important;
+    color:#F8FAFC !important;
+    box-shadow:0 14px 34px rgba(0,0,0,.22) !important;
+  }
+
+  body.dark-mode .section-title,
+  body.dark-mode .login-heading,
+  body.dark-mode .history-name,
+  body.dark-mode .history-stat-value,
+  body.dark-mode .summary-value,
+  body.dark-mode .result-value,
+  body.dark-mode .tool-result strong,
+  body.dark-mode .scenario-row,
+  body.dark-mode .modal-title{
+    color:#F8FAFC !important;
+  }
+
+  body.dark-mode .field-label,
+  body.dark-mode .result-label,
+  body.dark-mode .summary-label,
+  body.dark-mode .history-stat-label,
+  body.dark-mode .history-time,
+  body.dark-mode .sync-status,
+  body.dark-mode .tool-result,
+  body.dark-mode .modal-text{
+    color:#A7B0BE !important;
+  }
+
+  body.dark-mode .text-input{
+    background:#172033 !important;
+    color:#F8FAFC !important;
+    border-color:#334155 !important;
+  }
+
+  body.dark-mode .text-input::placeholder{
+    color:#7F8A99 !important;
+  }
+
+  body.dark-mode .text-input:focus{
+    border-color:#60A5FA !important;
+    box-shadow:0 0 0 4px rgba(96,165,250,.12) !important;
+  }
+
+  body.dark-mode .summary-box,
+  body.dark-mode .difference-box,
+  body.dark-mode .history-stat,
+  body.dark-mode .tool-result,
+  body.dark-mode .scenario-head{
+    background:#263244 !important;
+    border-color:#334155 !important;
+  }
+
+  body.dark-mode .scenario-row{
+    border-color:#334155 !important;
+  }
+
+  body.dark-mode .connection-pill,
+  body.dark-mode .sync-message.info,
+  body.dark-mode .sync-message.success,
+  body.dark-mode .load-record{
+    background:#22324A !important;
+    color:#93C5FD !important;
+    border-color:#334155 !important;
+  }
+
+  body.dark-mode .theme-toggle,
+  body.dark-mode .button-muted,
+  body.dark-mode .clear-inputs,
+  body.dark-mode .scenario-add,
+  body.dark-mode .show-password,
+  body.dark-mode .modal-cancel{
+    background:#263244 !important;
+    color:#E5E7EB !important;
+  }
+
+  body.dark-mode .add-buy{
+    background:#172033 !important;
+    color:#F8FAFC !important;
+  }
+
+  body.dark-mode .save-cloud,
+  body.dark-mode .login-button{
+    background:linear-gradient(135deg,#3B82F6 0%,#60A5FA 100%) !important;
+    color:#FFFFFF !important;
+    box-shadow:0 10px 22px rgba(59,130,246,.18) !important;
+  }
+
+  body.dark-mode .button-danger-soft,
+  body.dark-mode .delete-record,
+  body.dark-mode .remove-buy,
+  body.dark-mode .scenario-remove{
+    background:#3A2328 !important;
+    color:#FCA5A5 !important;
+  }
+</style>
+
 </head>
 
 <body>
@@ -1031,7 +1162,7 @@ button {
           <input
             id="passwordInput"
             class="text-input password-input"
-            type="password"
+            type="password" inputmode="numeric" pattern="[0-9]*"
             minlength="3"
             autocomplete="current-password"
             placeholder="輸入密碼"
@@ -1089,6 +1220,59 @@ button {
       <div id="difference" class="difference-box">輸入目前持有資料後自動計算</div>
     </section>
 
+    <section class="card form-card">
+      <div class="section-title">輸入資料</div>
+      <div id="editBadge" class="edit-badge">正在編輯舊紀錄，儲存時會覆蓋原紀錄</div>
+
+      <div class="field">
+        <label class="field-label">名稱</label>
+        <input
+          id="calcName"
+          class="text-input"
+          type="text"
+          inputmode="latin"
+          autocapitalize="characters"
+          autocomplete="off"
+          placeholder="例如 BTC、ETH、SOXL"
+          oninput="normalizeName(this)"
+        >
+      </div>
+
+      <div class="two-column">
+        <div class="field">
+          <label class="field-label">目前平均價格</label>
+          <input
+            id="currentPrice"
+            class="text-input"
+            type="number"
+            step="any"
+            inputmode="decimal"
+            oninput="calculate()"
+          >
+        </div>
+
+        <div class="field">
+          <label class="field-label">目前持有數量</label>
+          <input
+            id="currentQty"
+            class="text-input"
+            type="number"
+            step="any"
+            inputmode="decimal"
+            oninput="calculate()"
+          >
+        </div>
+      </div>
+
+      <div class="subheading">新增買入</div>
+
+      <div id="rows"></div>
+
+      <button class="form-button add-buy" onclick="addRow()">＋ 新增一筆買入</button>
+      <button class="form-button save-cloud" onclick="saveToCloud()">儲存到雲端</button>
+      <button class="form-button clear-inputs" onclick="clearInputs()">清除目前輸入</button>
+    </section>
+
     
     <section class="card tool-card">
       <div class="section-title">目標均價試算</div>
@@ -1142,58 +1326,7 @@ button {
       </div>
     </section>
 
-    <section class="card form-card">
-      <div class="section-title">計算資料</div>
-      <div id="editBadge" class="edit-badge">正在編輯舊紀錄，儲存時會覆蓋原紀錄</div>
-
-      <div class="field">
-        <label class="field-label">名稱</label>
-        <input
-          id="calcName"
-          class="text-input"
-          type="text"
-          inputmode="latin"
-          autocapitalize="characters"
-          autocomplete="off"
-          placeholder="例如 BTC、ETH、SOXL"
-          oninput="normalizeName(this)"
-        >
-      </div>
-
-      <div class="two-column">
-        <div class="field">
-          <label class="field-label">目前平均價格</label>
-          <input
-            id="currentPrice"
-            class="text-input"
-            type="number"
-            step="any"
-            inputmode="decimal"
-            oninput="calculate()"
-          >
-        </div>
-
-        <div class="field">
-          <label class="field-label">目前持有數量</label>
-          <input
-            id="currentQty"
-            class="text-input"
-            type="number"
-            step="any"
-            inputmode="decimal"
-            oninput="calculate()"
-          >
-        </div>
-      </div>
-
-      <div class="subheading">新增買入</div>
-
-      <div id="rows"></div>
-
-      <button class="form-button add-buy" onclick="addRow()">＋ 新增一筆買入</button>
-      <button class="form-button save-cloud" onclick="saveToCloud()">儲存到雲端</button>
-      <button class="form-button clear-inputs" onclick="clearInputs()">清除目前輸入</button>
-    </section>
+    
 
     <section class="card history-card">
       <div class="section-title">紀錄</div>
