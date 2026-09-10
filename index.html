@@ -1430,6 +1430,87 @@
   }
 </style>
 
+
+<style id="shrink-sync-and-form-buttons">
+  /* 目前同步帳號卡片再縮小 */
+  #appScreen .container > .card:first-of-type{
+    padding: 12px 14px !important;
+    border-radius: 22px !important;
+    margin-bottom: 14px !important;
+  }
+
+  #appScreen .container > .card:first-of-type .title{
+    font-size: 16px !important;
+    margin-bottom: 10px !important;
+  }
+
+  #appScreen .container > .card:first-of-type .active-code{
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+  }
+
+  #appScreen .container > .card:first-of-type .status{
+    font-size: 13px !important;
+    margin-left: 8px !important;
+  }
+
+  #appScreen .container > .card:first-of-type .sync-message{
+    margin-top: 10px !important;
+    padding: 10px 12px !important;
+    font-size: 13px !important;
+    border-radius: 16px !important;
+  }
+
+  #appScreen .container > .card:first-of-type .secondary,
+  #appScreen .container > .card:first-of-type .logout{
+    min-height: 40px !important;
+    padding: 0 14px !important;
+    font-size: 14px !important;
+    border-radius: 14px !important;
+    margin-top: 10px !important;
+    margin-right: 6px !important;
+  }
+
+  /* 計算資料區的三個按鈕縮小 */
+  #appScreen .container > .card:nth-of-type(3) .primary,
+  #appScreen .container > .card:nth-of-type(3) .save,
+  #appScreen .container > .card:nth-of-type(3) .secondary{
+    min-height: 46px !important;
+    font-size: 15px !important;
+    border-radius: 16px !important;
+    padding: 0 14px !important;
+  }
+
+  #appScreen .container > .card:nth-of-type(3) .primary{
+    margin-top: 2px !important;
+  }
+
+  #appScreen .container > .card:nth-of-type(3) .save,
+  #appScreen .container > .card:nth-of-type(3) .secondary{
+    margin-top: 8px !important;
+  }
+
+  @media (max-width: 520px){
+    #appScreen .container > .card:first-of-type{
+      padding: 11px 13px !important;
+    }
+
+    #appScreen .container > .card:first-of-type .secondary,
+    #appScreen .container > .card:first-of-type .logout{
+      min-height: 38px !important;
+      font-size: 13px !important;
+      padding: 0 12px !important;
+    }
+
+    #appScreen .container > .card:nth-of-type(3) .primary,
+    #appScreen .container > .card:nth-of-type(3) .save,
+    #appScreen .container > .card:nth-of-type(3) .secondary{
+      min-height: 44px !important;
+      font-size: 14px !important;
+    }
+  }
+</style>
+
 </head>
 <body>
 
