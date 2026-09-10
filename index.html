@@ -1870,6 +1870,182 @@
   }
 </style>
 
+
+<style id="login-fixed-light-font">
+  /* 登入頁固定在一個畫面，不允許上下滑動 */
+  #loginScreen.login-screen{
+    height:100svh !important;
+    min-height:100svh !important;
+    overflow:hidden !important;
+    padding:18px 16px !important;
+    align-items:center !important;
+  }
+
+  .login-wrap{
+    max-height:calc(100svh - 36px) !important;
+    overflow:hidden !important;
+  }
+
+  .login-card{
+    margin-top:16px !important;
+    padding:18px 18px 16px !important;
+    border-radius:22px !important;
+  }
+
+  .login-brand{
+    margin-bottom:10px !important;
+    padding:6px 11px !important;
+    font-size:11px !important;
+    font-weight:500 !important;
+  }
+
+  .login-hero-title{
+    font-size:28px !important;
+    font-weight:500 !important;
+    letter-spacing:-.5px !important;
+  }
+
+  .login-hero-sub{
+    margin-top:8px !important;
+    font-size:13px !important;
+    line-height:1.45 !important;
+    font-weight:400 !important;
+  }
+
+  .login-card-top{
+    margin-bottom:14px !important;
+  }
+
+  .login-card-title{
+    font-size:21px !important;
+    font-weight:500 !important;
+  }
+
+  .login-card-hint{
+    padding:6px 10px !important;
+    font-size:11px !important;
+    font-weight:500 !important;
+  }
+
+  .login-card label{
+    font-size:13px !important;
+    font-weight:400 !important;
+  }
+
+  .password-wrap input{
+    height:50px !important;
+    font-size:16px !important;
+    font-weight:400 !important;
+    border-radius:15px !important;
+  }
+
+  .toggle-pass{
+    height:38px !important;
+    min-width:58px !important;
+    font-size:13px !important;
+    font-weight:400 !important;
+    border-radius:11px !important;
+  }
+
+  .login-btn{
+    min-height:48px !important;
+    margin-top:6px !important;
+    font-size:16px !important;
+    font-weight:500 !important;
+    border-radius:15px !important;
+  }
+
+  .login-meta{
+    margin-top:12px !important;
+    gap:6px !important;
+  }
+
+  .login-chip{
+    padding:6px 9px !important;
+    font-size:11px !important;
+    font-weight:400 !important;
+  }
+
+  .login-note{
+    margin-top:10px !important;
+    font-size:11px !important;
+    line-height:1.45 !important;
+    font-weight:400 !important;
+  }
+
+  /* 全站取消粗體感 */
+  body,
+  input,
+  button,
+  label,
+  .status,
+  .small,
+  .stat-label,
+  .stat-value,
+  .difference,
+  .title,
+  .average,
+  .history-name,
+  h1{
+    font-weight:400 !important;
+  }
+
+  .average{
+    font-weight:500 !important;
+  }
+
+  .history-name,
+  .title,
+  h1{
+    font-weight:500 !important;
+  }
+
+  .primary,
+  .save,
+  .secondary,
+  .logout,
+  .load,
+  .remove,
+  .modal-btn{
+    font-weight:500 !important;
+  }
+
+  @media (max-height:700px){
+    #loginScreen.login-screen{
+      padding:12px 14px !important;
+    }
+
+    .login-brand{
+      margin-bottom:6px !important;
+    }
+
+    .login-hero-title{
+      font-size:25px !important;
+    }
+
+    .login-hero-sub{
+      margin-top:5px !important;
+    }
+
+    .login-card{
+      margin-top:10px !important;
+      padding:14px 16px !important;
+    }
+
+    .login-card-top{
+      margin-bottom:10px !important;
+    }
+
+    .login-meta{
+      margin-top:8px !important;
+    }
+
+    .login-note{
+      margin-top:7px !important;
+    }
+  }
+</style>
+
 </head>
 <body>
 
