@@ -875,15 +875,138 @@ body.dark-mode .add-buy {
   }
 }
 </style>
+
+<style id="avgmate-polish-20260911">
+  .sync-card{
+    padding:12px 14px;
+  }
+
+  .sync-inline{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+
+  .sync-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-width:0;
+  }
+
+  .sync-title{
+    font-size:14px;
+    line-height:1.2;
+    color:var(--text);
+    font-weight:500;
+  }
+
+  .sync-status{
+    margin-top:3px;
+    font-size:11px;
+  }
+
+  .sync-actions-inline{
+    margin-top:0;
+    flex-wrap:nowrap;
+    flex-shrink:0;
+  }
+
+  .sync-actions-inline .small-button{
+    min-height:34px;
+    padding:0 10px;
+  }
+
+  .target-result-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:8px;
+    margin-top:10px;
+  }
+
+  .target-stat{
+    padding:12px;
+    border-radius:15px;
+    background:var(--surface);
+    border:1px solid #E3EAF2;
+  }
+
+  .target-wide{
+    grid-column:1 / -1;
+  }
+
+  .target-stat-label{
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.35;
+  }
+
+  .target-stat-value{
+    margin-top:5px;
+    color:var(--text);
+    font-size:16px;
+    font-weight:500;
+    overflow-wrap:anywhere;
+  }
+
+  .target-message{
+    padding:10px 12px;
+    border-radius:14px;
+    background:var(--blue-soft);
+    color:var(--blue);
+    font-size:12px;
+    line-height:1.45;
+  }
+
+  body.dark-mode .sync-title{
+    color:#F8FAFC;
+  }
+
+  body.dark-mode .target-stat{
+    background:#263244;
+    border-color:#3A4A62;
+  }
+
+  body.dark-mode .target-stat-label{
+    color:#B9C4D2;
+  }
+
+  body.dark-mode .target-stat-value{
+    color:#F8FAFC;
+  }
+
+  body.dark-mode .target-message{
+    background:#233653;
+    color:#B9D7FF;
+    border:1px solid #3B5270;
+  }
+
+  @media(max-width:390px){
+    .sync-inline{
+      align-items:flex-start;
+    }
+
+    .sync-actions-inline{
+      gap:6px;
+    }
+
+    .sync-actions-inline .small-button{
+      padding:0 8px;
+      font-size:12px;
+    }
+  }
+</style>
+
 </head>
 
 <body>
 
 <section id="loginScreen" class="login-screen">
   <div class="login-shell">
-    <div class="login-kicker">AVERAGE PRICE</div>
+    <div class="login-kicker">POSITION & AVERAGE TOOL</div>
     <h1 class="login-title">AvgMate</h1>
-    <div class="login-subtitle">輸入密碼後，即可查看與同步你的計算紀錄。</div>
+    <div class="login-subtitle">管理持倉、試算加倉與追蹤均價，一個地方完成。</div>
 
     <div class="login-card">
       <div class="login-row">
@@ -926,19 +1049,22 @@ body.dark-mode .add-buy {
     </div>
 
     <section class="card sync-card">
-      <div class="section-title">目前同步帳號</div>
+      <div class="sync-inline">
+        <div class="sync-left">
+          <div class="connection-pill">已連線</div>
+          <div>
+            <div class="sync-title">雲端同步</div>
+            <div id="syncStatus" class="sync-status">尚未同步</div>
+          </div>
+        </div>
 
-      <div class="sync-top">
-        <div class="connection-pill">已連線</div>
-        <div id="syncStatus" class="sync-status">尚未同步</div>
+        <div class="sync-actions sync-actions-inline">
+          <button class="small-button button-muted" onclick="syncNow()">同步</button>
+          <button class="small-button button-danger" onclick="logout()">登出</button>
+        </div>
       </div>
 
       <div id="syncMessage" class="sync-message"></div>
-
-      <div class="sync-actions">
-        <button class="small-button button-muted" onclick="syncNow()">立即同步</button>
-        <button class="small-button button-danger" onclick="logout()">登出 / 更換密碼</button>
-      </div>
     </section>
 
     <section class="card result-card">
@@ -955,7 +1081,7 @@ body.dark-mode .add-buy {
 
     <section class="card form-card">
       <div class="section-title">輸入資料</div>
-      <div id="editBadge" class="edit-badge">正在編輯舊紀錄，儲存時會覆蓋原紀錄</div>
+      <div id="editBadge" class="edit-badge">正在編輯舊紀錄｜按「更新紀錄」會覆蓋原本資料</div>
 
       <div class="field">
         <label class="field-label">名稱</label>
@@ -1001,7 +1127,7 @@ body.dark-mode .add-buy {
       <div id="rows"></div>
 
       <button class="form-button add-buy" onclick="addRow()">＋ 新增一筆買入</button>
-      <button class="form-button save-cloud" onclick="saveToCloud()">儲存到雲端</button>
+      <button id="saveButton" class="form-button save-cloud" onclick="saveToCloud()">儲存到雲端</button>
       <button class="form-button clear-inputs" onclick="clearInputs()">清除目前輸入</button>
     </section>
 
@@ -1034,8 +1160,30 @@ body.dark-mode .add-buy {
         </div>
       </div>
 
-      <div id="targetAverageResult" class="tool-result">
-        先輸入目前持有資料，再輸入目標均價與預計買入價格。
+      <div id="targetAverageResult" class="target-result-grid">
+        <div class="target-stat target-wide">
+          <div class="target-stat-label">目前均價 → 目標均價</div>
+          <div id="targetRoute" class="target-stat-value">—</div>
+        </div>
+
+        <div class="target-stat">
+          <div class="target-stat-label">需要加倉數量</div>
+          <div id="targetQtyResult" class="target-stat-value">—</div>
+        </div>
+
+        <div class="target-stat">
+          <div class="target-stat-label">預估投入金額</div>
+          <div id="targetCostResult" class="target-stat-value">—</div>
+        </div>
+
+        <div class="target-stat target-wide">
+          <div class="target-stat-label">買入後總數量</div>
+          <div id="targetTotalQtyResult" class="target-stat-value">—</div>
+        </div>
+
+        <div id="targetMessage" class="target-message target-wide">
+          先輸入目前持有資料，再輸入目標均價與預計買入價格。
+        </div>
       </div>
     </section>
 
@@ -1259,25 +1407,50 @@ function calculateTargetAverage() {
   const current = getCalculationData();
   const targetAverage = parseFloat(document.getElementById("targetAverage").value);
   const buyPrice = parseFloat(document.getElementById("targetBuyPrice").value);
-  const result = document.getElementById("targetAverageResult");
+
+  const route = document.getElementById("targetRoute");
+  const qtyResult = document.getElementById("targetQtyResult");
+  const costResult = document.getElementById("targetCostResult");
+  const totalQtyResult = document.getElementById("targetTotalQtyResult");
+  const message = document.getElementById("targetMessage");
+
+  const resetValues = () => {
+    route.textContent = "—";
+    qtyResult.textContent = "—";
+    costResult.textContent = "—";
+    totalQtyResult.textContent = "—";
+  };
 
   if (current.totalQty <= 0 || current.average <= 0) {
-    result.textContent = "先輸入目前持有資料，再進行目標均價試算。";
+    resetValues();
+    message.textContent = "先輸入目前持有資料，再進行目標均價試算。";
     return;
   }
 
+  route.textContent =
+    `${formatNumber(current.average,4)} → ${Number.isNaN(targetAverage) ? "—" : formatNumber(targetAverage,4)}`;
+
   if (Number.isNaN(targetAverage) || Number.isNaN(buyPrice)) {
-    result.textContent = "請輸入目標平均價格與預計買入價格。";
+    qtyResult.textContent = "—";
+    costResult.textContent = "—";
+    totalQtyResult.textContent = "—";
+    message.textContent = "請輸入目標平均價格與預計買入價格。";
     return;
   }
 
   if (targetAverage <= 0 || buyPrice <= 0) {
-    result.textContent = "價格必須大於 0。";
+    qtyResult.textContent = "—";
+    costResult.textContent = "—";
+    totalQtyResult.textContent = "—";
+    message.textContent = "價格必須大於 0。";
     return;
   }
 
   if (Math.abs(targetAverage - buyPrice) < 1e-12) {
-    result.textContent = "目標均價不能和預計買入價格完全相同。";
+    qtyResult.textContent = "—";
+    costResult.textContent = "—";
+    totalQtyResult.textContent = "—";
+    message.textContent = "目標均價不能和預計買入價格完全相同。";
     return;
   }
 
@@ -1286,17 +1459,20 @@ function calculateTargetAverage() {
     (targetAverage - buyPrice);
 
   if (requiredQty <= 0 || !Number.isFinite(requiredQty)) {
-    result.textContent = "以目前資料與這個買入價格，無法透過加倉達到此目標均價。";
+    qtyResult.textContent = "—";
+    costResult.textContent = "—";
+    totalQtyResult.textContent = "—";
+    message.textContent = "以目前資料與這個買入價格，無法透過加倉達到此目標均價。";
     return;
   }
 
   const newTotalQty = current.totalQty + requiredQty;
   const extraCost = requiredQty * buyPrice;
 
-  result.innerHTML =
-    `需要再買 <strong>${formatNumber(requiredQty,8)}</strong>，` +
-    `約需投入 <strong>${formatNumber(extraCost,2)}</strong>，` +
-    `買入後總數量約 <strong>${formatNumber(newTotalQty,8)}</strong>。`;
+  qtyResult.textContent = formatNumber(requiredQty,8);
+  costResult.textContent = formatNumber(extraCost,2);
+  totalQtyResult.textContent = formatNumber(newTotalQty,8);
+  message.textContent = `以 ${formatNumber(buyPrice,4)} 買入，可將均價調整至約 ${formatNumber(targetAverage,4)}。`;
 }
 
 function addScenario(qty = "") {
@@ -1581,11 +1757,14 @@ function loadRecord(serialized) {
 
 function updateEditBadge() {
   const badge = document.getElementById("editBadge");
+  const saveButton = document.getElementById("saveButton");
 
   if (loadedRecordId) {
     badge.classList.add("show");
+    if (saveButton) saveButton.textContent = "更新紀錄";
   } else {
     badge.classList.remove("show");
+    if (saveButton) saveButton.textContent = "儲存到雲端";
   }
 }
 
