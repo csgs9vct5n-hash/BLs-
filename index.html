@@ -1187,26 +1187,22 @@ function renderHistory(records) {
 function loadRecord(serialized) {
   const record = JSON.parse(serialized);
 
+  // 進入編輯模式：下一次儲存會覆蓋這筆紀錄
   loadedRecordId = record.id || null;
 
+  // 將「上一次計算完成後的結果」當成新的目前持有資料
   document.getElementById("calcName").value =
     (record.name || "").toUpperCase();
 
   document.getElementById("currentPrice").value =
-    record.currentPrice || "";
+    record.average || "";
 
   document.getElementById("currentQty").value =
-    record.currentQty || "";
+    record.totalQty || "";
 
+  // 不帶回上一次的新增買入資料，直接開始下一次買入
   rowsEl.innerHTML = "";
-
-  (record.buys || []).forEach(buy => {
-    addRow(buy.price, buy.qty);
-  });
-
-  if (!rowsEl.children.length) {
-    addRow();
-  }
+  addRow();
 
   updateEditBadge();
   calculate();
