@@ -658,6 +658,124 @@ button {
 }
 
 </style>
+
+<style id="light-blue-theme">
+  :root{
+    --bg-1:#F3F6FA !important;
+    --bg-2:#F3F6FA !important;
+    --bg-3:#F3F6FA !important;
+    --card:#FFFFFF !important;
+    --text:#172033 !important;
+    --muted:#6B778C !important;
+    --soft:#98A2B3 !important;
+    --line:#DDE5EF !important;
+    --blue:#3B82F6 !important;
+    --blue-2:#5A95F8 !important;
+    --blue-soft:#EAF2FF !important;
+    --red:#E5484D !important;
+    --red-soft:#FFF1F2 !important;
+    --shadow:0 12px 30px rgba(15,23,42,.08) !important;
+  }
+
+  html{
+    background:#F3F6FA !important;
+  }
+
+  body{
+    background:#F3F6FA !important;
+    color:#172033 !important;
+  }
+
+  .login-screen{
+    background:
+      radial-gradient(circle at 82% 0%, rgba(59,130,246,.10), transparent 30%),
+      linear-gradient(180deg,#F6F9FD 0%,#F3F6FA 100%) !important;
+  }
+
+  .login-kicker{
+    background:#EAF2FF !important;
+    border-color:#D6E6FF !important;
+    color:#3B82F6 !important;
+  }
+
+  .login-title,
+  .app-title{
+    color:#172033 !important;
+    text-shadow:none !important;
+  }
+
+  .login-subtitle{
+    color:#758195 !important;
+  }
+
+  .login-card,
+  .card,
+  .result-card{
+    background:#FFFFFF !important;
+    border:1px solid #E3EAF2 !important;
+    box-shadow:0 12px 30px rgba(15,23,42,.08) !important;
+  }
+
+  .result-card{
+    background:linear-gradient(180deg,#FFFFFF 0%,#F8FBFF 100%) !important;
+  }
+
+  .summary-box,
+  .difference-box,
+  .history-stat{
+    background:#F4F7FB !important;
+    border-color:#E3EAF2 !important;
+  }
+
+  .connection-pill,
+  .sync-message.info,
+  .sync-message.success,
+  .load-record{
+    background:#EAF2FF !important;
+    color:#3B82F6 !important;
+    border-color:#D6E6FF !important;
+  }
+
+  .button-muted,
+  .clear-inputs,
+  .modal-cancel{
+    background:#EEF2F6 !important;
+    color:#435168 !important;
+  }
+
+  .add-buy{
+    background:#243B64 !important;
+    color:#FFFFFF !important;
+  }
+
+  .save-cloud,
+  .login-button{
+    background:linear-gradient(135deg,#3B82F6 0%,#5A95F8 100%) !important;
+    box-shadow:0 10px 22px rgba(59,130,246,.18) !important;
+  }
+
+  .text-input{
+    background:#FFFFFF !important;
+    color:#172033 !important;
+    border-color:#D8E2ED !important;
+  }
+
+  .text-input:focus{
+    border-color:#6EA4FF !important;
+    box-shadow:0 0 0 4px rgba(59,130,246,.10) !important;
+  }
+
+  .show-password{
+    background:#F2F5F9 !important;
+    color:#435168 !important;
+  }
+
+  .history-item{
+    background:#FFFFFF !important;
+    border-color:#E3EAF2 !important;
+  }
+</style>
+
 </head>
 
 <body>
@@ -1033,6 +1151,10 @@ function saveToCloud() {
   document.getElementById("hiddenForm").submit();
 
   setTimeout(() => {
+    // 儲存後清空所有輸入欄位，並退出編輯模式
+    clearInputs();
+
+    // 重新讀取雲端紀錄
     loadHistory();
   }, 1400);
 }
