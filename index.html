@@ -631,6 +631,32 @@ button {
     grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px;
   }
 }
+
+/* Edit mode */
+.edit-badge {
+  display:none;
+  margin-bottom:10px;
+  padding:8px 10px;
+  border-radius:12px;
+  background:#fff7df;
+  color:#946200;
+  font-size:12px;
+  border:1px solid #ffe5a3;
+}
+.edit-badge.show { display:block; }
+
+.history-item {
+  cursor:pointer;
+  transition:transform .08s ease, box-shadow .15s ease;
+}
+.history-item:active {
+  transform:scale(.995);
+}
+.history-item.editing {
+  border-color:#9bbcff;
+  box-shadow:0 0 0 3px rgba(47,111,237,.08);
+}
+
 </style>
 </head>
 
@@ -712,6 +738,7 @@ button {
 
     <section class="card form-card">
       <div class="section-title">計算資料</div>
+      <div id="editBadge" class="edit-badge">正在編輯舊紀錄，儲存時會覆蓋原紀錄</div>
 
       <div class="field">
         <label class="field-label">名稱</label>
@@ -801,6 +828,7 @@ const API_URL = "https://script.google.com/macros/s/AKfycbxRr2tWrw3Y1QxquWXqwDHa
 
 let currentSyncCode = "";
 let pendingDeleteId = null;
+let loadedRecordId = null;
 
 const rowsEl = document.getElementById("rows");
 
@@ -841,6 +869,8 @@ function logout() {
 
   sessionStorage.removeItem("avg_session_code");
   currentSyncCode = "";
+  loadedRecordId = null;
+  updateEditBadge();
 
   document.getElementById("passwordInput").value = "";
   document.getElementById("appScreen").classList.add("hidden");
@@ -979,7 +1009,8 @@ function saveToCloud() {
   }
 
   const payload = {
-    action:"save",
+    action: loadedRecordId ? "update" : "save",
+    id: loadedRecordId || "",
     syncCode:currentSyncCode,
     name,
     currentPrice:data.currentPrice,
@@ -990,8 +1021,11 @@ function saveToCloud() {
     totalCost:data.totalCost
   };
 
-  setSyncStatus("正在儲存…");
-  showSyncMessage("正在儲存到雲端…", "info");
+  setSyncStatus(loadedRecordId ? "正在更新…" : "正在儲存…");
+  showSyncMessage(
+    loadedRecordId ? "正在覆蓋舊紀錄…" : "正在儲存到雲端…",
+    "info"
+  );
 
   document.getElementById("payloadField").value =
     JSON.stringify(payload);
@@ -1103,7 +1137,10 @@ function renderHistory(records) {
   }
 
   list.innerHTML = records.map(record => `
-    <div class="history-item">
+    <div
+      class="history-item ${loadedRecordId === record.id ? "editing" : ""}"
+      onclick='loadRecord(${JSON.stringify(JSON.stringify(record))})'
+    >
 
       <div class="history-head">
         <div class="history-name">
@@ -1134,12 +1171,12 @@ function renderHistory(records) {
       <div class="history-actions">
         <button
           class="history-action load-record"
-          onclick='loadRecord(${JSON.stringify(JSON.stringify(record))})'
+          onclick='event.stopPropagation(); loadRecord(${JSON.stringify(JSON.stringify(record))})'
         >載入</button>
 
         <button
           class="history-action delete-record"
-          onclick='openDeleteModal(${JSON.stringify(record.id)})'
+          onclick='event.stopPropagation(); openDeleteModal(${JSON.stringify(record.id)})'
         >刪除</button>
       </div>
 
@@ -1149,6 +1186,8 @@ function renderHistory(records) {
 
 function loadRecord(serialized) {
   const record = JSON.parse(serialized);
+
+  loadedRecordId = record.id || null;
 
   document.getElementById("calcName").value =
     (record.name || "").toUpperCase();
@@ -1169,10 +1208,11 @@ function loadRecord(serialized) {
     addRow();
   }
 
+  updateEditBadge();
   calculate();
 
   window.scrollTo({
-    top:0,
+    top:document.querySelector(".form-card").offsetTop - 12,
     behavior:"smooth"
   });
 }
@@ -1196,11 +1236,18 @@ function handleOverlayClick(event) {
 function confirmDelete() {
   if (!pendingDeleteId) return;
 
+  const deletingId = pendingDeleteId;
+
   const payload = {
     action:"delete",
     syncCode:currentSyncCode,
-    id:pendingDeleteId
+    id:deletingId
   };
+
+  if (loadedRecordId === deletingId) {
+    loadedRecordId = null;
+    updateEditBadge();
+  }
 
   document.getElementById("payloadField").value =
     JSON.stringify(payload);
@@ -1218,6 +1265,8 @@ function confirmDelete() {
 }
 
 function clearInputs() {
+  loadedRecordId = null;
+
   document.getElementById("calcName").value = "";
   document.getElementById("currentPrice").value = "";
   document.getElementById("currentQty").value = "";
@@ -1225,7 +1274,19 @@ function clearInputs() {
   rowsEl.innerHTML = "";
 
   addRow();
+  updateEditBadge();
   calculate();
+}
+
+function updateEditBadge() {
+  const badge = document.getElementById("editBadge");
+  if (!badge) return;
+
+  if (loadedRecordId) {
+    badge.classList.add("show");
+  } else {
+    badge.classList.remove("show");
+  }
 }
 
 function setSyncStatus(text) {
