@@ -1626,27 +1626,288 @@
   }
 </style>
 
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+
+<style id="login-redesign-v2">
+  body{
+    font-family: "Inter","Noto Sans TC",-apple-system,BlinkMacSystemFont,"PingFang TC","Segoe UI",sans-serif !important;
+  }
+
+  h1,.title,.login-hero-title,.login-card-title,.average,.history-name{
+    font-family: "Noto Sans TC","Inter",-apple-system,BlinkMacSystemFont,"PingFang TC","Segoe UI",sans-serif !important;
+  }
+
+  .login-screen{
+    min-height:100svh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 18px;
+    background:
+      radial-gradient(circle at 80% 0%, rgba(59,130,246,.20), transparent 26%),
+      radial-gradient(circle at 15% 100%, rgba(37,99,235,.10), transparent 26%),
+      linear-gradient(180deg,#07101f 0%, #0b1430 48%, #091426 100%) !important;
+  }
+
+  .login-wrap{
+    width:100%;
+    max-width:430px;
+  }
+
+  .login-brand{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px 14px;
+    border-radius:999px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.10);
+    color:#dbe7ff;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.14em;
+    backdrop-filter: blur(10px);
+    margin-bottom:16px;
+  }
+
+  .login-hero-title{
+    margin:0;
+    color:#ffffff;
+    font-size:34px;
+    line-height:1.15;
+    font-weight:900;
+    letter-spacing:-1.2px;
+    text-shadow:none;
+    text-align:left;
+  }
+
+  .login-hero-sub{
+    margin-top:12px;
+    color:#a9b5ca;
+    font-size:15px;
+    line-height:1.65;
+    text-align:left;
+    max-width:360px;
+  }
+
+  .login-card{
+    margin-top:22px;
+    position:relative;
+    overflow:hidden;
+    width:100%;
+    max-width:none;
+    padding:24px 22px 20px;
+    border-radius:28px;
+    background:linear-gradient(180deg,rgba(255,255,255,.96) 0%, rgba(247,250,255,.94) 100%) !important;
+    border:1px solid rgba(255,255,255,.60);
+    box-shadow:0 26px 65px rgba(2,8,23,.28);
+  }
+
+  .login-card::before{
+    content:"";
+    position:absolute;
+    right:-30px;
+    top:-30px;
+    width:160px;
+    height:160px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(59,130,246,.18), transparent 70%);
+    pointer-events:none;
+  }
+
+  .login-card-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:18px;
+    position:relative;
+    z-index:1;
+  }
+
+  .login-card-title{
+    font-size:24px;
+    line-height:1.1;
+    font-weight:900;
+    color:#0f172a;
+    letter-spacing:-.6px;
+  }
+
+  .login-card-hint{
+    padding:8px 12px;
+    border-radius:999px;
+    background:#eef4ff;
+    color:#2457d6;
+    font-size:12px;
+    font-weight:800;
+    white-space:nowrap;
+  }
+
+  .login-card label{
+    color:#64748b !important;
+    font-size:14px !important;
+    font-weight:800 !important;
+    margin-bottom:8px !important;
+  }
+
+  .password-wrap{
+    position:relative;
+  }
+
+  .password-wrap input{
+    height:56px !important;
+    padding:0 82px 0 16px !important;
+    border:2px solid #d9e2ef !important;
+    border-radius:18px !important;
+    background:#ffffff !important;
+    color:#0f172a !important;
+    font-size:18px !important;
+    box-shadow:none !important;
+  }
+
+  .password-wrap input::placeholder{
+    color:#a3afc0 !important;
+  }
+
+  .password-wrap input:focus{
+    border-color:#4f86ff !important;
+    box-shadow:0 0 0 4px rgba(59,130,246,.14) !important;
+  }
+
+  .toggle-pass{
+    position:absolute;
+    right:6px;
+    top:50%;
+    transform:translateY(-50%);
+    min-width:64px;
+    height:44px;
+    border-radius:14px;
+    background:#f2f5fa !important;
+    color:#334155 !important;
+    border:1px solid #e2e8f0 !important;
+    font-size:14px !important;
+    font-weight:800 !important;
+    padding:0 12px !important;
+  }
+
+  .login-btn{
+    width:100%;
+    min-height:54px;
+    border-radius:18px !important;
+    margin-top:10px;
+    background:linear-gradient(135deg,#2457d6 0%, #3d8bff 100%) !important;
+    color:#ffffff !important;
+    font-size:17px !important;
+    font-weight:900 !important;
+    letter-spacing:.2px;
+    box-shadow:0 14px 30px rgba(37,99,235,.22);
+  }
+
+  .login-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:16px;
+  }
+
+  .login-chip{
+    padding:8px 12px;
+    border-radius:999px;
+    background:#f3f7fc;
+    color:#55657d;
+    font-size:12px;
+    font-weight:800;
+    border:1px solid #e7eef7;
+  }
+
+  .login-note{
+    margin-top:14px;
+    color:#94a3b8 !important;
+    font-size:12px !important;
+    line-height:1.6;
+    text-align:center;
+  }
+
+  .login-error{
+    min-height:18px;
+    margin-top:8px;
+    color:#dc2626;
+    font-size:13px;
+    font-weight:700;
+  }
+
+  @media (max-width:520px){
+    .login-screen{
+      padding:26px 16px;
+    }
+
+    .login-brand{
+      margin-bottom:14px;
+    }
+
+    .login-hero-title{
+      font-size:30px;
+    }
+
+    .login-hero-sub{
+      font-size:14px;
+      margin-top:10px;
+    }
+
+    .login-card{
+      margin-top:18px;
+      padding:22px 18px 18px;
+      border-radius:24px;
+    }
+
+    .login-card-title{
+      font-size:22px;
+    }
+  }
+</style>
+
 </head>
 <body>
 
+
 <div id="loginScreen" class="login-screen">
-  <div class="login-card">
-<div class="login-title">歡迎回來</div>
-    <div class="login-sub">輸入密碼，繼續使用平均價格計算器</div>
+  <div class="login-wrap">
+    <div class="login-brand">AVERAGE PRICE</div>
+    <h1 class="login-hero-title">平均價格計算器</h1>
+    <div class="login-hero-sub">輸入密碼後，快速查看與同步你的平均價格紀錄</div>
 
-    <div class="group">
-      <label>密碼</label>
-      <div class="password-wrap">
-        <input id="passwordInput" type="password" placeholder="輸入 3 碼以上密碼" minlength="3" autocomplete="current-password">
-        <button type="button" class="toggle-pass" onclick="togglePassword()">顯示</button>
+    <div class="login-card">
+      <div class="login-card-top">
+        <div class="login-card-title">登入</div>
+        <div class="login-card-hint">3 碼以上即可進入</div>
       </div>
-      <div id="loginError" class="login-error"></div>
-    </div>
 
-    <button class="login-btn" onclick="enterApp()">進入計算器</button>
-    <div class="login-note">同一組密碼可在不同裝置讀取相同紀錄。</div>
+      <div class="group">
+        <label>密碼</label>
+        <div class="password-wrap">
+          <input id="passwordInput" type="password" placeholder="輸入密碼" minlength="3" autocomplete="current-password">
+          <button type="button" class="toggle-pass" onclick="togglePassword()">顯示</button>
+        </div>
+        <div id="loginError" class="login-error"></div>
+      </div>
+
+      <button class="login-btn" onclick="enterApp()">進入計算器</button>
+
+      <div class="login-meta">
+        <div class="login-chip">多裝置同步</div>
+        <div class="login-chip">雲端紀錄</div>
+        <div class="login-chip">快速計算</div>
+      </div>
+
+      <div class="login-note">同一組密碼可在不同裝置讀取相同紀錄。</div>
+    </div>
   </div>
 </div>
+
 
 <div id="appScreen" class="screen hidden">
   <div class="container">
