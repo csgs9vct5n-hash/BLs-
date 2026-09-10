@@ -3,25 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#081224">
+<meta name="theme-color" content="#F3F6FA">
 <title>平均價格計算器</title>
 
 <style>
 :root {
-  --bg-1:#07101f;
-  --bg-2:#0b1730;
-  --bg-3:#0a1426;
-  --card:#f8fafc;
-  --text:#0f172a;
-  --muted:#6b7a90;
-  --soft:#94a3b8;
-  --line:#d9e2ec;
-  --blue:#2f6fed;
-  --blue-2:#4b91ff;
-  --blue-soft:#e8f0ff;
-  --red:#e5484d;
-  --red-soft:#fff0f0;
-  --shadow:0 18px 42px rgba(2,8,23,.20);
+  --bg:#F3F6FA;
+  --card:#FFFFFF;
+  --surface:#F4F7FB;
+  --surface-2:#EEF2F6;
+  --text:#172033;
+  --muted:#6B778C;
+  --soft:#98A2B3;
+  --line:#DDE5EF;
+
+  --blue:#3B82F6;
+  --blue-2:#5A95F8;
+  --blue-soft:#EAF2FF;
+
+  --rose-bg:#FFF1F4;
+  --rose-text:#E45C79;
+
+  --shadow:0 12px 30px rgba(15,23,42,.08);
 }
 
 * {
@@ -30,25 +33,22 @@
   min-width:0;
 }
 
+html {
+  -webkit-text-size-adjust:100%;
+  background:var(--bg);
+}
+
 html,body {
   width:100%;
   max-width:100%;
-  min-width:0;
   overflow-x:hidden;
-}
-
-html {
-  -webkit-text-size-adjust:100%;
-  background:var(--bg-1);
 }
 
 body {
   margin:0;
   min-height:100vh;
+  background:var(--bg);
   color:var(--text);
-  background:
-    radial-gradient(circle at 82% 0%, rgba(59,130,246,.20), transparent 28%),
-    linear-gradient(180deg,var(--bg-1) 0%,var(--bg-2) 46%,var(--bg-3) 100%);
   font-family:"Helvetica Neue","PingFang TC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   font-weight:400;
 }
@@ -56,7 +56,6 @@ body {
 button,input {
   font:inherit;
   font-weight:400;
-  max-width:100%;
 }
 
 button {
@@ -70,23 +69,21 @@ button {
 
 /* LOGIN */
 .login-screen {
-  width:100%;
   height:100svh;
   min-height:100svh;
   overflow:hidden;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:
-    max(20px,env(safe-area-inset-top))
-    16px
-    max(20px,env(safe-area-inset-bottom));
+  padding:max(20px,env(safe-area-inset-top)) 16px max(20px,env(safe-area-inset-bottom));
+  background:
+    radial-gradient(circle at 82% 0%,rgba(59,130,246,.10),transparent 30%),
+    linear-gradient(180deg,#F7FAFE 0%,#F3F6FA 100%);
 }
 
 .login-shell {
   width:100%;
   max-width:430px;
-  margin:0 auto;
 }
 
 .login-kicker {
@@ -94,16 +91,15 @@ button {
   margin-bottom:14px;
   padding:7px 13px;
   border-radius:999px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.07);
-  color:#d8e4f8;
+  background:var(--blue-soft);
+  color:var(--blue);
   font-size:12px;
-  letter-spacing:.13em;
+  letter-spacing:.12em;
 }
 
 .login-title {
   margin:0;
-  color:#fff;
+  color:var(--text);
   font-size:29px;
   line-height:1.18;
   font-weight:500;
@@ -112,16 +108,16 @@ button {
 
 .login-subtitle {
   margin:10px 0 18px;
-  color:#a6b3c7;
+  color:var(--muted);
   font-size:14px;
   line-height:1.5;
 }
 
 .login-card {
-  width:100%;
   padding:18px;
   border-radius:24px;
-  background:rgba(248,250,252,.98);
+  background:var(--card);
+  border:1px solid #E3EAF2;
   box-shadow:var(--shadow);
 }
 
@@ -157,7 +153,7 @@ button {
   font-size:14px;
 }
 
-.password-wrap {
+.input-wrap {
   position:relative;
 }
 
@@ -174,12 +170,12 @@ button {
 }
 
 .text-input:focus {
-  border-color:#78a2ff;
-  box-shadow:0 0 0 4px rgba(47,111,237,.10);
+  border-color:#6EA4FF;
+  box-shadow:0 0 0 4px rgba(59,130,246,.10);
 }
 
 .text-input::placeholder {
-  color:#a7b2c1;
+  color:#A7B2C1;
 }
 
 .password-input {
@@ -197,15 +193,15 @@ button {
   height:42px;
   min-width:62px;
   border-radius:13px;
-  background:#f0f3f7;
-  color:#334155;
+  background:#F2F5F9;
+  color:#435168;
   font-size:14px;
 }
 
 .login-error {
   min-height:17px;
   margin-top:6px;
-  color:var(--red);
+  color:#E45C79;
   font-size:12px;
 }
 
@@ -215,9 +211,9 @@ button {
   margin-top:6px;
   border-radius:17px;
   background:linear-gradient(135deg,var(--blue),var(--blue-2));
-  color:#fff;
+  color:white;
   font-size:16px;
-  box-shadow:0 10px 24px rgba(47,111,237,.20);
+  box-shadow:0 10px 22px rgba(59,130,246,.18);
 }
 
 .login-note {
@@ -229,13 +225,8 @@ button {
 
 /* APP */
 .app-screen {
-  width:100%;
   min-height:100vh;
-  overflow-x:hidden;
-  padding:
-    max(18px,env(safe-area-inset-top))
-    14px
-    max(28px,env(safe-area-inset-bottom));
+  padding:max(18px,env(safe-area-inset-top)) 14px max(28px,env(safe-area-inset-bottom));
 }
 
 .container {
@@ -244,22 +235,40 @@ button {
   margin:0 auto;
 }
 
-.app-title {
+.topbar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
   margin:8px 0 18px;
-  text-align:center;
-  color:#fff;
+}
+
+.app-title {
+  margin:0;
+  color:var(--text);
   font-size:28px;
   line-height:1.2;
   font-weight:500;
   letter-spacing:-.04em;
 }
 
+.theme-toggle {
+  flex-shrink:0;
+  min-height:38px;
+  padding:0 12px;
+  border-radius:12px;
+  background:#E9EEF5;
+  color:#334155;
+  font-size:13px;
+}
+
 .card {
   width:100%;
-  margin:0 0 14px;
+  margin-bottom:14px;
   padding:16px;
   border-radius:24px;
   background:var(--card);
+  border:1px solid #E3EAF2;
   box-shadow:var(--shadow);
 }
 
@@ -269,7 +278,7 @@ button {
   font-weight:500;
 }
 
-/* Sync */
+/* SYNC */
 .sync-card {
   padding:13px 14px;
   border-radius:20px;
@@ -283,8 +292,8 @@ button {
 .sync-top {
   display:flex;
   align-items:center;
-  flex-wrap:wrap;
   gap:8px;
+  flex-wrap:wrap;
 }
 
 .connection-pill {
@@ -317,13 +326,13 @@ button {
 .sync-message.success {
   background:var(--blue-soft);
   color:var(--blue);
-  border:1px solid #d9e6ff;
+  border:1px solid #D6E6FF;
 }
 
 .sync-message.error {
-  background:var(--red-soft);
-  color:var(--red);
-  border:1px solid #ffd8da;
+  background:var(--rose-bg);
+  color:var(--rose-text);
+  border:1px solid #FFD6DF;
 }
 
 .retry-button {
@@ -351,20 +360,20 @@ button {
 }
 
 .button-muted {
-  background:#e9edf3;
+  background:#E9EDF3;
   color:#334155;
 }
 
-.button-danger-soft {
-  background:var(--red-soft);
-  color:var(--red);
+.button-danger {
+  background:var(--rose-bg);
+  color:var(--rose-text);
 }
 
-/* Result */
+/* RESULT */
 .result-card {
   padding:22px 18px;
   text-align:center;
-  background:linear-gradient(180deg,#fbfdff,#f3f7fc);
+  background:linear-gradient(180deg,#fff,#F8FBFF);
 }
 
 .result-label {
@@ -374,7 +383,7 @@ button {
 
 .result-value {
   margin:8px 0 14px;
-  color:#0a1738;
+  color:#0A1738;
   font-size:clamp(48px,14vw,62px);
   line-height:1.05;
   font-weight:500;
@@ -384,8 +393,8 @@ button {
 .summary-box {
   padding:14px;
   border-radius:18px;
-  background:#edf2f7;
-  border:1px solid #dfe7f0;
+  background:var(--surface);
+  border:1px solid #E3EAF2;
 }
 
 .summary-label {
@@ -403,13 +412,13 @@ button {
   margin-top:10px;
   padding:12px;
   border-radius:16px;
-  background:#e9eef4;
+  background:#EDF2F8;
   color:#334155;
   font-size:13px;
   line-height:1.45;
 }
 
-/* Form */
+/* INPUT */
 .form-card {
   padding:15px;
 }
@@ -419,12 +428,22 @@ button {
   font-size:17px;
 }
 
-.form-card .text-input {
-  height:48px;
+.edit-badge {
+  display:none;
+  margin-bottom:10px;
+  padding:8px 10px;
+  border-radius:12px;
+  background:#FFF7DF;
+  color:#946200;
+  border:1px solid #FFE5A3;
+  font-size:12px;
+}
+
+.edit-badge.show {
+  display:block;
 }
 
 .two-column {
-  width:100%;
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   gap:9px;
@@ -436,7 +455,6 @@ button {
 }
 
 .buy-row {
-  width:100%;
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(0,1fr) 48px;
   gap:8px;
@@ -444,14 +462,15 @@ button {
 }
 
 .buy-row .text-input {
+  height:48px;
   text-align:center;
 }
 
 .remove-buy {
   height:48px;
   border-radius:15px;
-  background:var(--red-soft);
-  color:var(--red);
+  background:var(--rose-bg);
+  color:var(--rose-text);
   font-size:22px;
 }
 
@@ -463,7 +482,7 @@ button {
 }
 
 .add-buy {
-  background:#09162f;
+  background:#243B64;
   color:#fff;
 }
 
@@ -475,11 +494,101 @@ button {
 
 .clear-inputs {
   margin-top:7px;
-  background:#e7ebf0;
-  color:#334155;
+  background:#EEF2F6;
+  color:#435168;
 }
 
-/* History */
+/* TOOLS */
+.tool-card {
+  padding:15px;
+}
+
+.tool-card .section-title {
+  margin-bottom:10px;
+  font-size:17px;
+}
+
+.tool-grid {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:9px;
+}
+
+.tool-result {
+  margin-top:10px;
+  padding:12px;
+  border-radius:15px;
+  background:var(--surface);
+  color:#334155;
+  font-size:13px;
+  line-height:1.55;
+}
+
+.tool-result strong {
+  font-weight:500;
+}
+
+.scenario-input-row {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 44px;
+  gap:8px;
+  margin-top:8px;
+}
+
+.scenario-remove {
+  height:48px;
+  border-radius:14px;
+  background:var(--rose-bg);
+  color:var(--rose-text);
+  font-size:20px;
+}
+
+.scenario-add {
+  width:100%;
+  min-height:40px;
+  margin-top:8px;
+  border-radius:13px;
+  background:#EEF2F6;
+  color:#435168;
+  font-size:13px;
+}
+
+.scenario-table {
+  margin-top:10px;
+  overflow:hidden;
+  border:1px solid #E3EAF2;
+  border-radius:16px;
+  background:#fff;
+}
+
+.scenario-head,
+.scenario-row {
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+}
+
+.scenario-head {
+  background:#F3F6FA;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.scenario-head>div,
+.scenario-row>div {
+  padding:10px 8px;
+  text-align:center;
+}
+
+.scenario-row {
+  border-top:1px solid #E9EEF4;
+  font-size:13px;
+}
+
+.scenario-average {
+  font-weight:500;
+}
+
+/* HISTORY */
 .history-card {
   padding:14px;
 }
@@ -490,7 +599,13 @@ button {
   padding:14px;
   border-radius:18px;
   background:#fff;
-  border:1px solid #e2e8f0;
+  border:1px solid #E2E8F0;
+  cursor:pointer;
+}
+
+.history-item.editing {
+  border-color:#9BBCFF;
+  box-shadow:0 0 0 3px rgba(47,111,237,.08);
 }
 
 .history-head {
@@ -500,9 +615,9 @@ button {
 }
 
 .history-name {
-  overflow-wrap:anywhere;
   font-size:18px;
   font-weight:500;
+  overflow-wrap:anywhere;
 }
 
 .history-time {
@@ -513,7 +628,6 @@ button {
 }
 
 .history-grid {
-  width:100%;
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   gap:8px;
@@ -523,7 +637,7 @@ button {
 .history-stat {
   padding:10px;
   border-radius:14px;
-  background:#f3f6f9;
+  background:#F3F6F9;
 }
 
 .history-stat-label {
@@ -538,7 +652,6 @@ button {
 }
 
 .history-actions {
-  width:100%;
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   gap:8px;
@@ -557,8 +670,8 @@ button {
 }
 
 .delete-record {
-  background:var(--red-soft);
-  color:var(--red);
+  background:var(--rose-bg);
+  color:var(--rose-text);
 }
 
 .empty-state {
@@ -568,7 +681,7 @@ button {
   font-size:13px;
 }
 
-/* Modal */
+/* MODAL */
 .modal-overlay {
   position:fixed;
   inset:0;
@@ -577,7 +690,7 @@ button {
   align-items:center;
   justify-content:center;
   padding:20px;
-  background:rgba(2,8,23,.46);
+  background:rgba(15,23,42,.30);
   backdrop-filter:blur(8px);
 }
 
@@ -587,7 +700,7 @@ button {
   padding:20px;
   border-radius:22px;
   background:#fff;
-  box-shadow:0 24px 60px rgba(2,8,23,.30);
+  box-shadow:0 24px 60px rgba(15,23,42,.20);
 }
 
 .modal-title {
@@ -615,685 +728,153 @@ button {
 }
 
 .modal-cancel {
-  background:#e9edf3;
+  background:#E9EDF3;
   color:#334155;
 }
 
 .modal-delete {
-  background:linear-gradient(135deg,#e5484d,#f16b70);
-  color:#fff;
+  background:var(--rose-bg);
+  color:var(--rose-text);
+}
+
+/* DARK MODE */
+body.dark-mode {
+  background:#111827;
+  color:#F8FAFC;
+}
+
+body.dark-mode .app-title {
+  color:#F8FAFC;
+}
+
+body.dark-mode .card,
+body.dark-mode .history-item,
+body.dark-mode .scenario-table,
+body.dark-mode .modal {
+  background:#1F2937;
+  border-color:#334155;
+  color:#F8FAFC;
+  box-shadow:0 14px 34px rgba(0,0,0,.22);
+}
+
+body.dark-mode .section-title,
+body.dark-mode .history-name,
+body.dark-mode .history-stat-value,
+body.dark-mode .summary-value,
+body.dark-mode .result-value,
+body.dark-mode .modal-title {
+  color:#F8FAFC;
+}
+
+body.dark-mode .result-label,
+body.dark-mode .summary-label,
+body.dark-mode .field-label,
+body.dark-mode .history-stat-label,
+body.dark-mode .history-time,
+body.dark-mode .sync-status,
+body.dark-mode .tool-result,
+body.dark-mode .modal-text {
+  color:#B9C4D2;
+}
+
+body.dark-mode .text-input {
+  background:#172033;
+  color:#F8FAFC;
+  border-color:#41516A;
+  caret-color:#F8FAFC;
+}
+
+body.dark-mode .text-input::placeholder {
+  color:#8E9BAD;
+}
+
+body.dark-mode .summary-box,
+body.dark-mode .difference-box,
+body.dark-mode .history-stat,
+body.dark-mode .tool-result,
+body.dark-mode .scenario-head {
+  background:#263244;
+  border-color:#3A4A62;
+}
+
+body.dark-mode .difference-box {
+  color:#E5EDF8;
+}
+
+body.dark-mode .connection-pill,
+body.dark-mode .sync-message.info,
+body.dark-mode .sync-message.success,
+body.dark-mode .load-record {
+  background:#233653;
+  color:#B9D7FF;
+  border-color:#3B5270;
+}
+
+body.dark-mode .theme-toggle,
+body.dark-mode .button-muted,
+body.dark-mode .clear-inputs,
+body.dark-mode .scenario-add,
+body.dark-mode .show-password,
+body.dark-mode .modal-cancel {
+  background:#263244;
+  color:#EAF0F7;
+}
+
+body.dark-mode .button-danger,
+body.dark-mode .delete-record,
+body.dark-mode .remove-buy,
+body.dark-mode .scenario-remove,
+body.dark-mode .modal-delete,
+body.dark-mode .sync-message.error {
+  background:#402B35;
+  color:#FDA4AF;
+  border-color:#5A3A49;
+}
+
+body.dark-mode .edit-badge {
+  background:#4A3A16;
+  color:#FFE29A;
+  border-color:#765F25;
+}
+
+body.dark-mode .scenario-head {
+  color:#B9C4D2;
+}
+
+body.dark-mode .scenario-row {
+  border-color:#334155;
+  color:#F3F6FA;
+}
+
+body.dark-mode .add-buy {
+  background:#172033;
+}
+
+@media(max-width:520px) {
+  .app-title {
+    font-size:26px;
+  }
+
+  .theme-toggle {
+    font-size:12px;
+    padding:0 10px;
+  }
+
+  .tool-grid {
+    grid-template-columns:1fr;
+  }
 }
 
 @media(max-width:360px) {
-  .login-title { font-size:26px; }
-  .login-subtitle { font-size:13px; }
+  .login-title {
+    font-size:26px;
+  }
+
   .buy-row {
     grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px;
   }
 }
-
-/* Edit mode */
-.edit-badge {
-  display:none;
-  margin-bottom:10px;
-  padding:8px 10px;
-  border-radius:12px;
-  background:#fff7df;
-  color:#946200;
-  font-size:12px;
-  border:1px solid #ffe5a3;
-}
-.edit-badge.show { display:block; }
-
-.history-item {
-  cursor:pointer;
-  transition:transform .08s ease, box-shadow .15s ease;
-}
-.history-item:active {
-  transform:scale(.995);
-}
-.history-item.editing {
-  border-color:#9bbcff;
-  box-shadow:0 0 0 3px rgba(47,111,237,.08);
-}
-
 </style>
-
-<style id="light-blue-theme">
-  :root{
-    --bg-1:#F3F6FA !important;
-    --bg-2:#F3F6FA !important;
-    --bg-3:#F3F6FA !important;
-    --card:#FFFFFF !important;
-    --text:#172033 !important;
-    --muted:#6B778C !important;
-    --soft:#98A2B3 !important;
-    --line:#DDE5EF !important;
-    --blue:#3B82F6 !important;
-    --blue-2:#5A95F8 !important;
-    --blue-soft:#EAF2FF !important;
-    --red:#E5484D !important;
-    --red-soft:#FFF1F2 !important;
-    --shadow:0 12px 30px rgba(15,23,42,.08) !important;
-  }
-
-  html{
-    background:#F3F6FA !important;
-  }
-
-  body{
-    background:#F3F6FA !important;
-    color:#172033 !important;
-  }
-
-  .login-screen{
-    background:
-      radial-gradient(circle at 82% 0%, rgba(59,130,246,.10), transparent 30%),
-      linear-gradient(180deg,#F6F9FD 0%,#F3F6FA 100%) !important;
-  }
-
-  .login-kicker{
-    background:#EAF2FF !important;
-    border-color:#D6E6FF !important;
-    color:#3B82F6 !important;
-  }
-
-  .login-title,
-  .app-title{
-    color:#172033 !important;
-    text-shadow:none !important;
-  }
-
-  .login-subtitle{
-    color:#758195 !important;
-  }
-
-  .login-card,
-  .card,
-  .result-card{
-    background:#FFFFFF !important;
-    border:1px solid #E3EAF2 !important;
-    box-shadow:0 12px 30px rgba(15,23,42,.08) !important;
-  }
-
-  .result-card{
-    background:linear-gradient(180deg,#FFFFFF 0%,#F8FBFF 100%) !important;
-  }
-
-  .summary-box,
-  .difference-box,
-  .history-stat{
-    background:#F4F7FB !important;
-    border-color:#E3EAF2 !important;
-  }
-
-  .connection-pill,
-  .sync-message.info,
-  .sync-message.success,
-  .load-record{
-    background:#EAF2FF !important;
-    color:#3B82F6 !important;
-    border-color:#D6E6FF !important;
-  }
-
-  .button-muted,
-  .clear-inputs,
-  .modal-cancel{
-    background:#EEF2F6 !important;
-    color:#435168 !important;
-  }
-
-  .add-buy{
-    background:#243B64 !important;
-    color:#FFFFFF !important;
-  }
-
-  .save-cloud,
-  .login-button{
-    background:linear-gradient(135deg,#3B82F6 0%,#5A95F8 100%) !important;
-    box-shadow:0 10px 22px rgba(59,130,246,.18) !important;
-  }
-
-  .text-input{
-    background:#FFFFFF !important;
-    color:#172033 !important;
-    border-color:#D8E2ED !important;
-  }
-
-  .text-input:focus{
-    border-color:#6EA4FF !important;
-    box-shadow:0 0 0 4px rgba(59,130,246,.10) !important;
-  }
-
-  .show-password{
-    background:#F2F5F9 !important;
-    color:#435168 !important;
-  }
-
-  .history-item{
-    background:#FFFFFF !important;
-    border-color:#E3EAF2 !important;
-  }
-</style>
-
-
-<style id="advanced-tools-theme">
-  .topbar{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    margin:8px 0 18px;
-  }
-
-  .topbar .app-title{
-    margin:0 !important;
-    flex:1;
-    text-align:left;
-  }
-
-  .theme-toggle{
-    flex-shrink:0;
-    min-height:38px;
-    padding:0 12px;
-    border-radius:12px;
-    background:#e9eef5;
-    color:#334155;
-    font-size:13px;
-  }
-
-  .tool-card{
-    padding:15px;
-  }
-
-  .tool-card .section-title{
-    margin-bottom:10px;
-    font-size:17px;
-  }
-
-  .tool-grid{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-    gap:9px;
-  }
-
-  .tool-result{
-    margin-top:10px;
-    padding:12px;
-    border-radius:15px;
-    background:#f4f7fb;
-    color:#334155;
-    font-size:13px;
-    line-height:1.55;
-  }
-
-  .tool-result strong{
-    font-weight:500;
-    color:#172033;
-  }
-
-  .scenario-controls{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-    gap:9px;
-  }
-
-  .scenario-table{
-    margin-top:10px;
-    border:1px solid #e3eaf2;
-    border-radius:16px;
-    overflow:hidden;
-    background:#fff;
-  }
-
-  .scenario-head,
-  .scenario-row{
-    display:grid;
-    grid-template-columns:1fr 1fr 1fr;
-    gap:0;
-  }
-
-  .scenario-head{
-    background:#f3f6fa;
-    color:#6b778c;
-    font-size:11px;
-  }
-
-  .scenario-head > div,
-  .scenario-row > div{
-    padding:10px 8px;
-    text-align:center;
-  }
-
-  .scenario-row{
-    border-top:1px solid #e9eef4;
-    color:#172033;
-    font-size:13px;
-  }
-
-  .scenario-row .scenario-avg{
-    font-weight:500;
-  }
-
-  .scenario-input-row{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px;
-    gap:8px;
-    margin-top:8px;
-  }
-
-  .scenario-remove{
-    height:48px;
-    border-radius:14px;
-    background:var(--red-soft);
-    color:var(--red);
-    font-size:20px;
-  }
-
-  .scenario-add{
-    width:100%;
-    min-height:40px;
-    margin-top:8px;
-    border-radius:13px;
-    background:#eef2f6;
-    color:#435168;
-    font-size:13px;
-  }
-
-  /* Dark mode */
-  body.dark-mode{
-    background:
-      radial-gradient(circle at 82% 0%, rgba(59,130,246,.18), transparent 28%),
-      linear-gradient(180deg,#07101f 0%,#0b1730 46%,#0a1426 100%) !important;
-    color:#f8fafc !important;
-  }
-
-  body.dark-mode .login-screen{
-    background:
-      radial-gradient(circle at 82% 0%, rgba(59,130,246,.20), transparent 30%),
-      linear-gradient(180deg,#07101f 0%,#0b1730 100%) !important;
-  }
-
-  body.dark-mode .login-title,
-  body.dark-mode .app-title{
-    color:#fff !important;
-  }
-
-  body.dark-mode .login-subtitle{
-    color:#a6b3c7 !important;
-  }
-
-  body.dark-mode .login-card,
-  body.dark-mode .card,
-  body.dark-mode .result-card,
-  body.dark-mode .history-item,
-  body.dark-mode .scenario-table{
-    background:#111827 !important;
-    border-color:#263244 !important;
-    color:#e5edf8 !important;
-  }
-
-  body.dark-mode .section-title,
-  body.dark-mode .login-heading,
-  body.dark-mode .history-name,
-  body.dark-mode .history-stat-value,
-  body.dark-mode .summary-value,
-  body.dark-mode .result-value,
-  body.dark-mode .tool-result strong,
-  body.dark-mode .scenario-row{
-    color:#f8fafc !important;
-  }
-
-  body.dark-mode .field-label,
-  body.dark-mode .result-label,
-  body.dark-mode .summary-label,
-  body.dark-mode .history-stat-label,
-  body.dark-mode .history-time,
-  body.dark-mode .sync-status,
-  body.dark-mode .tool-result{
-    color:#aeb9c9 !important;
-  }
-
-  body.dark-mode .text-input{
-    background:#0f172a !important;
-    color:#f8fafc !important;
-    border-color:#334155 !important;
-  }
-
-  body.dark-mode .summary-box,
-  body.dark-mode .difference-box,
-  body.dark-mode .history-stat,
-  body.dark-mode .tool-result,
-  body.dark-mode .scenario-head{
-    background:#172033 !important;
-    border-color:#263244 !important;
-  }
-
-  body.dark-mode .scenario-row{
-    border-color:#263244 !important;
-  }
-
-  body.dark-mode .theme-toggle,
-  body.dark-mode .button-muted,
-  body.dark-mode .clear-inputs,
-  body.dark-mode .scenario-add{
-    background:#243041 !important;
-    color:#e5edf8 !important;
-  }
-
-  body.dark-mode .show-password{
-    background:#243041 !important;
-    color:#e5edf8 !important;
-  }
-
-  @media(max-width:520px){
-    .topbar{
-      align-items:center;
-    }
-
-    .topbar .app-title{
-      font-size:26px !important;
-    }
-
-    .theme-toggle{
-      min-height:36px;
-      padding:0 10px;
-      font-size:12px;
-    }
-
-    .tool-grid,
-    .scenario-controls{
-      grid-template-columns:1fr;
-    }
-  }
-</style>
-
-
-<style id="deep-blue-gray-dark-theme">
-  body.dark-mode{
-    background:#111827 !important;
-    color:#F8FAFC !important;
-  }
-
-  body.dark-mode .login-screen{
-    background:
-      radial-gradient(circle at 82% 0%, rgba(96,165,250,.12), transparent 28%),
-      linear-gradient(180deg,#111827 0%,#172033 100%) !important;
-  }
-
-  body.dark-mode .login-title,
-  body.dark-mode .app-title{
-    color:#F8FAFC !important;
-  }
-
-  body.dark-mode .login-subtitle{
-    color:#A7B0BE !important;
-  }
-
-  body.dark-mode .login-kicker{
-    background:#1F2937 !important;
-    border-color:#334155 !important;
-    color:#93C5FD !important;
-  }
-
-  body.dark-mode .login-card,
-  body.dark-mode .card,
-  body.dark-mode .result-card,
-  body.dark-mode .history-item,
-  body.dark-mode .scenario-table,
-  body.dark-mode .modal{
-    background:#1F2937 !important;
-    border-color:#334155 !important;
-    color:#F8FAFC !important;
-    box-shadow:0 14px 34px rgba(0,0,0,.22) !important;
-  }
-
-  body.dark-mode .section-title,
-  body.dark-mode .login-heading,
-  body.dark-mode .history-name,
-  body.dark-mode .history-stat-value,
-  body.dark-mode .summary-value,
-  body.dark-mode .result-value,
-  body.dark-mode .tool-result strong,
-  body.dark-mode .scenario-row,
-  body.dark-mode .modal-title{
-    color:#F8FAFC !important;
-  }
-
-  body.dark-mode .field-label,
-  body.dark-mode .result-label,
-  body.dark-mode .summary-label,
-  body.dark-mode .history-stat-label,
-  body.dark-mode .history-time,
-  body.dark-mode .sync-status,
-  body.dark-mode .tool-result,
-  body.dark-mode .modal-text{
-    color:#A7B0BE !important;
-  }
-
-  body.dark-mode .text-input{
-    background:#172033 !important;
-    color:#F8FAFC !important;
-    border-color:#334155 !important;
-  }
-
-  body.dark-mode .text-input::placeholder{
-    color:#7F8A99 !important;
-  }
-
-  body.dark-mode .text-input:focus{
-    border-color:#60A5FA !important;
-    box-shadow:0 0 0 4px rgba(96,165,250,.12) !important;
-  }
-
-  body.dark-mode .summary-box,
-  body.dark-mode .difference-box,
-  body.dark-mode .history-stat,
-  body.dark-mode .tool-result,
-  body.dark-mode .scenario-head{
-    background:#263244 !important;
-    border-color:#334155 !important;
-  }
-
-  body.dark-mode .scenario-row{
-    border-color:#334155 !important;
-  }
-
-  body.dark-mode .connection-pill,
-  body.dark-mode .sync-message.info,
-  body.dark-mode .sync-message.success,
-  body.dark-mode .load-record{
-    background:#22324A !important;
-    color:#93C5FD !important;
-    border-color:#334155 !important;
-  }
-
-  body.dark-mode .theme-toggle,
-  body.dark-mode .button-muted,
-  body.dark-mode .clear-inputs,
-  body.dark-mode .scenario-add,
-  body.dark-mode .show-password,
-  body.dark-mode .modal-cancel{
-    background:#263244 !important;
-    color:#E5E7EB !important;
-  }
-
-  body.dark-mode .add-buy{
-    background:#172033 !important;
-    color:#F8FAFC !important;
-  }
-
-  body.dark-mode .save-cloud,
-  body.dark-mode .login-button{
-    background:linear-gradient(135deg,#3B82F6 0%,#60A5FA 100%) !important;
-    color:#FFFFFF !important;
-    box-shadow:0 10px 22px rgba(59,130,246,.18) !important;
-  }
-
-  body.dark-mode .button-danger-soft,
-  body.dark-mode .delete-record,
-  body.dark-mode .remove-buy,
-  body.dark-mode .scenario-remove{
-    background:#3A2328 !important;
-    color:#FCA5A5 !important;
-  }
-</style>
-
-
-<style id="dark-contrast-fix">
-  /* 深色模式文字對比修正 */
-  body.dark-mode .difference-box{
-    background:#2B3950 !important;
-    color:#E5EDF8 !important;
-    border:1px solid #3A4A62 !important;
-  }
-
-  body.dark-mode .difference-box,
-  body.dark-mode .difference-box *{
-    color:#E5EDF8 !important;
-  }
-
-  body.dark-mode .sync-status{
-    color:#C5CFDC !important;
-  }
-
-  body.dark-mode .sync-message.info,
-  body.dark-mode .sync-message.success{
-    background:#233653 !important;
-    color:#B9D7FF !important;
-    border-color:#3B5270 !important;
-  }
-
-  body.dark-mode .sync-message.error{
-    background:#43272C !important;
-    color:#FFB4B8 !important;
-    border-color:#674047 !important;
-  }
-
-  body.dark-mode .field-label,
-  body.dark-mode .result-label,
-  body.dark-mode .summary-label,
-  body.dark-mode .history-stat-label,
-  body.dark-mode .history-time,
-  body.dark-mode .tool-result,
-  body.dark-mode .modal-text{
-    color:#B9C4D2 !important;
-  }
-
-  body.dark-mode .text-input{
-    background:#172033 !important;
-    color:#F8FAFC !important;
-    border-color:#41516A !important;
-    caret-color:#F8FAFC !important;
-  }
-
-  body.dark-mode .text-input::placeholder{
-    color:#8E9BAD !important;
-    opacity:1 !important;
-  }
-
-  body.dark-mode .text-input:focus{
-    border-color:#60A5FA !important;
-    box-shadow:0 0 0 4px rgba(96,165,250,.14) !important;
-  }
-
-  body.dark-mode .edit-badge{
-    background:#4A3A16 !important;
-    color:#FFE29A !important;
-    border-color:#765F25 !important;
-  }
-
-  body.dark-mode .section-title,
-  body.dark-mode .subheading,
-  body.dark-mode .login-heading,
-  body.dark-mode .history-name,
-  body.dark-mode .history-stat-value,
-  body.dark-mode .summary-value,
-  body.dark-mode .result-value,
-  body.dark-mode .modal-title{
-    color:#F8FAFC !important;
-  }
-
-  body.dark-mode .summary-box{
-    background:#29374B !important;
-    border-color:#3A4A62 !important;
-  }
-
-  body.dark-mode .history-stat,
-  body.dark-mode .tool-result{
-    background:#263244 !important;
-    border-color:#3A4A62 !important;
-    color:#DCE5EF !important;
-  }
-
-  body.dark-mode .tool-result strong{
-    color:#FFFFFF !important;
-  }
-
-  body.dark-mode .scenario-head{
-    background:#263244 !important;
-    color:#B9C4D2 !important;
-  }
-
-  body.dark-mode .scenario-row{
-    color:#F3F6FA !important;
-    border-color:#3A4A62 !important;
-  }
-
-  body.dark-mode .scenario-row .scenario-avg{
-    color:#FFFFFF !important;
-  }
-
-  body.dark-mode .show-password,
-  body.dark-mode .theme-toggle,
-  body.dark-mode .button-muted,
-  body.dark-mode .clear-inputs,
-  body.dark-mode .scenario-add,
-  body.dark-mode .modal-cancel{
-    color:#EAF0F7 !important;
-  }
-
-  body.dark-mode .connection-pill,
-  body.dark-mode .load-record{
-    color:#B9D7FF !important;
-  }
-
-  body.dark-mode .button-danger-soft,
-  body.dark-mode .delete-record,
-  body.dark-mode .remove-buy,
-  body.dark-mode .scenario-remove{
-    color:#FFB4B8 !important;
-  }
-</style>
-
-
-<style id="dark-rose-buttons">
-  /* 深色模式：所有紅色操作改為玫瑰紅 */
-  body.dark-mode .button-danger-soft,
-  body.dark-mode .delete-record,
-  body.dark-mode .remove-buy,
-  body.dark-mode .scenario-remove,
-  body.dark-mode .modal-delete{
-    background:#402B35 !important;
-    color:#FDA4AF !important;
-    border-color:#5A3A49 !important;
-  }
-
-  body.dark-mode .button-danger-soft:active,
-  body.dark-mode .delete-record:active,
-  body.dark-mode .remove-buy:active,
-  body.dark-mode .scenario-remove:active,
-  body.dark-mode .modal-delete:active{
-    background:#4A3140 !important;
-  }
-
-  body.dark-mode .sync-message.error{
-    background:#402B35 !important;
-    color:#FDA4AF !important;
-    border-color:#5A3A49 !important;
-  }
-</style>
-
 </head>
 
 <body>
@@ -1313,27 +894,24 @@ button {
       <div class="field">
         <label class="field-label">密碼</label>
 
-        <div class="password-wrap">
+        <div class="input-wrap">
           <input
             id="passwordInput"
             class="text-input password-input"
-            type="password" inputmode="numeric" pattern="[0-9]*"
+            type="password"
+            inputmode="numeric"
+            pattern="[0-9]*"
             minlength="3"
             autocomplete="current-password"
             placeholder="輸入密碼"
           >
-          <button
-            type="button"
-            class="show-password"
-            onclick="togglePassword()"
-          >顯示</button>
+          <button type="button" class="show-password" onclick="togglePassword()">顯示</button>
         </div>
 
         <div id="loginError" class="login-error"></div>
       </div>
 
       <button class="login-button" onclick="enterApp()">進入計算器</button>
-
       <div class="login-note">同一組密碼可在不同裝置使用相同紀錄。</div>
     </div>
   </div>
@@ -1359,7 +937,7 @@ button {
 
       <div class="sync-actions">
         <button class="small-button button-muted" onclick="syncNow()">立即同步</button>
-        <button class="small-button button-danger-soft" onclick="logout()">登出 / 更換密碼</button>
+        <button class="small-button button-danger" onclick="logout()">登出 / 更換密碼</button>
       </div>
     </section>
 
@@ -1420,7 +998,6 @@ button {
       </div>
 
       <div class="subheading">新增買入</div>
-
       <div id="rows"></div>
 
       <button class="form-button add-buy" onclick="addRow()">＋ 新增一筆買入</button>
@@ -1428,19 +1005,32 @@ button {
       <button class="form-button clear-inputs" onclick="clearInputs()">清除目前輸入</button>
     </section>
 
-    
     <section class="card tool-card">
       <div class="section-title">目標均價試算</div>
 
       <div class="tool-grid">
         <div class="field">
           <label class="field-label">目標平均價格</label>
-          <input id="targetAverage" class="text-input" type="number" step="any" inputmode="decimal" oninput="calculateTargetAverage()">
+          <input
+            id="targetAverage"
+            class="text-input"
+            type="number"
+            step="any"
+            inputmode="decimal"
+            oninput="calculateTargetAverage()"
+          >
         </div>
 
         <div class="field">
           <label class="field-label">預計買入價格</label>
-          <input id="targetBuyPrice" class="text-input" type="number" step="any" inputmode="decimal" oninput="calculateTargetAverage()">
+          <input
+            id="targetBuyPrice"
+            class="text-input"
+            type="number"
+            step="any"
+            inputmode="decimal"
+            oninput="calculateTargetAverage()"
+          >
         </div>
       </div>
 
@@ -1452,18 +1042,17 @@ button {
     <section class="card tool-card">
       <div class="section-title">不同加倉方案比較</div>
 
-      <div class="scenario-controls">
-        <div class="field">
-          <label class="field-label">統一買入價格</label>
-          <input id="scenarioBuyPrice" class="text-input" type="number" step="any" inputmode="decimal" placeholder="例如 100" oninput="calculateScenarios()">
-        </div>
-
-        <div class="field">
-          <label class="field-label">說明</label>
-          <div class="tool-result" style="margin-top:0;height:50px;display:flex;align-items:center;">
-            每組輸入不同加倉數量
-          </div>
-        </div>
+      <div class="field">
+        <label class="field-label">統一買入價格</label>
+        <input
+          id="scenarioBuyPrice"
+          class="text-input"
+          type="number"
+          step="any"
+          inputmode="decimal"
+          placeholder="例如 100"
+          oninput="calculateScenarios()"
+        >
       </div>
 
       <div id="scenarioInputs"></div>
@@ -1475,13 +1064,12 @@ button {
           <div>買入價格</div>
           <div>新平均價</div>
         </div>
+
         <div id="scenarioResults">
           <div class="empty-state">輸入資料後自動比較</div>
         </div>
       </div>
     </section>
-
-    
 
     <section class="card history-card">
       <div class="section-title">紀錄</div>
@@ -1556,25 +1144,20 @@ function enterApp() {
   document.getElementById("loginScreen").classList.add("hidden");
   document.getElementById("appScreen").classList.remove("hidden");
 
+  window.scrollTo(0, 0);
   loadHistory();
 }
 
 function logout() {
-  closeDeleteModal();
-
   sessionStorage.removeItem("avg_session_code");
   currentSyncCode = "";
   loadedRecordId = null;
-  updateEditBadge();
 
   document.getElementById("passwordInput").value = "";
   document.getElementById("appScreen").classList.add("hidden");
   document.getElementById("loginScreen").classList.remove("hidden");
 
-  document.getElementById("historyList").innerHTML =
-    '<div class="empty-state">登入後會自動同步</div>';
-
-  setSyncStatus("尚未同步");
+  updateEditBadge();
   clearSyncMessage();
 }
 
@@ -1587,29 +1170,11 @@ function addRow(price = "", qty = "") {
   row.className = "buy-row";
 
   row.innerHTML = `
-    <input
-      class="text-input price"
-      type="number"
-      step="any"
-      inputmode="decimal"
-      placeholder="買入價格"
-      value="${escapeHtml(price)}"
-      oninput="calculate()"
-    >
-    <input
-      class="text-input qty"
-      type="number"
-      step="any"
-      inputmode="decimal"
-      placeholder="數量"
-      value="${escapeHtml(qty)}"
-      oninput="calculate()"
-    >
-    <button
-      class="remove-buy"
-      onclick="removeRow(this)"
-      aria-label="刪除此筆"
-    >×</button>
+    <input class="text-input price" type="number" step="any" inputmode="decimal"
+      placeholder="買入價格" value="${escapeHtml(price)}" oninput="calculate()">
+    <input class="text-input qty" type="number" step="any" inputmode="decimal"
+      placeholder="數量" value="${escapeHtml(qty)}" oninput="calculate()">
+    <button class="remove-buy" onclick="removeRow(this)">×</button>
   `;
 
   rowsEl.appendChild(row);
@@ -1690,14 +1255,11 @@ function calculate() {
   calculateScenarios();
 }
 
-
 function calculateTargetAverage() {
   const current = getCalculationData();
-  const targetAverage = parseFloat(document.getElementById("targetAverage")?.value);
-  const buyPrice = parseFloat(document.getElementById("targetBuyPrice")?.value);
+  const targetAverage = parseFloat(document.getElementById("targetAverage").value);
+  const buyPrice = parseFloat(document.getElementById("targetBuyPrice").value);
   const result = document.getElementById("targetAverageResult");
-
-  if (!result) return;
 
   if (current.totalQty <= 0 || current.average <= 0) {
     result.textContent = "先輸入目前持有資料，再進行目標均價試算。";
@@ -1724,8 +1286,7 @@ function calculateTargetAverage() {
     (targetAverage - buyPrice);
 
   if (requiredQty <= 0 || !Number.isFinite(requiredQty)) {
-    result.textContent =
-      "以目前資料與這個買入價格，無法透過加倉達到此目標均價。";
+    result.textContent = "以目前資料與這個買入價格，無法透過加倉達到此目標均價。";
     return;
   }
 
@@ -1733,14 +1294,12 @@ function calculateTargetAverage() {
   const extraCost = requiredQty * buyPrice;
 
   result.innerHTML =
-    `需要再買 <strong>${formatNumber(requiredQty, 8)}</strong>，` +
-    `約需投入 <strong>${formatNumber(extraCost, 2)}</strong>，` +
-    `買入後總數量約 <strong>${formatNumber(newTotalQty, 8)}</strong>。`;
+    `需要再買 <strong>${formatNumber(requiredQty,8)}</strong>，` +
+    `約需投入 <strong>${formatNumber(extraCost,2)}</strong>，` +
+    `買入後總數量約 <strong>${formatNumber(newTotalQty,8)}</strong>。`;
 }
 
 function addScenario(qty = "") {
-  if (!scenarioInputsEl) return;
-
   const row = document.createElement("div");
   row.className = "scenario-input-row";
 
@@ -1754,9 +1313,6 @@ function addScenario(qty = "") {
       value="${escapeHtml(qty)}"
       oninput="calculateScenarios()"
     >
-    <div class="tool-result" style="margin-top:0;height:48px;display:flex;align-items:center;justify-content:center;">
-      方案
-    </div>
     <button class="scenario-remove" onclick="removeScenario(this)">×</button>
   `;
 
@@ -1765,9 +1321,9 @@ function addScenario(qty = "") {
 }
 
 function removeScenario(button) {
-  button.closest(".scenario-input-row")?.remove();
+  button.closest(".scenario-input-row").remove();
 
-  if (scenarioInputsEl && !scenarioInputsEl.children.length) {
+  if (!scenarioInputsEl.children.length) {
     addScenario();
   }
 
@@ -1776,9 +1332,7 @@ function removeScenario(button) {
 
 function calculateScenarios() {
   const resultBox = document.getElementById("scenarioResults");
-  const buyPrice = parseFloat(document.getElementById("scenarioBuyPrice")?.value);
-  if (!resultBox || !scenarioInputsEl) return;
-
+  const buyPrice = parseFloat(document.getElementById("scenarioBuyPrice").value);
   const current = getCalculationData();
 
   if (
@@ -1819,38 +1373,15 @@ function calculateScenarios() {
 
   resultBox.innerHTML = scenarios.map(item => `
     <div class="scenario-row">
-      <div>${formatNumber(item.qty, 8)}</div>
-      <div>${formatNumber(item.buyPrice, 4)}</div>
-      <div class="scenario-avg">${formatNumber(item.average, 4)}</div>
+      <div>${formatNumber(item.qty,8)}</div>
+      <div>${formatNumber(item.buyPrice,4)}</div>
+      <div class="scenario-average">${formatNumber(item.average,4)}</div>
     </div>
   `).join("");
 }
 
-function applyTheme(theme) {
-  const dark = theme === "dark";
-  document.body.classList.toggle("dark-mode", dark);
-
-  const button = document.getElementById("themeToggle");
-  if (button) {
-    button.textContent = dark ? "淺色" : "深色";
-  }
-
-  localStorage.setItem("avg_theme", dark ? "dark" : "light");
-}
-
-function toggleTheme() {
-  applyTheme(
-    document.body.classList.contains("dark-mode")
-      ? "light"
-      : "dark"
-  );
-}
-
-
 function saveToCloud() {
-  const name =
-    document.getElementById("calcName").value.trim().toUpperCase();
-
+  const name = document.getElementById("calcName").value.trim().toUpperCase();
   const data = getCalculationData();
 
   if (!name) {
@@ -1866,14 +1397,14 @@ function saveToCloud() {
   const payload = {
     action: loadedRecordId ? "update" : "save",
     id: loadedRecordId || "",
-    syncCode:currentSyncCode,
+    syncCode: currentSyncCode,
     name,
-    currentPrice:data.currentPrice,
-    currentQty:data.currentQty,
-    buys:data.buys,
-    average:data.average,
-    totalQty:data.totalQty,
-    totalCost:data.totalCost
+    currentPrice: data.currentPrice,
+    currentQty: data.currentQty,
+    buys: data.buys,
+    average: data.average,
+    totalQty: data.totalQty,
+    totalCost: data.totalCost
   };
 
   setSyncStatus(loadedRecordId ? "正在更新…" : "正在儲存…");
@@ -1882,22 +1413,13 @@ function saveToCloud() {
     "info"
   );
 
-  document.getElementById("payloadField").value =
-    JSON.stringify(payload);
-
+  document.getElementById("payloadField").value = JSON.stringify(payload);
   document.getElementById("hiddenForm").submit();
 
   setTimeout(() => {
-    // 儲存後清空所有輸入欄位，並退出編輯模式
     clearInputs();
-
-    // 重新讀取雲端紀錄
     loadHistory();
-  }, 1400);
-}
-
-function syncNow() {
-  loadHistory();
+  }, 1500);
 }
 
 function jsonp(url) {
@@ -1911,7 +1433,7 @@ function jsonp(url) {
     const cleanup = () => {
       try {
         delete window[callbackName];
-      } catch(e) {}
+      } catch (error) {}
 
       if (script.parentNode) {
         script.parentNode.removeChild(script);
@@ -1920,6 +1442,7 @@ function jsonp(url) {
 
     window[callbackName] = data => {
       if (finished) return;
+
       finished = true;
       cleanup();
       resolve(data);
@@ -1927,6 +1450,7 @@ function jsonp(url) {
 
     script.onerror = () => {
       if (finished) return;
+
       finished = true;
       cleanup();
       reject(new Error("無法連線到雲端"));
@@ -1950,6 +1474,10 @@ function jsonp(url) {
   });
 }
 
+function syncNow() {
+  loadHistory();
+}
+
 async function loadHistory() {
   if (!currentSyncCode) return;
 
@@ -1966,23 +1494,14 @@ async function loadHistory() {
       throw new Error(result?.error || "同步失敗");
     }
 
-    const records =
-      Array.isArray(result) ? result :
-      Array.isArray(result.records) ? result.records :
-      [];
-
-    renderHistory(records);
+    renderHistory(result.records || []);
 
     setSyncStatus("同步完成");
     showSyncMessage("同步完成", "success");
 
   } catch (error) {
     setSyncStatus("同步失敗");
-    showSyncMessage(
-      error.message || "同步失敗",
-      "error",
-      true
-    );
+    showSyncMessage(error.message || "同步失敗", "error", true);
   }
 }
 
@@ -2002,28 +1521,19 @@ function renderHistory(records) {
     >
 
       <div class="history-head">
-        <div class="history-name">
-          ${escapeHtml((record.name || "").toUpperCase())}
-        </div>
-
-        <div class="history-time">
-          ${formatDate(record.createdAt || record.created)}
-        </div>
+        <div class="history-name">${escapeHtml(record.name || "")}</div>
+        <div class="history-time">${formatDate(record.createdAt)}</div>
       </div>
 
       <div class="history-grid">
         <div class="history-stat">
           <div class="history-stat-label">平均價格</div>
-          <div class="history-stat-value">
-            ${formatNumber(record.average,4)}
-          </div>
+          <div class="history-stat-value">${formatNumber(record.average,4)}</div>
         </div>
 
         <div class="history-stat">
           <div class="history-stat-label">總數量</div>
-          <div class="history-stat-value">
-            ${formatNumber(record.totalQty,8)}
-          </div>
+          <div class="history-stat-value">${formatNumber(record.totalQty,8)}</div>
         </div>
       </div>
 
@@ -2046,10 +1556,8 @@ function renderHistory(records) {
 function loadRecord(serialized) {
   const record = JSON.parse(serialized);
 
-  // 進入編輯模式：下一次儲存會覆蓋這筆紀錄
   loadedRecordId = record.id || null;
 
-  // 將「上一次計算完成後的結果」當成新的目前持有資料
   document.getElementById("calcName").value =
     (record.name || "").toUpperCase();
 
@@ -2059,17 +1567,42 @@ function loadRecord(serialized) {
   document.getElementById("currentQty").value =
     record.totalQty || "";
 
-  // 不帶回上一次的新增買入資料，直接開始下一次買入
   rowsEl.innerHTML = "";
   addRow();
 
   updateEditBadge();
   calculate();
 
-  window.scrollTo({
-    top:document.querySelector(".form-card").offsetTop - 12,
-    behavior:"smooth"
+  document.querySelector(".form-card").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
   });
+}
+
+function updateEditBadge() {
+  const badge = document.getElementById("editBadge");
+
+  if (loadedRecordId) {
+    badge.classList.add("show");
+  } else {
+    badge.classList.remove("show");
+  }
+}
+
+function clearInputs() {
+  loadedRecordId = null;
+
+  document.getElementById("calcName").value = "";
+  document.getElementById("currentPrice").value = "";
+  document.getElementById("currentQty").value = "";
+  document.getElementById("targetAverage").value = "";
+  document.getElementById("targetBuyPrice").value = "";
+
+  rowsEl.innerHTML = "";
+  addRow();
+
+  updateEditBadge();
+  calculate();
 }
 
 function openDeleteModal(id) {
@@ -2104,9 +1637,7 @@ function confirmDelete() {
     updateEditBadge();
   }
 
-  document.getElementById("payloadField").value =
-    JSON.stringify(payload);
-
+  document.getElementById("payloadField").value = JSON.stringify(payload);
   document.getElementById("hiddenForm").submit();
 
   setSyncStatus("正在刪除…");
@@ -2114,40 +1645,7 @@ function confirmDelete() {
 
   closeDeleteModal();
 
-  setTimeout(() => {
-    loadHistory();
-  }, 1400);
-}
-
-function clearInputs() {
-  loadedRecordId = null;
-
-  document.getElementById("calcName").value = "";
-  document.getElementById("currentPrice").value = "";
-  document.getElementById("currentQty").value = "";
-
-  const targetAverage = document.getElementById("targetAverage");
-  const targetBuyPrice = document.getElementById("targetBuyPrice");
-
-  if (targetAverage) targetAverage.value = "";
-  if (targetBuyPrice) targetBuyPrice.value = "";
-
-  rowsEl.innerHTML = "";
-
-  addRow();
-  updateEditBadge();
-  calculate();
-}
-
-function updateEditBadge() {
-  const badge = document.getElementById("editBadge");
-  if (!badge) return;
-
-  if (loadedRecordId) {
-    badge.classList.add("show");
-  } else {
-    badge.classList.remove("show");
-  }
+  setTimeout(loadHistory, 1500);
 }
 
 function setSyncStatus(text) {
@@ -2157,22 +1655,40 @@ function setSyncStatus(text) {
 function showSyncMessage(message, type, retry = false) {
   const box = document.getElementById("syncMessage");
 
-  box.className =
-    `sync-message show ${type}`;
-
+  box.className = `sync-message show ${type}`;
   box.innerHTML =
     escapeHtml(message) +
-    (
-      retry
-        ? '<br><button class="retry-button" onclick="syncNow()">重新同步</button>'
-        : ''
-    );
+    (retry
+      ? '<br><button class="retry-button" onclick="syncNow()">重新同步</button>'
+      : '');
 }
 
 function clearSyncMessage() {
   const box = document.getElementById("syncMessage");
   box.className = "sync-message";
   box.innerHTML = "";
+}
+
+function applyTheme(theme) {
+  const dark = theme === "dark";
+
+  document.body.classList.toggle("dark-mode", dark);
+
+  const button = document.getElementById("themeToggle");
+
+  if (button) {
+    button.textContent = dark ? "淺色" : "深色";
+  }
+
+  localStorage.setItem("avg_theme", dark ? "dark" : "light");
+}
+
+function toggleTheme() {
+  applyTheme(
+    document.body.classList.contains("dark-mode")
+      ? "light"
+      : "dark"
+  );
 }
 
 function formatNumber(value, maxDecimals) {
@@ -2185,9 +1701,7 @@ function formatNumber(value, maxDecimals) {
 function formatDate(value) {
   const date = new Date(value);
 
-  if (Number.isNaN(date.getTime())) {
-    return "";
-  }
+  if (Number.isNaN(date.getTime())) return "";
 
   return date.toLocaleString("zh-TW",{
     year:"numeric",
@@ -2222,17 +1736,14 @@ document.addEventListener("keydown",event => {
 
 addRow();
 
-if (scenarioInputsEl) {
-  addScenario(10);
-  addScenario(50);
-  addScenario(100);
-}
+addScenario(10);
+addScenario(50);
+addScenario(100);
 
 applyTheme(localStorage.getItem("avg_theme") || "light");
 calculate();
 
-const savedSession =
-  sessionStorage.getItem("avg_session_code");
+const savedSession = sessionStorage.getItem("avg_session_code");
 
 if (savedSession) {
   currentSyncCode = savedSession;
@@ -2240,6 +1751,7 @@ if (savedSession) {
   document.getElementById("loginScreen").classList.add("hidden");
   document.getElementById("appScreen").classList.remove("hidden");
 
+  window.scrollTo(0, 0);
   loadHistory();
 }
 </script>
