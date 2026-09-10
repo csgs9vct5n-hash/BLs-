@@ -4,91 +4,451 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>平均價格計算器</title>
+  
   <style>
-    *{box-sizing:border-box}
-    body{margin:0;background:#f4f5f7;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#111827}
-    .screen{min-height:100vh;padding:22px 14px}
-    .hidden{display:none!important}
-    .container{max-width:650px;margin:auto}
-    h1{text-align:center;font-size:26px}
+    :root{
+      --bg:#f3f5f9;
+      --card:#ffffff;
+      --text:#111827;
+      --muted:#8b95a7;
+      --line:#e7eaf0;
+      --primary:#2563eb;
+      --primary-dark:#1d4ed8;
+      --dark:#111827;
+      --danger:#ef4444;
+      --danger-bg:#fff0f0;
+      --soft:#f8fafc;
+      --radius:22px;
+      --shadow:0 12px 34px rgba(15,23,42,.07);
+    }
 
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    button,input{font:inherit}
+    button{-webkit-tap-highlight-color:transparent}
+    .hidden{display:none!important}
+
+    /* Login */
     .login-screen{
+      min-height:100svh;
       display:flex;
       align-items:center;
       justify-content:center;
-      min-height:100vh;
-      padding:24px;
-      background:#111827;
+      padding:28px 20px;
+      background:
+        radial-gradient(circle at top right, rgba(37,99,235,.16), transparent 38%),
+        linear-gradient(160deg,#0f172a 0%,#111827 60%,#1e293b 100%);
     }
+
     .login-card{
       width:100%;
-      max-width:420px;
-      background:white;
-      border-radius:22px;
-      padding:26px 22px;
-      box-shadow:0 18px 50px rgba(0,0,0,.25);
+      max-width:410px;
+      background:rgba(255,255,255,.98);
+      border-radius:28px;
+      padding:30px 24px 24px;
+      box-shadow:0 26px 70px rgba(0,0,0,.28);
+      border:1px solid rgba(255,255,255,.7);
     }
-    .login-icon{
-      width:64px;height:64px;border-radius:18px;
-      background:#111827;color:white;
-      display:flex;align-items:center;justify-content:center;
-      font-size:30px;margin:0 auto 16px;
-    }
-    .login-title{text-align:center;font-size:24px;font-weight:750;margin-bottom:7px}
-    .login-sub{text-align:center;color:#6b7280;font-size:14px;margin-bottom:22px}
-    .password-wrap{position:relative}
-    .password-wrap input{padding-right:52px}
-    .toggle-pass{
-      position:absolute;right:6px;top:50%;transform:translateY(-50%);
-      background:transparent;color:#6b7280;padding:8px
-    }
-    .login-btn{
-      width:100%;background:#2563eb;color:white;
-      font-weight:700;margin-top:10px;padding:14px
-    }
-    .login-note{font-size:12px;color:#9ca3af;text-align:center;margin-top:12px;line-height:1.5}
-    .login-error{color:#b91c1c;font-size:13px;margin-top:8px;min-height:18px}
 
-    .card,.result-card{border-radius:18px;padding:18px;margin-bottom:16px}
-    .card{background:#fff;box-shadow:0 5px 20px rgba(0,0,0,.06)}
-    .result-card{background:#111827;color:white;text-align:center}
-    .result-title{color:#9ca3af;font-size:13px}
-    .average{font-size:42px;font-weight:750;margin:8px 0 16px}
-    .summary{display:grid;grid-template-columns:1fr;gap:10px}
-    .summary-box{background:rgba(255,255,255,.08);padding:11px;border-radius:11px}
-    .small{color:#9ca3af;font-size:12px}
-    .value{font-weight:700;margin-top:4px}
-    .title{font-size:18px;font-weight:700;margin-bottom:14px}
-    label{display:block;font-size:12px;color:#6b7280;margin:0 0 6px}
-    input{width:100%;padding:13px;border:1px solid #d1d5db;border-radius:10px;font-size:16px;outline:none}
-    input:focus{border-color:#111827}
-    .group{margin-bottom:13px}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .buy-row{display:grid;grid-template-columns:1fr 1fr 44px;gap:8px;margin-bottom:9px}
-    button{border:0;border-radius:10px;cursor:pointer;font-size:15px;padding:12px}
-    .primary{width:100%;background:#111827;color:#fff;font-weight:650}
-    .save{width:100%;background:#2563eb;color:white;font-weight:650;margin-top:9px}
-    .secondary{width:100%;background:#e5e7eb;color:#374151;margin-top:9px}
-    .logout{width:100%;background:#fee2e2;color:#b91c1c;margin-top:9px;font-weight:650}
-    .delete{background:#fee2e2;color:#b91c1c;font-size:20px;padding:0}
-    .status{margin-top:9px;font-size:13px;color:#6b7280}
-    .history-item{border:1px solid #e5e7eb;border-radius:13px;padding:13px;margin-bottom:10px}
-    .history-head{display:flex;justify-content:space-between;gap:8px}
-    .history-name{font-size:17px;font-weight:700}
-    .history-time{font-size:11px;color:#9ca3af}
-    .history-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:9px}
-    .stat{background:#f9fafb;border-radius:9px;padding:9px}
-    .stat-label{color:#9ca3af;font-size:11px}
-    .stat-value{font-size:13px;font-weight:700;margin-top:3px}
-    .actions{display:flex;gap:7px;margin-top:9px}
-    .actions button{flex:1;padding:9px}
-    .load{background:#dbeafe;color:#1d4ed8}
-    .remove{background:#fee2e2;color:#b91c1c}
-    .empty{text-align:center;color:#9ca3af;padding:15px 0}
-    .difference{margin-top:12px;background:#f3f4f6;color:#111827;padding:10px;border-radius:10px;font-size:13px}
-    .active-code{font-size:13px;color:#6b7280;word-break:break-all}
-    @media(max-width:500px){.history-grid{grid-template-columns:1fr}.average{font-size:38px}}
+    .login-icon{
+      width:68px;
+      height:68px;
+      margin:0 auto 18px;
+      border-radius:22px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(145deg,#2563eb,#1d4ed8);
+      color:white;
+      font-size:30px;
+      box-shadow:0 12px 26px rgba(37,99,235,.28);
+    }
+
+    .login-title{
+      text-align:center;
+      font-size:26px;
+      font-weight:800;
+      letter-spacing:-.4px;
+    }
+
+    .login-sub{
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.6;
+      margin:8px 0 24px;
+    }
+
+    .group{margin-bottom:15px}
+
+    label{
+      display:block;
+      margin:0 0 8px;
+      color:#667085;
+      font-size:13px;
+      font-weight:650;
+    }
+
+    input{
+      width:100%;
+      height:54px;
+      padding:0 15px;
+      border:1.5px solid #dce1e8;
+      border-radius:16px;
+      outline:none;
+      color:var(--text);
+      background:#fff;
+      font-size:17px;
+      transition:.18s ease;
+    }
+
+    input:focus{
+      border-color:#7aa2ff;
+      box-shadow:0 0 0 4px rgba(37,99,235,.09);
+    }
+
+    input::placeholder{color:#b0b7c3}
+
+    .password-wrap{position:relative}
+    .password-wrap input{padding-right:66px}
+
+    .toggle-pass{
+      position:absolute;
+      right:7px;
+      top:50%;
+      transform:translateY(-50%);
+      border:0;
+      background:#f1f5f9;
+      color:#526071;
+      border-radius:12px;
+      padding:9px 10px;
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .login-btn{
+      width:100%;
+      min-height:54px;
+      border:0;
+      border-radius:16px;
+      background:linear-gradient(135deg,var(--primary),#3b82f6);
+      color:white;
+      font-weight:800;
+      font-size:17px;
+      box-shadow:0 10px 24px rgba(37,99,235,.22);
+      cursor:pointer;
+    }
+
+    .login-btn:active{transform:scale(.99)}
+    .login-note{
+      text-align:center;
+      color:#9aa3b2;
+      font-size:12px;
+      line-height:1.55;
+      margin-top:14px;
+    }
+    .login-error{
+      color:#dc2626;
+      font-size:13px;
+      min-height:18px;
+      margin-top:7px;
+    }
+
+    /* App */
+    .screen{
+      min-height:100svh;
+      padding:18px 14px 34px;
+    }
+
+    .container{
+      width:100%;
+      max-width:680px;
+      margin:0 auto;
+    }
+
+    h1{
+      margin:5px 0 18px;
+      text-align:center;
+      font-size:28px;
+      font-weight:850;
+      letter-spacing:-.7px;
+    }
+
+    .card,
+    .result-card{
+      border-radius:var(--radius);
+      margin-bottom:16px;
+    }
+
+    .card{
+      background:var(--card);
+      padding:20px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(17,24,39,.035);
+    }
+
+    .result-card{
+      padding:24px 20px;
+      color:white;
+      background:
+        radial-gradient(circle at 90% 0%, rgba(59,130,246,.38), transparent 38%),
+        linear-gradient(145deg,#111827,#0f172a);
+      box-shadow:0 18px 34px rgba(15,23,42,.16);
+    }
+
+    .result-title{
+      color:#aeb8c7;
+      font-size:13px;
+      font-weight:650;
+      letter-spacing:.2px;
+    }
+
+    .average{
+      margin:8px 0 20px;
+      font-size:46px;
+      line-height:1.05;
+      font-weight:850;
+      letter-spacing:-1.2px;
+    }
+
+    .summary{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+
+    .summary-box{
+      padding:13px 14px;
+      border-radius:15px;
+      text-align:left;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .small{
+      color:#aeb8c7;
+      font-size:12px;
+      margin-bottom:4px;
+    }
+
+    .value{
+      font-size:18px;
+      font-weight:750;
+    }
+
+    .difference{
+      margin-top:12px;
+      padding:11px 13px;
+      border-radius:14px;
+      background:rgba(255,255,255,.1);
+      color:#e5e7eb;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .title{
+      margin:0 0 16px;
+      font-size:19px;
+      font-weight:800;
+      letter-spacing:-.2px;
+    }
+
+    .active-code{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#eef4ff;
+      color:#1d4ed8;
+      font-size:13px;
+      font-weight:750;
+    }
+
+    .status{
+      margin:10px 0 0;
+      color:#7b8494;
+      font-size:13px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .buy-row{
+      display:grid;
+      grid-template-columns:1fr 1fr 48px;
+      gap:9px;
+      margin-bottom:10px;
+    }
+
+    button{
+      border:0;
+      border-radius:15px;
+      cursor:pointer;
+      transition:transform .08s ease,opacity .12s ease;
+    }
+
+    button:active{
+      transform:scale(.985);
+      opacity:.9;
+    }
+
+    .primary,
+    .save,
+    .secondary,
+    .logout{
+      width:100%;
+      min-height:52px;
+      font-weight:780;
+      font-size:16px;
+    }
+
+    .primary{
+      background:#111827;
+      color:white;
+    }
+
+    .save{
+      margin-top:10px;
+      background:linear-gradient(135deg,var(--primary),#3b82f6);
+      color:white;
+      box-shadow:0 8px 18px rgba(37,99,235,.14);
+    }
+
+    .secondary{
+      margin-top:10px;
+      background:#eef1f5;
+      color:#465366;
+    }
+
+    .logout{
+      margin-top:10px;
+      background:var(--danger-bg);
+      color:#dc2626;
+    }
+
+    .delete{
+      min-height:54px;
+      padding:0;
+      background:#fee2e2;
+      color:#dc2626;
+      font-size:24px;
+      font-weight:500;
+    }
+
+    /* History */
+    .history-item{
+      margin-bottom:12px;
+      padding:16px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fff;
+      box-shadow:0 5px 16px rgba(15,23,42,.025);
+    }
+
+    .history-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+    }
+
+    .history-name{
+      font-size:20px;
+      font-weight:850;
+      letter-spacing:.1px;
+    }
+
+    .history-time{
+      flex-shrink:0;
+      color:#9aa3b2;
+      font-size:12px;
+      line-height:1.4;
+      text-align:right;
+    }
+
+    .history-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:9px;
+      margin-top:13px;
+    }
+
+    .stat{
+      padding:12px;
+      border-radius:14px;
+      background:#f7f8fa;
+    }
+
+    .stat-label{
+      color:#98a2b3;
+      font-size:12px;
+      margin-bottom:5px;
+    }
+
+    .stat-value{
+      font-size:16px;
+      font-weight:800;
+      word-break:break-word;
+    }
+
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:9px;
+      margin-top:12px;
+    }
+
+    .actions button{
+      min-height:45px;
+      font-size:15px;
+      font-weight:750;
+    }
+
+    .load{
+      background:#e7f0ff;
+      color:#2563eb;
+    }
+
+    .remove{
+      background:#fff0f0;
+      color:#dc2626;
+    }
+
+    .empty{
+      padding:24px 8px;
+      text-align:center;
+      color:#9aa3b2;
+      font-size:14px;
+    }
+
+    @media(max-width:520px){
+      .screen{padding:14px 12px 28px}
+      .card{padding:18px}
+      h1{font-size:25px}
+      .average{font-size:42px}
+      .grid{gap:9px}
+      .history-grid{grid-template-columns:1fr 1fr}
+    }
+
+    @media(max-width:370px){
+      .grid{grid-template-columns:1fr}
+      .buy-row{grid-template-columns:1fr 1fr 44px}
+      .history-grid{grid-template-columns:1fr}
+    }
   </style>
+
 </head>
 <body>
 
@@ -96,19 +456,19 @@
   <div class="login-card">
     <div class="login-icon">🔒</div>
     <div class="login-title">輸入密碼</div>
-    <div class="login-sub">輸入你的同步密碼後進入平均價格計算器</div>
+    <div class="login-sub">輸入同步密碼後進入計算器</div>
 
     <div class="group">
       <label>密碼</label>
       <div class="password-wrap">
-        <input id="passwordInput" type="password" placeholder="輸入密碼" autocomplete="current-password">
+        <input id="passwordInput" type="password" placeholder="輸入至少 3 碼" minlength="3" autocomplete="current-password">
         <button type="button" class="toggle-pass" onclick="togglePassword()">顯示</button>
       </div>
       <div id="loginError" class="login-error"></div>
     </div>
 
     <button class="login-btn" onclick="enterApp()">進入</button>
-    <div class="login-note">同一組密碼可在手機、平板、電腦使用同一份雲端紀錄。</div>
+    <div class="login-note">同一組密碼可在不同裝置同步使用。</div>
   </div>
 </div>
 
@@ -180,8 +540,8 @@ function enterApp(){
   const code = document.getElementById("passwordInput").value.trim();
   const error = document.getElementById("loginError");
 
-  if(code.length < 4){
-    error.textContent = "密碼至少輸入 4 個字元";
+  if(code.length < 3){
+    error.textContent = "密碼至少輸入 3 個字元";
     return;
   }
 
