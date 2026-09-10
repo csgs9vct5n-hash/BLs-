@@ -54,7 +54,7 @@
     .result-card{background:#111827;color:white;text-align:center}
     .result-title{color:#9ca3af;font-size:13px}
     .average{font-size:42px;font-weight:750;margin:8px 0 16px}
-    .summary{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .summary{display:grid;grid-template-columns:1fr;gap:10px}
     .summary-box{background:rgba(255,255,255,.08);padding:11px;border-radius:11px}
     .small{color:#9ca3af;font-size:12px}
     .value{font-weight:700;margin-top:4px}
@@ -76,7 +76,7 @@
     .history-head{display:flex;justify-content:space-between;gap:8px}
     .history-name{font-size:17px;font-weight:700}
     .history-time{font-size:11px;color:#9ca3af}
-    .history-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}
+    .history-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:9px}
     .stat{background:#f9fafb;border-radius:9px;padding:9px}
     .stat-label{color:#9ca3af;font-size:11px}
     .stat-value{font-size:13px;font-weight:700;margin-top:3px}
@@ -129,7 +129,6 @@
       <div class="average" id="average">0.00</div>
       <div class="summary">
         <div class="summary-box"><div class="small">總數量</div><div class="value" id="totalQty">0.00</div></div>
-        <div class="summary-box"><div class="small">總投入</div><div class="value" id="totalCost">0.00</div></div>
       </div>
       <div class="difference" id="difference">輸入資料後自動計算</div>
     </div>
@@ -235,7 +234,6 @@ function calculate(){
   const d=getData();
   document.getElementById("average").textContent=fmt(d.average,4);
   document.getElementById("totalQty").textContent=fmt(d.totalQty,8);
-  document.getElementById("totalCost").textContent=fmt(d.totalCost,2);
   const difference=document.getElementById("difference");
   if(d.currentPrice>0&&d.currentQty>0){
     const diff=d.average-d.currentPrice,pct=diff/d.currentPrice*100;
@@ -302,7 +300,6 @@ function renderHistory(records){
       <div class="history-grid">
         <div class="stat"><div class="stat-label">平均價格</div><div class="stat-value">${fmt(r.average,4)}</div></div>
         <div class="stat"><div class="stat-label">總數量</div><div class="stat-value">${fmt(r.totalQty,8)}</div></div>
-        <div class="stat"><div class="stat-label">總投入</div><div class="stat-value">${fmt(r.totalCost,2)}</div></div>
       </div>
       <div class="actions">
         <button class="load" onclick='loadRecord(${JSON.stringify(JSON.stringify(r))})'>載入</button>
