@@ -1007,6 +1007,83 @@ body.dark-mode .add-buy {
 <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=7">
 <meta name="apple-mobile-web-app-title" content="AvgMate">
 
+
+<style id="avgmate-visual-polish-v2">
+.topbar{margin:4px 0 14px;align-items:center}
+.brand-lockup{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-logo{width:42px;height:42px;border-radius:13px;object-fit:cover;flex-shrink:0;box-shadow:0 8px 20px rgba(29,78,216,.18)}
+.app-title{font-size:25px;line-height:1.05;margin:0}
+.app-subtitle{margin-top:3px;color:var(--muted);font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.card{margin-bottom:11px;padding:14px;border-radius:22px}
+.section-title{margin-bottom:10px;font-size:17px}
+
+.result-card{position:relative;overflow:hidden;padding:21px 17px 18px;background:radial-gradient(circle at 50% 0%,rgba(59,130,246,.12),transparent 44%),linear-gradient(180deg,#FFFFFF 0%,#F8FBFF 100%)}
+.result-card::after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;left:50%;top:-120px;transform:translateX(-50%);background:rgba(59,130,246,.07);pointer-events:none}
+.result-glow-line{position:absolute;top:0;left:22%;right:22%;height:2px;border-radius:999px;background:linear-gradient(90deg,transparent,#60A5FA,transparent);opacity:.75}
+.result-label,.result-value,.summary-box,.difference-box{position:relative;z-index:1}
+.result-value{margin:8px 0 13px;text-shadow:0 8px 22px rgba(59,130,246,.10)}
+.summary-box{border-radius:17px}
+
+.text-input{height:48px;border-radius:14px;border-width:1.5px;transition:border-color .18s ease,box-shadow .18s ease,background .18s ease}
+.text-input:focus{border-color:#60A5FA;box-shadow:0 0 0 3px rgba(96,165,250,.11)}
+.field{margin-bottom:9px}
+.field-label{margin-bottom:5px;font-size:13px}
+
+button{transition:transform .12s ease,opacity .12s ease,box-shadow .18s ease,background .18s ease}
+button:active{transform:scale(.98)}
+.save-cloud,.login-button{box-shadow:0 8px 18px rgba(59,130,246,.18)}
+.form-button{min-height:41px;border-radius:13px}
+.small-button{min-height:34px;border-radius:11px}
+
+.target-visual{margin:-1px 0 12px;padding:11px 12px 9px;border-radius:15px;background:linear-gradient(180deg,#F6F9FD,#F1F5FA);border:1px solid #E4EBF3}
+.target-track{display:flex;align-items:center;gap:7px}
+.target-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.target-dot.current{background:#94A3B8}
+.target-dot.goal{background:#60A5FA;box-shadow:0 0 0 4px rgba(96,165,250,.12)}
+.target-line{flex:1;height:2px;border-radius:999px;background:linear-gradient(90deg,#CBD5E1,#60A5FA)}
+.target-arrow{color:#60A5FA;font-size:14px;line-height:1}
+.target-visual-labels{display:flex;justify-content:space-between;margin-top:6px;color:var(--muted);font-size:10px}
+
+.history-item{padding:13px;border-radius:17px;box-shadow:0 4px 14px rgba(15,23,42,.035)}
+.history-name-wrap{display:flex;align-items:center;gap:9px;min-width:0}
+.history-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:linear-gradient(145deg,#EAF2FF,#D9E8FF);color:#3B82F6;font-size:13px;font-weight:500;border:1px solid #D5E5FF}
+.history-name{font-size:17px}
+.history-grid{margin-top:9px}
+.history-stat{padding:9px 10px;border-radius:13px}
+.history-actions{margin-top:9px}
+.history-action{min-height:38px;border-radius:12px}
+
+body.dark-mode{background:#101722}
+body.dark-mode .card{background:#1C2635;border-color:#2C3A4E}
+body.dark-mode .result-card{background:radial-gradient(circle at 50% 0%,rgba(96,165,250,.10),transparent 46%),linear-gradient(180deg,#1E2938 0%,#1A2431 100%)}
+body.dark-mode .result-card::after{background:rgba(96,165,250,.06)}
+body.dark-mode .result-glow-line{background:linear-gradient(90deg,transparent,#60A5FA,transparent);opacity:.9}
+body.dark-mode .app-subtitle{color:#8F9CAD}
+body.dark-mode .brand-logo{box-shadow:0 8px 22px rgba(59,130,246,.26)}
+body.dark-mode .summary-box{background:#273549;border-color:#35465E}
+body.dark-mode .difference-box{background:#2B3950;border-color:#3A4A62}
+body.dark-mode .target-visual{background:linear-gradient(180deg,#263244,#222D3D);border-color:#34445B}
+body.dark-mode .target-dot.current{background:#7F8B9B}
+body.dark-mode .target-line{background:linear-gradient(90deg,#526174,#60A5FA)}
+body.dark-mode .target-visual-labels{color:#A7B0BE}
+body.dark-mode .history-item{background:#202C3C;border-color:#334155;box-shadow:0 6px 16px rgba(0,0,0,.13)}
+body.dark-mode .history-stat{background:#2A384C}
+body.dark-mode .history-avatar{background:linear-gradient(145deg,#223652,#29466D);color:#B9D7FF;border-color:#3C5677}
+body.dark-mode .text-input{background:#172033;border-color:#3A4B63}
+body.dark-mode .text-input:focus{border-color:#60A5FA;box-shadow:0 0 0 3px rgba(96,165,250,.12)}
+body.dark-mode .tool-card{background:#1D2837}
+body.dark-mode .sync-card{background:#1B2532}
+body.dark-mode .history-card{background:#1A2431}
+
+@media(max-width:520px){
+  .brand-logo{width:39px;height:39px;border-radius:12px}
+  .app-title{font-size:24px}
+  .app-subtitle{font-size:9px}
+  .card{margin-bottom:10px;padding:13px;border-radius:20px}
+  .result-card{padding:19px 15px 17px}
+}
+</style>
+
 </head>
 
 <body>
@@ -1053,7 +1130,13 @@ body.dark-mode .add-buy {
   <div class="container">
 
     <div class="topbar">
-      <h1 class="app-title">AvgMate</h1>
+      <div class="brand-lockup">
+        <img src="./apple-touch-icon.png?v=7" class="brand-logo" alt="AvgMate">
+        <div>
+          <h1 class="app-title">AvgMate</h1>
+          <div class="app-subtitle">Position & Average Tool</div>
+        </div>
+      </div>
       <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()">深色</button>
     </div>
 
@@ -1076,7 +1159,7 @@ body.dark-mode .add-buy {
       <div id="syncMessage" class="sync-message"></div>
     </section>
 
-    <section class="card result-card">
+    <section class="card result-card"><div class="result-glow-line"></div>
       <div class="result-label">買入後平均價格</div>
       <div id="average" class="result-value">0.00</div>
 
@@ -1142,6 +1225,18 @@ body.dark-mode .add-buy {
 
     <section class="card tool-card">
       <div class="section-title">目標均價試算</div>
+      <div class="target-visual">
+        <div class="target-track">
+          <span class="target-dot current"></span>
+          <span class="target-line"></span>
+          <span class="target-arrow">→</span>
+          <span class="target-dot goal"></span>
+        </div>
+        <div class="target-visual-labels">
+          <span>目前均價</span>
+          <span>目標均價</span>
+        </div>
+      </div>
 
       <div class="tool-grid">
         <div class="field">
@@ -1706,7 +1801,10 @@ function renderHistory(records) {
     >
 
       <div class="history-head">
-        <div class="history-name">${escapeHtml(record.name || "")}</div>
+        <div class="history-name-wrap">
+          <div class="history-avatar">${escapeHtml((record.name || "?").charAt(0).toUpperCase())}</div>
+          <div class="history-name">${escapeHtml(record.name || "")}</div>
+        </div>
         <div class="history-time">${formatDate(record.createdAt)}</div>
       </div>
 
