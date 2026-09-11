@@ -9,11 +9,10 @@
   <meta name="apple-mobile-web-app-title" content="AvgMate">
   <meta name="application-name" content="AvgMate">
   <title>AvgMate</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2307162F'/%3E%3Ctext x='10' y='40' font-size='25' font-family='Arial' fill='%23EAF3FF'%3EAM%3C/text%3E%3Cpath d='M11 48L25 39L34 43L50 27' fill='none' stroke='%2357C7FF' stroke-width='3'/%3E%3C/svg%3E">
 
   <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=avgmate20260911">
-  <link rel="icon" type="image/png" href="./avgmate-icon.png?v=avgmate20260911">
-
-  <style>
+<style>
     :root{
       --bg:#F3F6FA;
       --card:#FFFFFF;
@@ -397,13 +396,19 @@
       *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
     }
   </style>
+<style id="avgmate-inline-logo-style">
+.avgmate-inline-logo{display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.avgmate-inline-logo svg{width:100%;height:100%;display:block}
+.login-logo-wrap .avgmate-inline-logo{width:74px;height:74px;border-radius:21px;overflow:hidden}
+.brand-lockup>.avgmate-inline-logo{width:39px;height:39px;border-radius:12px;overflow:hidden;box-shadow:0 7px 18px rgba(29,78,216,.16)}
+</style>
 </head>
 
 <body>
   <section id="loginScreen" class="login-screen">
     <div class="login-shell">
       <div class="login-brand">
-        <div class="login-logo-wrap"><img src="./avgmate-icon.png?v=avgmate20260911" class="login-logo" alt="AvgMate"></div>
+        <div class="login-logo-wrap"><span class="avgmate-inline-logo" aria-hidden="true"><svg viewBox="0 0 64 64"><defs><linearGradient id="amBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#142B55"/><stop offset="1" stop-color="#07162F"/></linearGradient><linearGradient id="amLine" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#36A9FF"/><stop offset="1" stop-color="#6DE6FF"/></linearGradient></defs><rect x="2" y="2" width="60" height="60" rx="16" fill="url(#amBg)"/><rect x="2.75" y="2.75" width="58.5" height="58.5" rx="15.25" fill="none" stroke="#2E6FAF" stroke-width="1.5"/><text x="11" y="39" fill="#EAF3FF" font-size="25" font-family="Arial,Helvetica,sans-serif" font-weight="500">AM</text><path d="M11 47 L25 38 L34 42 L49 27" fill="none" stroke="url(#amLine)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M43.5 27H49V32.5" fill="none" stroke="#6DE6FF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
         <h1 class="login-title">AvgMate</h1>
         <div class="login-kicker">Position & Average Tool</div>
         <div class="login-tagline">持倉均價與加倉規劃工具</div>
@@ -430,7 +435,7 @@
     <div class="container">
       <div class="topbar">
         <div class="brand-lockup">
-          <img src="./avgmate-icon.png?v=avgmate20260911" class="brand-logo" alt="AvgMate">
+          <span class="avgmate-inline-logo" aria-hidden="true"><svg viewBox="0 0 64 64"><defs><linearGradient id="amBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#142B55"/><stop offset="1" stop-color="#07162F"/></linearGradient><linearGradient id="amLine" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#36A9FF"/><stop offset="1" stop-color="#6DE6FF"/></linearGradient></defs><rect x="2" y="2" width="60" height="60" rx="16" fill="url(#amBg)"/><rect x="2.75" y="2.75" width="58.5" height="58.5" rx="15.25" fill="none" stroke="#2E6FAF" stroke-width="1.5"/><text x="11" y="39" fill="#EAF3FF" font-size="25" font-family="Arial,Helvetica,sans-serif" font-weight="500">AM</text><path d="M11 47 L25 38 L34 42 L49 27" fill="none" stroke="url(#amLine)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M43.5 27H49V32.5" fill="none" stroke="#6DE6FF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
           <div>
             <h1 class="app-title">AvgMate</h1>
             <div class="app-subtitle">平均持倉 · 目標試算 · 雲端同步</div>
