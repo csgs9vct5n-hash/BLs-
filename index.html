@@ -1501,6 +1501,178 @@
   }
 </style>
 
+
+<style id="avgmate-final-polish-v1">
+  /* 三顆操作按鈕 SVG 統一 */
+  .action-icon-svg{
+    width:18px;
+    height:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+  }
+
+  .action-icon-svg svg{
+    width:18px;
+    height:18px;
+    display:block;
+  }
+
+  /* 結果卡精修 */
+  .result-number-wrap{
+    position:relative;
+    display:inline-block;
+    min-width:150px;
+  }
+
+  .result-number-glow{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:150px;
+    height:58px;
+    transform:translate(-50%,-50%);
+    border-radius:999px;
+    background:radial-gradient(circle,rgba(59,130,246,.12),transparent 68%);
+    filter:blur(8px);
+    pointer-events:none;
+  }
+
+  .result-value{
+    position:relative;
+    z-index:1;
+    margin:6px 0 12px;
+    line-height:.98;
+    letter-spacing:-.055em;
+  }
+
+  /* 紀錄卡層級 */
+  .history-average-value{
+    font-size:17px;
+    color:#1D4ED8;
+    letter-spacing:-.01em;
+  }
+
+  .history-time{
+    font-size:10px;
+    opacity:.9;
+  }
+
+  .history-stat-label{
+    font-size:10px;
+  }
+
+  .history-stat-value{
+    line-height:1.25;
+  }
+
+  /* 空白狀態 */
+  .empty-state{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+  }
+
+  .empty-icon{
+    width:34px;
+    height:34px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#EEF3F8;
+    color:#8A98AA;
+  }
+
+  .empty-icon svg{
+    width:18px;
+    height:18px;
+  }
+
+  /* 微動畫 */
+  .card{
+    animation:cardEnter .28s ease both;
+  }
+
+  .card:nth-of-type(2){animation-delay:.03s}
+  .card:nth-of-type(3){animation-delay:.05s}
+  .card:nth-of-type(4){animation-delay:.07s}
+  .card:nth-of-type(5){animation-delay:.09s}
+
+  @keyframes cardEnter{
+    from{
+      opacity:0;
+      transform:translateY(6px);
+    }
+    to{
+      opacity:1;
+      transform:translateY(0);
+    }
+  }
+
+  .history-item{
+    transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease,background .16s ease;
+  }
+
+  .history-item:active{
+    transform:scale(.992);
+  }
+
+  .input-action{
+    transition:transform .14s ease,box-shadow .16s ease,background .16s ease,border-color .16s ease;
+  }
+
+  .input-action:active{
+    transform:scale(.965);
+  }
+
+  .save-cloud{
+    position:relative;
+    overflow:hidden;
+  }
+
+  .save-cloud::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(120deg,transparent 20%,rgba(255,255,255,.16) 50%,transparent 80%);
+    transform:translateX(-130%);
+    transition:transform .42s ease;
+    pointer-events:none;
+  }
+
+  .save-cloud:hover::after{
+    transform:translateX(130%);
+  }
+
+  body.dark-mode .result-number-glow{
+    background:radial-gradient(circle,rgba(96,165,250,.16),transparent 68%);
+  }
+
+  body.dark-mode .history-average-value{
+    color:#93C5FD;
+  }
+
+  body.dark-mode .empty-icon{
+    background:#263244;
+    color:#8FA4BD;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *,
+    *::before,
+    *::after{
+      animation-duration:.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.01ms !important;
+      scroll-behavior:auto !important;
+    }
+  }
+</style>
+
 </head>
 
 <body>
@@ -1578,7 +1750,10 @@
       <section class="card result-card">
         <div class="result-glow-line"></div>
         <div class="result-label">買入後平均價格</div>
-        <div id="average" class="result-value">0.00</div>
+        <div class="result-number-wrap">
+          <div class="result-number-glow"></div>
+          <div id="average" class="result-value">0.00</div>
+        </div>
 
         <div class="summary-box">
           <div class="summary-label">總數量</div>
@@ -1642,13 +1817,32 @@
 
         <div class="input-action-row">
           <button class="input-action add-buy" type="button" onclick="addRow()">
-            <span class="action-icon">＋</span><span>新增</span>
+            <span class="action-icon-svg" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
+            </span>
+            <span>新增</span>
           </button>
+
           <button id="saveButton" class="input-action save-cloud" type="button" onclick="saveToCloud()">
-            <span class="action-icon">☁</span><span class="save-label">儲存</span>
+            <span class="action-icon-svg" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 18h10a4 4 0 0 0 .7-7.9A6 6 0 0 0 6.3 8.8 4.5 4.5 0 0 0 7 18Z"/>
+                <path d="M12 11v5M9.8 13.2 12 11l2.2 2.2"/>
+              </svg>
+            </span>
+            <span class="save-label">儲存</span>
           </button>
+
           <button class="input-action clear-inputs" type="button" onclick="clearInputs()">
-            <span class="action-icon">⌫</span><span>清除</span>
+            <span class="action-icon-svg" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 8h10l-3 8H9L4 12l5-4Z"/>
+                <path d="M11 11l3 3M14 11l-3 3"/>
+              </svg>
+            </span>
+            <span>清除</span>
           </button>
         </div>
       </section>
@@ -2220,7 +2414,7 @@
           <div class="history-grid">
             <div class="history-stat">
               <div class="history-stat-label">平均價格</div>
-              <div class="history-stat-value">${formatNumber(record.average,4)}</div>
+              <div class="history-stat-value history-average-value">${formatNumber(record.average,4)}</div>
             </div>
 
             <div class="history-stat">
