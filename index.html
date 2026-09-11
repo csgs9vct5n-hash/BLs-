@@ -1143,26 +1143,334 @@ body.dark-mode .clear-input-button {
 }
 </style>
 
+
+<style id="avgmate-final-login-and-buttons">
+/* ========== 登入畫面升級 ========== */
+.login-screen{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(59,130,246,.16), transparent 26%),
+    radial-gradient(circle at 12% 82%, rgba(96,165,250,.07), transparent 30%),
+    linear-gradient(180deg,#F8FBFF 0%,#F2F6FB 100%);
+}
+
+.login-screen::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  top:-170px;
+  right:-110px;
+  background:rgba(59,130,246,.08);
+  filter:blur(6px);
+}
+
+.login-shell-premium{
+  max-width:390px;
+  text-align:center;
+}
+
+.login-brand{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.login-logo-wrap{
+  width:92px;
+  height:92px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:15px;
+  border-radius:27px;
+  background:rgba(255,255,255,.58);
+  box-shadow:
+    0 18px 45px rgba(59,130,246,.16),
+    0 0 0 1px rgba(148,163,184,.10);
+  backdrop-filter:blur(10px);
+}
+
+.login-logo{
+  width:78px;
+  height:78px;
+  border-radius:22px;
+  object-fit:cover;
+  display:block;
+  box-shadow:0 10px 28px rgba(37,99,235,.22);
+}
+
+.login-title{
+  margin:0;
+  font-size:32px;
+  line-height:1.05;
+  font-weight:500;
+  letter-spacing:-.045em;
+}
+
+.login-kicker-clean{
+  margin:8px 0 0;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#6F7C90;
+  font-size:10px;
+  letter-spacing:.16em;
+}
+
+.login-tagline{
+  margin-top:10px;
+  color:#536177;
+  font-size:14px;
+  letter-spacing:.01em;
+}
+
+.login-card-premium{
+  padding:18px;
+  border-radius:25px;
+  text-align:left;
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(219,228,239,.95);
+  box-shadow:
+    0 18px 44px rgba(15,23,42,.09),
+    inset 0 1px 0 rgba(255,255,255,.85);
+  backdrop-filter:blur(16px);
+}
+
+.login-field{
+  margin-bottom:6px;
+}
+
+.login-input-wrap{
+  position:relative;
+}
+
+.login-lock{
+  position:absolute;
+  left:15px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:2;
+  width:26px;
+  height:26px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#8190A5;
+  font-size:18px;
+  pointer-events:none;
+}
+
+.login-input-wrap .password-input{
+  height:56px;
+  padding-left:45px;
+  padding-right:76px;
+  border-radius:17px;
+  background:#F8FAFD;
+}
+
+.login-input-wrap .password-input:focus{
+  background:#FFFFFF;
+  border-color:#60A5FA;
+  box-shadow:
+    0 0 0 4px rgba(96,165,250,.11),
+    0 8px 20px rgba(59,130,246,.06);
+}
+
+.login-input-wrap .show-password{
+  right:7px;
+  height:42px;
+  min-width:61px;
+  border-radius:12px;
+}
+
+.login-button-premium{
+  min-height:54px;
+  margin-top:5px;
+  border-radius:17px;
+  background:linear-gradient(135deg,#3B82F6 0%,#60A5FA 100%);
+  box-shadow:
+    0 12px 24px rgba(59,130,246,.22),
+    inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+.login-button-premium:active{
+  transform:scale(.985);
+  box-shadow:0 7px 16px rgba(59,130,246,.18);
+}
+
+.login-note-premium{
+  margin-top:13px;
+  color:#98A4B4;
+  font-size:11px;
+  line-height:1.45;
+}
+
+/* ========== 輸入資料三顆按鈕：實際 class 修正 ========== */
+/* 1. 新增買入：次要品牌操作 */
+.form-card .add-buy{
+  background:#E8F1FF !important;
+  color:#3B82F6 !important;
+  border:1px solid #D7E7FF !important;
+  box-shadow:none !important;
+}
+
+/* 2. 儲存：唯一主操作 */
+.form-card .save-cloud{
+  background:linear-gradient(135deg,#3B82F6 0%,#4F8EF7 100%) !important;
+  color:#FFFFFF !important;
+  border:1px solid #3B82F6 !important;
+  box-shadow:0 9px 20px rgba(59,130,246,.20) !important;
+}
+
+/* 3. 清除：中性操作 */
+.form-card .clear-inputs{
+  background:#EEF2F6 !important;
+  color:#475569 !important;
+  border:1px solid #E5EAF0 !important;
+  box-shadow:none !important;
+}
+
+/* 深色模式 */
+body.dark-mode .login-screen{
+  background:
+    radial-gradient(circle at 50% 17%, rgba(96,165,250,.17), transparent 27%),
+    radial-gradient(circle at 12% 86%, rgba(59,130,246,.07), transparent 30%),
+    linear-gradient(180deg,#101722 0%,#111827 100%);
+}
+
+body.dark-mode .login-screen::before{
+  background:rgba(59,130,246,.10);
+}
+
+body.dark-mode .login-logo-wrap{
+  background:rgba(31,41,55,.66);
+  box-shadow:
+    0 18px 46px rgba(59,130,246,.20),
+    0 0 0 1px rgba(96,165,250,.12);
+}
+
+body.dark-mode .login-logo{
+  box-shadow:
+    0 10px 30px rgba(37,99,235,.28),
+    0 0 24px rgba(96,165,250,.12);
+}
+
+body.dark-mode .login-title{
+  color:#F8FAFC;
+}
+
+body.dark-mode .login-kicker-clean{
+  color:#8F9CAD;
+}
+
+body.dark-mode .login-tagline{
+  color:#B4BECA;
+}
+
+body.dark-mode .login-card-premium{
+  background:rgba(28,38,53,.94);
+  border-color:#2F4056;
+  box-shadow:
+    0 20px 46px rgba(0,0,0,.24),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+body.dark-mode .login-input-wrap .password-input{
+  background:#172033 !important;
+  color:#F8FAFC !important;
+  border-color:#3B4B61 !important;
+}
+
+body.dark-mode .login-input-wrap .password-input:focus{
+  background:#182235 !important;
+  border-color:#60A5FA !important;
+  box-shadow:
+    0 0 0 4px rgba(96,165,250,.12),
+    0 8px 22px rgba(0,0,0,.12) !important;
+}
+
+body.dark-mode .login-lock{
+  color:#93A1B4;
+}
+
+body.dark-mode .login-note-premium{
+  color:#7F8B9B;
+}
+
+body.dark-mode .form-card .add-buy{
+  background:#263B59 !important;
+  color:#93C5FD !important;
+  border-color:#314B70 !important;
+}
+
+body.dark-mode .form-card .save-cloud{
+  background:linear-gradient(135deg,#3B82F6 0%,#5B9AF8 100%) !important;
+  color:#FFFFFF !important;
+  border-color:#4F8EF7 !important;
+  box-shadow:0 9px 22px rgba(79,142,247,.24) !important;
+}
+
+body.dark-mode .form-card .clear-inputs{
+  background:#293548 !important;
+  color:#D6DEE9 !important;
+  border-color:#344258 !important;
+}
+
+/* 手機 */
+@media(max-width:520px){
+  .login-logo-wrap{
+    width:86px;
+    height:86px;
+    border-radius:25px;
+  }
+
+  .login-logo{
+    width:73px;
+    height:73px;
+    border-radius:21px;
+  }
+
+  .login-title{
+    font-size:30px;
+  }
+
+  .login-card-premium{
+    padding:16px;
+    border-radius:23px;
+  }
+}
+</style>
+
 </head>
 
 <body>
 
 <section id="loginScreen" class="login-screen">
-  <div class="login-shell">
-    <div class="login-kicker">POSITION & AVERAGE TOOL</div>
-    <h1 class="login-title">AvgMate</h1>
-    <div class="login-subtitle">管理持倉、試算加倉與追蹤均價，一個地方完成。</div>
+  <div class="login-shell login-shell-premium">
 
-    <div class="login-card">
-      <div class="login-row">
-        <div class="login-heading">登入</div>
-        <div class="login-hint">3 碼以上</div>
+    <div class="login-brand">
+      <div class="login-logo-wrap">
+        <img src="./apple-touch-icon.png?v=7" class="login-logo" alt="AvgMate">
       </div>
 
-      <div class="field">
+      <h1 class="login-title">AvgMate</h1>
+      <div class="login-kicker login-kicker-clean">POSITION & AVERAGE TOOL</div>
+      <div class="login-tagline">讓每一次加倉，都更清楚。</div>
+    </div>
+
+    <div class="login-card login-card-premium">
+      <div class="field login-field">
         <label class="field-label">密碼</label>
 
-        <div class="input-wrap">
+        <div class="input-wrap login-input-wrap">
+          <span class="login-lock" aria-hidden="true">⌁</span>
+
           <input
             id="passwordInput"
             class="text-input password-input"
@@ -1173,15 +1481,20 @@ body.dark-mode .clear-input-button {
             autocomplete="current-password"
             placeholder="輸入密碼"
           >
+
           <button type="button" class="show-password" onclick="togglePassword()">顯示</button>
         </div>
 
         <div id="loginError" class="login-error"></div>
       </div>
 
-      <button class="login-button" onclick="enterApp()">進入計算器</button>
-      <div class="login-note">同一組密碼可在不同裝置使用相同紀錄。</div>
+      <button class="login-button login-button-premium" onclick="enterApp()">登入 AvgMate</button>
+
+      <div class="login-note login-note-premium">
+        使用相同密碼即可同步不同裝置的紀錄
+      </div>
     </div>
+
   </div>
 </section>
 
